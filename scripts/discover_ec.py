@@ -29,9 +29,10 @@ def main():
             queue.append(requests.compat.urljoin(u, c))
         if "WMKAFNE6" in u or "polyfills" in u or "scripts-" in u:
             continue
-        for m in re.finditer(r"\"\{BASE_URL\}\"", t):
-            print("   url:", u.split("/")[-1], t[max(0, m.start() - 150): m.end() + 700].replace("\n", " "))
-    print("   env:", get(BASE + "assets/env-json-config.json").text[:3000].replace("\n", " "))
+        for m in re.finditer(r"TRANSLATIONS\s*[:=]\s*\"", t):
+            print("   const:", u.split("/")[-1], t[max(0, m.start() - 1500): m.end() + 1500].replace("\n", " "))
+        for m in list(re.finditer(r"\.setPath\(", t))[:40]:
+            print("   path:", u.split("/")[-1], t[max(0, m.start() - 80): m.end() + 220].replace("\n", " "))
     return 0
 
 
