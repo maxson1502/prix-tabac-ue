@@ -502,9 +502,9 @@ function render(){
     var still=NAMES.filter(function(k){return D[k][S.p1]===D[k][S.p0];}).length;
     var w=[],up=NAMES.filter(function(k){return CHG[p1][k];}),no=NAMES.filter(function(k){return !CHG[p1][k];});
     if(!up.length)w.push("Relevé de "+LONG[p1]+" : aucun pays mis à jour depuis "+LONG[p1-1]+".");
-    else if(partial(p1))w.push("Relevé de "+LONG[p1]+" : "+(up.length===1?"seul 1 pays a été mis à jour ("+up[0]+", marqué †)":"seuls "+up.length+" pays ont été mis à jour ("+listFr(up)+", marqués †)")
+    else if(partial(p1))w.push("Relevé de "+LONG[p1]+" : "+(up.length===1?"seul 1 pays sur "+NAMES.length+" a été mis à jour ("+up[0]+", marqué †)":"seuls "+up.length+" pays sur "+NAMES.length+" ont été mis à jour ("+listFr(up)+", marqués †)")
       +" ; les "+no.length+" autres restent à leur "+prevLab(p1)+". Pour comparer les pays entre eux à une même date, utilisez l'onglet « Mensuel en € (estimé) ».");
-    else if(no.length)w.push("Relevé de "+LONG[p1]+" : tous les pays ont été mis à jour sauf "+listFr(no)+" (valeur identique au relevé précédent, marquée °).");
+    else if(no.length)w.push("Relevé de "+LONG[p1]+" : "+up.length+" pays sur "+NAMES.length+" ont été mis à jour ; pas de nouvelle donnée pour "+listFr(no)+" (valeur identique au relevé précédent, marquée °).");
     if(still)w.push("Sur cette période, "+still+" pays sur "+NAMES.length+" n'ont pas de nouvelle donnée : leur variation est nulle par construction.");
     $("warn").textContent=w.join(" ");
     S.slots.forEach(function(k,i){if(!k)return;var s=sty(P,i),m=mark(p1,k);
