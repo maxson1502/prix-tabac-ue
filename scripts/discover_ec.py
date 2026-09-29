@@ -4,8 +4,7 @@ import sys
 
 import requests
 
-UA = {"User-Agent": "Mozilla/5.0 (prix-tabac-ue data refresh; +https://github.com/maxson1502/prix-tabac-ue)",
-      "Accept": "application/json, text/plain, */*"}
+UA = {"User-Agent": "Mozilla/5.0 (prix-tabac-ue data refresh; +https://github.com/maxson1502/prix-tabac-ue)"}
 BASE = "https://ec.europa.eu/taxation_customs/tedb/"
 API = BASE + "rest-api/"
 PATS = [r"baseUrl", r"rest-api", r"i18n", r"tobaccoConsumption", r"[Ww]eighted", r"WAP", r"\.get\(", r"\.post\("]
@@ -18,12 +17,6 @@ def get(url, **kw):
 
 
 def main():
-    for p in ["", "v3/api-docs", "v2/api-docs", "api-docs", "openapi.json", "swagger-ui/index.html", "swagger-ui.html"]:
-        try:
-            r = get(API + p)
-            print("   ", r.text[:1500].replace("\n", " "))
-        except Exception as e:  # noqa: BLE001
-            print("  error", e)
     home = get(BASE).text
     js = sorted(set(re.findall(r'(?:src|href)="([^"]+\.js)"', home)))
     seen, queue = set(), [requests.compat.urljoin(BASE, j) for j in js if j.startswith("/taxation")]
