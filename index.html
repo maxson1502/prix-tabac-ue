@@ -3,222 +3,342 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Prix du tabac duty paid dans l'UE, 2023–2026</title>
+<title>Prix du tabac dans l'UE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;650&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F4F5F2;--surface:#FFFFFF;--ink:#1C2126;--muted:#5F6770;--rule:#DADDD7;--faint:#EAECE7;
+  --bg:#EEF1F5;--surface:#FFFFFF;--ink:#1B2430;--muted:#5E6875;--rule:#DFE4EA;--faint:#F3F5F8;--hover:#F6F8FA;
+  --accent:#34587F;--accent-ink:#FFFFFF;--accent-soft:#EAF0F6;
+  --hero1:#1E2A3B;--hero2:#26364B;
+  --up:#A94A3B;--down:#2E6B4A;--bar:#D5DBE3;--barhi:#BCC5D0;
+  --shadow:0 1px 2px rgba(27,36,48,.05),0 3px 12px rgba(27,36,48,.05);
   --s1:#2266C8;--s2:#D9602B;--s3:#128A6C;--s4:#B8860B;--s5:#6446C8;--s6:#C23B80;--s7:#1E8FB5;--s8:#9A5518;--avg:#7A828A;
-  --font:"Public Sans","Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  --font:"Inter","Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  color-scheme:light;
 }
 @media (prefers-color-scheme:dark){
-  :root{--bg:#15181B;--surface:#1C2024;--ink:#ECEEEA;--muted:#9AA1A8;--rule:#2E3439;--faint:#23282C;
-  --s1:#5B97E8;--s2:#E97A48;--s3:#2DB38E;--s4:#D9A62A;--s5:#9580E6;--s6:#DD5C9C;--s7:#2E9CC4;--s8:#C47E3A;--avg:#8E969D;}
+  :root{--bg:#10141A;--surface:#181E26;--ink:#E4E8EE;--muted:#9AA3AF;--rule:#29313C;--faint:#1E252E;--hover:#212933;
+  --accent:#8FB0D3;--accent-ink:#10141A;--accent-soft:#22303F;--hero1:#121A26;--hero2:#18222F;
+  --up:#D98A7C;--down:#7FBF98;--bar:#323B47;--barhi:#404A57;--shadow:0 1px 2px rgba(0,0,0,.3),0 3px 12px rgba(0,0,0,.22);
+  --s1:#5B97E8;--s2:#E97A48;--s3:#2DB38E;--s4:#D9A62A;--s5:#9580E6;--s6:#DD5C9C;--s7:#2E9CC4;--s8:#C47E3A;--avg:#8E969D;color-scheme:dark;}
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;font-variant-numeric:tabular-nums;
-  padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
-main{max-width:1040px;margin:0 auto;padding:48px 24px 64px}
-h1{font-size:clamp(26px,4vw,36px);line-height:1.15;font-weight:650;letter-spacing:-0.015em;margin:0 0 14px;max-width:22ch}
-h2{font-size:18px;font-weight:650;margin:0 0 6px}
-h3{font-size:15px;font-weight:650;margin:22px 0 4px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.45;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
 p{margin:0}
-.dek{color:var(--muted);max-width:70ch;font-size:17px}
-.dek strong{color:var(--ink);font-weight:500}
-section{margin-top:40px}
-.tabs{display:flex;gap:28px;margin-top:32px;border-bottom:1px solid var(--rule)}
-.tab{background:none;border:0;padding:10px 0;margin-bottom:-1px;font-size:15px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent}
-.tab:hover{color:var(--ink)}
-.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
-.ctl{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;margin-top:20px;font-size:15px}
-.ctl .grp{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.ctl .lab{font-weight:500}
-select{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:5px 8px;cursor:pointer}
-.seg{display:inline-flex;border:1px solid var(--rule);border-radius:6px;overflow:hidden;background:var(--surface)}
-.seg button{background:none;border:0;padding:5px 11px;font-size:14px;color:var(--muted);cursor:pointer}
-.seg button+button{border-left:1px solid var(--rule)}
-.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.warn{font-size:13px;color:var(--muted);margin-top:8px;min-height:1.2em}
-.panel{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:22px 22px 18px;margin-top:12px}
-.bar{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:10px 18px;margin-bottom:12px}
-.hint{color:var(--muted);font-size:14px}
-.tools{display:flex;align-items:center;gap:16px;font-size:14px;color:var(--muted);flex-wrap:wrap}
-.tools label{display:flex;align-items:center;gap:6px;cursor:pointer}
-button{font:inherit;color:inherit}
-.upd{margin-top:36px;border:1px solid var(--rule);border-radius:10px;background:var(--surface);padding:14px 18px}
-.upd h2{font-size:15px;margin:0}
-.upd ul{color:var(--muted);padding-left:20px;max-width:78ch;margin:8px 0 0}
-.upd li{margin:4px 0}
-.upd b{color:var(--ink);font-weight:500}
-.offline{margin-top:14px;font-size:14px;color:var(--muted)}
-.link{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:14px}
-.link:hover{color:var(--ink)}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
-.chip{font-size:13px;padding:5px 10px;border:1px solid var(--rule);border-radius:6px;background:transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;color:var(--muted)}
-.chip:hover:not(:disabled){border-color:var(--muted);color:var(--ink)}
-.chip[aria-pressed="true"]{color:var(--ink);border-color:var(--ink);background:var(--faint)}
-.chip:disabled{opacity:.38;cursor:not-allowed}
-.sw{width:10px;height:10px;border-radius:2px;border:1px solid var(--rule);flex:none}
-.sw.on{width:18px;border:0;border-radius:0;display:inline-flex;align-items:center}
-.sw svg{display:block}
-:focus-visible{outline:2px solid var(--s1);outline-offset:2px}
-.chartbox{position:relative;height:420px}
-.sel{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:0 18px;margin-top:18px;border-top:1px solid var(--rule)}
-.sel div{padding-top:12px}
-.sel .n{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500}
-.sel .v{font-size:24px;font-weight:650;letter-spacing:-0.01em;margin-top:2px}
-.sel .d{font-size:13px;color:var(--muted)}
-.tablewrap{overflow-x:auto;margin-top:14px;border:1px solid var(--rule);border-radius:10px;background:var(--surface)}
-table{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
-th,td{padding:9px 14px;text-align:right;white-space:nowrap}
+a{color:inherit;text-underline-offset:3px}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 24px}
+svg.i{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* colored header band */
+.hero{color:#fff;padding:22px 0 72px;background:linear-gradient(180deg,var(--hero1) 0%,var(--hero2) 100%);border-bottom:1px solid rgba(255,255,255,.06)}
+.hero-top{display:flex;align-items:center;gap:14px 20px;flex-wrap:wrap}
+.logo{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
+.logo svg{width:22px;height:22px;stroke:#fff}
+.hero h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.02em}
+.hero h1 span{font-weight:500;opacity:.7}
+.hero .sub{font-size:13px;color:rgba(255,255,255,.62)}
+.hero-r{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip-l{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;font-size:12.5px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.88)}
+.chip-l .dot{width:7px;height:7px;border-radius:50%;background:#8FBF9F}
+.chip-l.warn-l{border-color:rgba(230,180,120,.55);color:#F0D2A8}
+button.chip-l{cursor:pointer}
+button.chip-l:hover{background:rgba(255,255,255,.12)}
+.tabs{display:inline-flex;gap:4px;margin-top:22px;padding:4px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);max-width:100%;overflow-x:auto}
+.tab{border:0;background:transparent;color:rgba(255,255,255,.7);padding:9px 16px;border-radius:9px;text-align:left;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.tab b{display:block;font-size:14px;font-weight:600}
+.tab small{display:block;font-size:11.5px;opacity:.72}
+.tab:hover{background:rgba(255,255,255,.07);color:#fff}
+.tab[aria-selected="true"]{background:#fff;color:var(--hero1);box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.tab[aria-selected="true"] small{opacity:.65}
+
+/* workspace, overlapping the band */
+.page{margin-top:-48px;padding-bottom:40px}
+.card{background:var(--surface);border-radius:12px;box-shadow:var(--shadow);padding:16px 18px}
+.bar{display:flex;align-items:flex-end;gap:14px 22px;flex-wrap:wrap}
+.fg{display:grid;gap:5px}
+.fg>span,.lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.per{display:flex;align-items:center;gap:8px}
+.per i{color:var(--muted);font-style:normal}
+select{appearance:none;-webkit-appearance:none;font-size:13.5px;font-weight:500;padding:8px 32px 8px 12px;border-radius:10px;border:1px solid var(--rule);background:var(--faint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 11px center;cursor:pointer;min-width:118px}
+select:hover{border-color:var(--barhi)}
+.btn{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;padding:8px 12px;border-radius:10px;border:1px solid var(--rule);background:var(--surface);cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s}
+.btn:hover{background:var(--hover);border-color:var(--barhi)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.pri:hover{filter:brightness(1.08)}
+.btn.sm{padding:6px 10px;font-size:12.5px}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--muted)}
+.btn.ghost:hover{background:var(--faint);color:var(--ink)}
+.seg{display:inline-flex;padding:3px;border-radius:10px;background:var(--faint);border:1px solid var(--rule)}
+.seg button{border:0;background:transparent;padding:6px 11px;border-radius:8px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(20,26,43,.15)}
+.sw-t{display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-size:13.5px;font-weight:500;padding:8px 0}
+.sw-t input{position:absolute;opacity:0;width:1px;height:1px}
+.sw-t .tr{width:36px;height:20px;border-radius:999px;background:var(--bar);position:relative;transition:background .15s}
+.sw-t .tr::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+.sw-t input:checked+.tr{background:var(--accent)}
+.sw-t input:checked+.tr::after{transform:translateX(16px)}
+.sw-t input:focus-visible+.tr{outline:2px solid var(--accent);outline-offset:2px}
+.exp{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+
+/* key figures */
+.sec-h{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;margin:22px 2px 10px}
+.sec-h h2{font-size:15px;font-weight:650;margin:0}
+.sec-h .cnt{color:var(--muted);font-size:13px}
+.sec-h .acts{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.kpis{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 8px;scroll-snap-type:x proximity}
+.kpi{position:relative;flex:0 0 212px;scroll-snap-align:start;background:var(--surface);border-radius:12px;box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+.kpi::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--c)}
+.kpi.avg::before{background:repeating-linear-gradient(90deg,var(--c) 0 6px,transparent 6px 10px)}
+.kh{display:flex;align-items:center;gap:8px;position:relative;z-index:1}
+.kh .nm{font-weight:600;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kpi .x{margin-left:auto;width:24px;height:24px;border-radius:8px;border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:17px;line-height:1}
+.kpi .x:hover{background:var(--faint);color:var(--ink)}
+.kpi .val{position:relative;z-index:1;font-size:27px;font-weight:700;letter-spacing:-.025em;margin-top:6px}
+.chg{position:relative;z-index:1;font-size:12.5px;font-weight:600;margin-top:2px}
+.chg span{font-weight:400;color:var(--muted)}
+.chg.up{color:var(--up)}.chg.down{color:var(--down)}.chg.flat{color:var(--muted)}
+.chg.up span:first-child,.chg.down span:first-child,.chg.flat span:first-child{color:inherit;font-weight:600}
+.kpi .ctx{position:relative;z-index:1;font-size:12px;color:var(--muted);margin-top:4px;line-height:1.35}
+.refb{position:relative;z-index:1;display:inline-block;margin-top:8px;font-size:11.5px;font-weight:600;padding:4px 8px;border-radius:999px;border:1px solid var(--rule);background:var(--surface);color:var(--muted);cursor:pointer}
+.refb:hover{border-color:var(--accent);color:var(--accent)}
+.refb.on{background:var(--accent-soft);border-color:transparent;color:var(--accent);cursor:default}
+.kpi-empty{color:var(--muted);padding:14px 4px}
+
+/* chart and ranking */
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;margin-top:6px}
+.card-h{display:flex;align-items:flex-start;justify-content:space-between;gap:8px 12px;flex-wrap:wrap;margin-bottom:10px}
+.card-h h2{font-size:16px;font-weight:650;margin:0;letter-spacing:-.01em}
+.card-h .unit{color:var(--muted);font-size:12.5px;margin-top:2px}
+.note{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font-size:13px;color:var(--ink);background:var(--faint);border:1px solid var(--rule);border-radius:10px;padding:8px 12px 8px 34px;margin-bottom:12px;position:relative}
+.note:empty{display:none}
+.note::before{content:"i";position:absolute;left:11px;top:9px;width:16px;height:16px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:700 11px/16px var(--font);text-align:center;font-style:italic}
+.note .more{border:0;background:none;padding:0;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.note .full{flex-basis:100%;color:var(--muted);font-size:12.5px;margin-top:2px}
+.chartbox{position:relative;height:clamp(320px,50vh,520px)}
+.rank{display:grid;gap:2px;max-height:clamp(320px,56vh,590px);overflow-y:auto;padding-right:4px}
+.rk{display:grid;grid-template-columns:22px 92px 1fr 64px;align-items:center;gap:8px;width:100%;border:0;background:transparent;padding:5px 6px;border-radius:8px;cursor:pointer;text-align:left;font-size:13px}
+.rk:hover{background:var(--hover)}
+.rk-i{color:var(--muted);font-size:11.5px;text-align:right}
+.rk-n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rk.on .rk-n{font-weight:600}
+.rk-t{position:relative;height:10px;border-radius:999px;background:var(--faint)}
+.rk-t i{position:absolute;top:0;bottom:0;border-radius:999px;background:var(--bar);transition:width .25s}
+.rk:hover .rk-t i{background:var(--barhi)}
+.rk.on .rk-t i,.rk.on:hover .rk-t i{opacity:.85}
+.rk-t b{position:absolute;top:-3px;bottom:-3px;width:2px;margin-left:-1px;background:var(--ink);opacity:.35;border-radius:2px}
+.rk-v{text-align:right;font-weight:500;white-space:nowrap}
+.rank-f{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--faint);font-size:12px;color:var(--muted)}
+.avgk{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.avgk i{width:2px;height:14px;background:var(--ink);opacity:.35;border-radius:2px}
+@keyframes flash{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 40%,transparent),var(--shadow)}100%{box-shadow:0 0 0 12px transparent,var(--shadow)}}
+.flash{animation:flash .9s ease-out 2}
+
+/* detailed table */
+details.tcard{margin-top:16px;padding:0}
+details.tcard>summary{display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;list-style:none;font-weight:650;font-size:15px}
+details.tcard>summary::-webkit-details-marker{display:none}
+details.tcard>summary .chev{transition:transform .2s;color:var(--muted)}
+details.tcard[open]>summary .chev{transform:rotate(90deg)}
+details.tcard>summary small{font-weight:400;color:var(--muted);font-size:13px}
+.tbody{padding:0 18px 16px}
+.t-acts{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+.t-acts .btn{margin-left:auto}
+.tablewrap{overflow:auto;max-height:64vh;border:1px solid var(--rule);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+th,td{padding:8px 12px;text-align:right;white-space:nowrap}
 th:first-child,td:first-child{text-align:left}
-thead th{font-weight:500;color:var(--muted);border-bottom:1px solid var(--rule)}
-thead th button{background:none;border:0;padding:0;cursor:pointer;color:inherit;font-weight:500}
-thead th button[aria-sort]{color:var(--ink)}
+thead th{position:sticky;top:0;z-index:1;background:var(--faint);font-weight:600;color:var(--muted);border-bottom:1px solid var(--rule);vertical-align:bottom}
+thead th button{background:none;border:0;padding:0;cursor:pointer;color:inherit;font-weight:600;text-align:inherit}
+thead th button[aria-sort]{color:var(--accent)}
 thead th .sub{display:block;font-size:11px;font-weight:400;color:var(--muted)}
-.guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 24px;margin-top:26px;padding:14px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
-.guide div{font-size:14px;color:var(--muted)}
-.guide b{display:block;color:var(--ink);font-weight:500;margin-bottom:2px}
 tbody tr{border-top:1px solid var(--faint);cursor:pointer}
-tbody tr:hover{background:var(--faint)}
-tbody tr.on td:first-child{font-weight:500}
-tfoot td{border-top:1px solid var(--rule);font-weight:500}
+tbody tr:hover{background:var(--hover)}
+tbody tr.on td:first-child{font-weight:600}
+tbody tr.empty{cursor:default}
+tbody tr.empty td{text-align:left;color:var(--muted);white-space:normal}
+tfoot td{position:sticky;bottom:0;background:var(--faint);border-top:1px solid var(--rule);font-weight:600}
 td.out{color:var(--muted);opacity:.55}
 .cn{display:inline-flex;align-items:center;gap:8px}
-.notes{display:grid;gap:14px;max-width:72ch;margin-top:8px}
-.notes dt{font-weight:500}
+.sw{width:10px;height:10px;border-radius:3px;border:1px solid var(--rule);flex:none;display:inline-block}
+.sw.on{width:18px;height:10px;border:0;border-radius:0;display:inline-flex;align-items:center}
+.sw svg{display:block}
+.hint{color:var(--muted);font-size:12px;margin-top:10px;max-width:120ch}
+.foot{color:var(--muted);font-size:12px;text-align:center;margin-top:22px}
+
+/* method drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,14,30,.42);backdrop-filter:blur(2px);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,94vw);background:var(--surface);z-index:21;box-shadow:-12px 0 40px rgba(0,0,0,.2);transform:translateX(105%);transition:transform .25s ease;display:flex;flex-direction:column}
+.drawer.open{transform:none}
+.drawer-h{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--rule)}
+.drawer-h h2{margin:0;font-size:16px}
+.drawer-b{overflow:auto;padding:4px 20px 24px}
+.drawer-b h3{font-size:13.5px;font-weight:650;margin:18px 0 6px}
+.notes{display:grid;gap:10px;margin:0}
+.notes dt{font-weight:600}
 .notes dd{margin:2px 0 0;color:var(--muted)}
-.src{margin-top:12px;padding-left:18px;color:var(--muted);max-width:80ch}
-.src li{margin:4px 0}
-a{color:var(--ink);text-underline-offset:3px}
-footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
-[hidden]{display:none!important}
-@media (max-width:640px){main{padding:28px 16px 48px}.panel{padding:16px 14px}.chartbox{height:340px}.tabs{gap:20px}}
+.src,.stat{margin:8px 0 0;padding-left:18px;color:var(--muted)}
+.src li,.stat li{margin:4px 0}
+.stat b{color:var(--ink);font-weight:600}
+
+@media (max-width:1100px){.grid{grid-template-columns:minmax(0,1fr)}.rank{max-height:none}}
+@media (max-width:700px){
+  .wrap{padding:0 16px}
+  .hero{padding:16px 0 64px}
+  .hero h1{font-size:19px}
+  .hero-r{margin-left:0;width:100%}
+  .tab{padding:8px 12px}.tab small{display:none}
+  .exp{margin-left:0}
+  .chartbox{height:320px}
+  .kpi{flex-basis:176px}
+  .kpi .val{font-size:23px}
+  .rk{grid-template-columns:20px 84px 1fr 58px}
+}
 </style>
 </head>
 <body>
-<main>
-<header>
-  <h1>Prix du tabac duty paid dans l'Union européenne, <span id="h1-yrs">2023–2026</span></h1>
-  <p class="dek">Prix moyen d'un paquet de 20 cigarettes dans les 27 États membres, selon trois lectures : les relevés en euros de la Commission européenne, une estimation mois par mois en euros, et l'évolution des prix à panier constant d'Eurostat. En Belgique, le paquet moyen est passé de <strong id="dk-b0">7,29 €</strong> à <strong id="dk-b1">11,14 €</strong> entre les relevés de <span id="dk-r0">juillet 2023</span> et <span id="dk-r1">janvier 2026</span>, et l'indice des prix des cigarettes a progressé de <strong id="dk-be">46,5 %</strong> entre <span id="dk-per">janvier 2023 et août 2026</span>.</p>
-  <p class="offline" id="offline" hidden>Données en ligne injoignables : la page affiche la copie de secours intégrée à la page, peut-être moins récente (voir « État des données » en bas de page).</p>
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <div class="logo" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></div>
+      <div>
+        <h1>Prix du tabac dans l'UE <span id="h1-yrs">2023–2026</span></h1>
+        <p class="sub">Paquet de 20 cigarettes · 27 États membres · Commission européenne et Eurostat</p>
+      </div>
+      <div class="hero-r">
+        <span class="chip-l" id="stwrap"><span class="dot" aria-hidden="true"></span><span id="stline"></span></span>
+        <span class="chip-l warn-l" id="offline" hidden title="Les fichiers de données n'ont pas pu être chargés : la page affiche sa copie de secours, peut-être moins récente.">Copie de secours</span>
+        <button class="chip-l" type="button" id="open-method" aria-controls="method"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Méthode et sources</button>
+      </div>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Vue">
+      <button class="tab" role="tab" id="tab-eur" aria-selected="true" aria-controls="panel-main"><b>Relevés officiels (€)</b><small>Prix publié par la Commission</small></button>
+      <button class="tab" role="tab" id="tab-me" aria-selected="false" aria-controls="panel-main" tabindex="-1"><b>Prix mensuel estimé (€)</b><small>Comparer les pays à une même date</small></button>
+      <button class="tab" role="tab" id="tab-m" aria-selected="false" aria-controls="panel-main" tabindex="-1"><b>Évolution (indice)</b><small>Vitesse des hausses, inflation</small></button>
+    </div>
+  </div>
 </header>
 
-<div class="guide" aria-label="Quelle vue pour quelle question">
-  <div><b>Relevés en €</b>Le niveau officiel publié par la Commission, avec environ un an de décalage et des mises à jour inégales selon les pays.</div>
-  <div><b>Mensuel en € (estimé)</b>Pour comparer les pays entre eux à une même date : classement, écarts en euros, croisements.</div>
-  <div><b>Mensuel en indice</b>Pour mesurer la vitesse des hausses, dater les hausses d'accises et comparer à l'inflation.</div>
-</div>
+<main class="page" id="panel-main">
+  <div class="wrap">
+    <section class="card bar" aria-label="Réglages">
+      <div id="ctl-eur" class="fg"><span>Période</span>
+        <div class="per"><select id="p0" aria-label="Premier relevé"></select><i>→</i><select id="p1" aria-label="Dernier relevé"></select></div>
+      </div>
+      <div id="ctl-me" hidden style="display:contents">
+        <div class="fg"><span>Période</span>
+          <div class="per"><select id="e0" aria-label="Premier mois"></select><i>→</i><select id="e1" aria-label="Dernier mois"></select>
+            <button class="btn ghost sm" type="button" data-pre="12">12 mois</button><button class="btn ghost sm" type="button" data-pre="all">Tout</button></div>
+        </div>
+        <div class="fg"><span>Comparer à</span><select id="ref" aria-label="Pays de référence"></select></div>
+      </div>
+      <div id="ctl-m" hidden style="display:contents">
+        <div class="fg"><span>Période</span>
+          <div class="per"><select id="m0" aria-label="Premier mois"></select><i>→</i><select id="m1" aria-label="Dernier mois"></select>
+            <button class="btn ghost sm" type="button" data-pre="12">12 mois</button><button class="btn ghost sm" type="button" data-pre="all">Tout</button></div>
+        </div>
+        <div class="fg"><span>Poste</span><span class="seg" id="poste"><button type="button" data-v="cig">Cigarettes</button><button type="button" data-v="tob">Tout le tabac</button></span></div>
+        <div class="fg"><span>Mesure</span><span class="seg" id="mesure"><button type="button" data-v="nom">Prix courants</button><button type="button" data-v="real">Hors inflation</button></span></div>
+      </div>
+      <label class="sw-t"><input type="checkbox" id="avg" checked><span class="tr" aria-hidden="true"></span><span id="avglab">Moyenne UE-27</span></label>
+      <div class="exp">
+        <button class="btn pri" type="button" id="x-xlsx" title="Graphique Excel modifiable, séries, tableau et sources"><svg class="i" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="m8 8 8 8M16 8l-8 8"/></svg>Excel</button>
+        <button class="btn" type="button" id="x-csv" title="Tableau de la vue, en CSV"><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>CSV</button>
+        <button class="btn" type="button" id="x-png" title="Graphique en image PNG"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/></svg>Image</button>
+      </div>
+    </section>
 
-<nav class="tabs" role="tablist" aria-label="Vue">
-  <button class="tab" role="tab" id="tab-eur" aria-controls="ctl-eur" aria-selected="true">Relevés en €</button>
-  <button class="tab" role="tab" id="tab-me" aria-controls="ctl-me" aria-selected="false">Mensuel en € (estimé)</button>
-  <button class="tab" role="tab" id="tab-m" aria-controls="ctl-m" aria-selected="false">Mensuel en indice</button>
-</nav>
-
-<div id="ctl-eur" class="ctl" role="tabpanel" aria-labelledby="tab-eur">
-  <div class="grp"><span class="lab">Période</span>
-    <label for="p0">du</label><select id="p0"></select>
-    <label for="p1">au</label><select id="p1"></select>
-  </div>
-</div>
-<div id="ctl-me" class="ctl" role="tabpanel" aria-labelledby="tab-me" hidden>
-  <div class="grp"><span class="lab">Période</span>
-    <label for="e0">de</label><select id="e0"></select>
-    <label for="e1">à</label><select id="e1"></select>
-    <button class="link" type="button" data-pre="12">12 derniers mois</button>
-    <button class="link" type="button" data-pre="all">Tout</button>
-  </div>
-  <div class="grp"><label class="lab" for="ref">Comparer à</label><select id="ref"></select></div>
-</div>
-<div id="ctl-m" class="ctl" role="tabpanel" aria-labelledby="tab-m" hidden>
-  <div class="grp"><span class="lab">Période</span>
-    <label for="m0">de</label><select id="m0"></select>
-    <label for="m1">à</label><select id="m1"></select>
-    <button class="link" type="button" data-pre="12">12 derniers mois</button>
-    <button class="link" type="button" data-pre="all">Tout</button>
-  </div>
-  <div class="grp"><span class="lab">Poste</span>
-    <span class="seg" id="poste"><button type="button" data-v="cig">Cigarettes</button><button type="button" data-v="tob">Tabac, tous produits</button></span>
-  </div>
-  <div class="grp"><span class="lab">Mesure</span>
-    <span class="seg" id="mesure"><button type="button" data-v="nom">Prix courants</button><button type="button" data-v="real">Hors inflation générale</button></span>
-  </div>
-</div>
-<p class="warn" id="warn" aria-live="polite"></p>
-
-<div class="panel">
-  <div class="bar">
-    <div>
-      <h2 id="ptitle"></h2>
-      <p class="hint" id="count" aria-live="polite"></p>
+    <div class="sec-h">
+      <h2>Pays affichés</h2><span class="cnt" id="count"></span>
+      <div class="acts">
+        <button class="btn sm" type="button" id="add"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Ajouter un pays</button>
+        <button class="btn ghost sm" type="button" id="reset">Belgique et voisins</button>
+        <button class="btn ghost sm" type="button" id="all">Tous</button>
+        <button class="btn ghost sm" type="button" id="none">Effacer</button>
+      </div>
     </div>
-    <div class="tools">
-      <label><input type="checkbox" id="avg" checked> <span id="avglab">Moyenne UE-27</span></label>
-      <button class="link" id="reset" type="button">Revenir à la Belgique et ses voisins</button>
+    <div class="kpis" id="kpis" aria-label="Chiffres clés des pays affichés"></div>
+
+    <div class="grid">
+      <section class="card" aria-labelledby="ptitle">
+        <div class="card-h"><div><h2 id="ptitle"></h2></div></div>
+        <div class="note" id="warn" aria-live="polite"></div>
+        <div class="chartbox"><canvas id="chart" role="img" aria-label="Évolution des prix du tabac pour les pays affichés"></canvas></div>
+      </section>
+      <section class="card" id="rank-card" aria-labelledby="rank-title">
+        <div class="card-h"><div><h2 id="rank-title">Classement</h2><p class="unit" id="rank-unit"></p></div></div>
+        <div class="rank" id="rank" aria-label="Classement des 27 pays ; cliquez pour ajouter ou retirer un pays du graphique"></div>
+        <p class="rank-f"><span>Clic sur un pays : l'ajouter ou le retirer</span><span class="avgk"><i aria-hidden="true"></i>moyenne UE</span></p>
+      </section>
     </div>
+
+    <details class="card tcard" id="tbl">
+      <summary><svg class="i chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg><span id="t-table">Tableau détaillé</span><small>27 pays, tri et export</small></summary>
+      <div class="tbody">
+        <div class="t-acts">
+          <label class="sw-t"><input type="checkbox" id="onlysel"><span class="tr" aria-hidden="true"></span>Pays affichés seulement</label>
+          <button class="btn sm" type="button" id="x-csv2"><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>CSV</button>
+        </div>
+        <div class="tablewrap">
+          <table>
+            <thead><tr id="thead"></tr></thead>
+            <tbody id="tbody"></tbody>
+            <tfoot><tr id="tfoot"></tr></tfoot>
+          </table>
+        </div>
+        <p class="hint" id="thint"></p>
+      </div>
+    </details>
+
+    <p class="foot">Données mises à jour le <span id="compiled">29 septembre 2026</span>, vérifiées automatiquement chaque jour · calculs propres à partir des sources de la Commission européenne et d'Eurostat.</p>
   </div>
-  <div class="chips" id="chips" role="group" aria-label="Pays à afficher"></div>
-  <div class="chartbox"><canvas id="chart" role="img" aria-label="Évolution des prix du tabac pour les pays sélectionnés"></canvas></div>
-  <div class="sel" id="sel"></div>
-</div>
-
-<section aria-labelledby="t-table">
-  <h2 id="t-table">Les 27 pays</h2>
-  <p class="hint" id="thint"></p>
-  <div class="tablewrap">
-    <table>
-      <thead><tr id="thead"></tr></thead>
-      <tbody id="tbody"></tbody>
-      <tfoot><tr id="tfoot"></tr></tfoot>
-    </table>
-  </div>
-</section>
-
-<section aria-labelledby="t-notes">
-  <h2 id="t-notes">Lire ces chiffres</h2>
-  <h3>Vue « Relevés en € »</h3>
-  <dl class="notes">
-    <div><dt>Indicateur</dt><dd>Prix moyen pondéré (WAP) publié par la Commission européenne : valeur totale des cigarettes mises à la consommation au prix de vente toutes taxes comprises, divisée par les quantités. Cigarettes uniquement. C'est le prix duty paid du marché domestique, pondéré par les volumes de chaque référence : il combine donc un effet prix et un effet mix.</dd></div>
-    <div><dt>Décalage d'un an</dt><dd>La Commission calcule ce prix sur les ventes de l'année précédente : le relevé de juillet 2024 reflète les prix de 2023. <span id="lag">Entre juillet 2025 et janvier 2026, 20 pays sur 27 n'ont pas été mis à jour ; le plateau en fin de courbe traduit l'absence de nouvelle donnée, pas une stabilité des prix.</span></dd></div>
-    <div><dt>Effet de change</dt><dd>Les prix des pays hors zone euro (Suède, Danemark, Tchéquie, Hongrie, Pologne, Roumanie) sont convertis en euros : une partie des variations reflète les taux de change.</dd></div>
-    <div><dt>Moyenne</dt><dd>Moyenne simple des 27 pays, non pondérée par les volumes.</dd></div>
-  </dl>
-  <h3>Vue « Mensuel en € (estimé) »</h3>
-  <dl class="notes">
-    <div><dt>Méthode</dt><dd>Le prix moyen <span class="ay">2024</span> publié par la Commission (relevé de <span class="ar">juillet 2025</span>) est prolongé mois par mois par l'indice des prix des cigarettes d'Eurostat : prix estimé du mois = prix moyen <span class="ay">2024</span> × indice du mois ÷ indice moyen <span class="ay">2024</span>. Par construction, la moyenne des prix estimés sur <span class="ay">2024</span> est égale au prix publié. L'ancrage passe automatiquement au relevé de juillet suivant dès sa publication.</dd></div>
-    <div><dt>Fiabilité</dt><dd>Méthode rétro-testée sur 2023 : le prix moyen 2023 ainsi estimé s'écarte en médiane de 0,6 % du prix publié par la Commission pour les pays de la zone euro. Exceptions : la Lettonie (+8,8 %, donnée 2023 probablement non mise à jour dans la source) et la Slovaquie (+3,9 %). Hors zone euro, les écarts vont jusqu'à 9 % (Suède), en raison du change.</dd></div>
-    <div><dt>Limites</dt><dd>C'est une estimation, pas un prix observé. Elle suit l'évolution des prix à panier constant et ignore les changements de mix intervenus après <span class="ay">2024</span>. Pour les pays hors zone euro (marqués d'un astérisque), les prix sont à taux de change constant. Un écart de quelques centimes entre deux pays n'est pas significatif.</dd></div>
-  </dl>
-  <h3>Vue « Mensuel en indice »</h3>
-  <dl class="notes">
-    <div><dt>Indicateur</dt><dd>Indice des prix à la consommation harmonisé (HICP) d'Eurostat, mensuel. Il suit le prix d'un même panier de produits d'un mois à l'autre : il mesure un effet prix pur, sans effet mix. Ce n'est pas un prix en euros.</dd></div>
-    <div><dt>Postes</dt><dd>« Cigarettes » correspond au poste ECOICOP 02.3.0.1. « Tabac, tous produits » (02.3) couvre aussi cigares, tabac à rouler et recharges de cigarettes électroniques. L'inflation générale est l'indice d'ensemble du pays.</dd></div>
-    <div><dt>Base</dt><dd>Indices publiés en base 2025 = 100, rebasés ici à 100 au premier mois de la période choisie. Les indices sont calculés en monnaie nationale : pas d'effet de change.</dd></div>
-    <div><dt>Hors inflation générale</dt><dd>Indice du tabac divisé par l'indice d'ensemble du même pays : au-dessus de 100, le tabac a augmenté plus vite que les autres prix.</dd></div>
-    <div><dt>UE-27</dt><dd>Agrégat calculé par Eurostat, pondéré par les dépenses des ménages de chaque pays. Il diffère de la moyenne simple de la vue en €.</dd></div>
-  </dl>
-  <h3>Pourquoi les deux vues divergent</h3>
-  <dl class="notes">
-    <div><dd style="margin:0">Les Pays-Bas affichent <span id="nl-e">+39,2 %</span> dans la vue en € (<span id="nl-eper">juillet 2023 à janvier 2026</span>) contre <span id="nl-v">+65,4 %</span> pour l'indice des cigarettes (<span id="nl-per">janvier 2023 à août 2026</span>). L'écart vient du décalage d'un an de la vue en €, qui n'intègre pas encore les prix <span id="nl-py">2025</span> néerlandais, de l'effet mix absent de l'indice, et de périodes différentes. Pour les pays hors zone euro s'ajoute l'effet de change.</dd></div>
-  </dl>
-  <ul class="src">
-    <li>Commission européenne, DG TAXUD, base <a href="https://ec.europa.eu/taxation_customs/tedb/" target="_blank" rel="noopener">Taxes in Europe Database</a> (TEDB) : prix moyen pondéré des cigarettes déclaré par chaque État membre, avec son année de référence, situation au 1<sup>er</sup> janvier et au 1<sup>er</sup> juillet. Source de la vue en € et de l'ancrage de l'estimation mensuelle, relue automatiquement chaque jour ; dernier relevé intégré : <span id="src-ec">janvier 2026</span>.</li>
-    <li>Les premières versions de cette page reprenaient les relevés compilés par la Tax Foundation (<a href="https://taxfoundation.org/data/all/eu/cigarette-taxes-europe/" target="_blank" rel="noopener">Cigarette Taxes in Europe</a>). Ils ont été remplacés par les valeurs actuelles de la base TEDB, qui intègrent les corrections apportées depuis par les États membres.</li>
-    <li>Eurostat, <a href="https://ec.europa.eu/eurostat/databrowser/product/view/prc_hicp_minr" target="_blank" rel="noopener">HICP, ECOICOP ver. 2, données mensuelles (prc_hicp_minr)</a>, mise à jour du <span id="eu-upd">17 septembre 2026</span> : postes Cigarettes, Tabac et Ensemble, indice base 2025 = 100.</li>
-  </ul>
-</section>
-
-<section class="upd" aria-labelledby="t-upd">
-  <h2 id="t-upd">État des données</h2>
-  <ul id="status"></ul>
-</section>
-
-<footer>Données mises à jour le <span id="compiled">29 septembre 2026</span>, vérifiées automatiquement chaque jour. Variations, rebasages et moyenne simple : calculs propres à partir des sources ci-dessus.</footer>
 </main>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="method" aria-hidden="true" aria-labelledby="m-title" role="dialog">
+  <div class="drawer-h"><h2 id="m-title">Méthode et sources</h2><button class="btn ghost sm" type="button" id="close-method" aria-label="Fermer">✕</button></div>
+  <div class="drawer-b">
+      <h3>Vue « Relevés en € »</h3>
+      <dl class="notes">
+        <div><dt>Indicateur</dt><dd>Prix moyen pondéré (WAP) publié par la Commission européenne : valeur totale des cigarettes mises à la consommation au prix de vente toutes taxes comprises, divisée par les quantités. Cigarettes uniquement. C'est le prix duty paid du marché domestique, pondéré par les volumes de chaque référence : il combine donc un effet prix et un effet mix.</dd></div>
+        <div><dt>Décalage d'un an</dt><dd>La Commission calcule ce prix sur les ventes de l'année précédente : le relevé de juillet 2024 reflète les prix de 2023. <span id="lag">Entre juillet 2025 et janvier 2026, 20 pays sur 27 n'ont pas été mis à jour ; le plateau en fin de courbe traduit l'absence de nouvelle donnée, pas une stabilité des prix.</span></dd></div>
+        <div><dt>Effet de change</dt><dd>Les prix des pays hors zone euro (Suède, Danemark, Tchéquie, Hongrie, Pologne, Roumanie) sont convertis en euros : une partie des variations reflète les taux de change.</dd></div>
+        <div><dt>Moyenne</dt><dd>Moyenne simple des 27 pays, non pondérée par les volumes.</dd></div>
+      </dl>
+      <h3>Vue « Mensuel en € (estimé) »</h3>
+      <dl class="notes">
+        <div><dt>Méthode</dt><dd>Le prix moyen <span class="ay">2024</span> publié par la Commission (relevé de <span class="ar">juillet 2025</span>) est prolongé mois par mois par l'indice des prix des cigarettes d'Eurostat : prix estimé du mois = prix moyen <span class="ay">2024</span> × indice du mois ÷ indice moyen <span class="ay">2024</span>. Par construction, la moyenne des prix estimés sur <span class="ay">2024</span> est égale au prix publié. L'ancrage passe automatiquement au relevé de juillet suivant dès sa publication, pays par pays : un relevé n'est retenu que si l'année de référence déclarée par le pays correspond à sa convention habituelle (l'année précédant le relevé), sinon le relevé de juillet antérieur est utilisé.<span id="anc-exc"></span><span id="anc-conv"></span></dd></div>
+        <div><dt>Fiabilité</dt><dd>Méthode rétro-testée sur 2023 : le prix moyen 2023 ainsi estimé s'écarte en médiane de 0,6 % du prix publié par la Commission pour les pays de la zone euro. Exceptions : la Lettonie (+8,8 %, donnée 2023 probablement non mise à jour dans la source) et la Slovaquie (+3,9 %). Hors zone euro, les écarts vont jusqu'à 9 % (Suède), en raison du change.</dd></div>
+        <div><dt>Limites</dt><dd>C'est une estimation, pas un prix observé. Elle suit l'évolution des prix à panier constant et ignore les changements de mix intervenus après <span class="ay">2024</span>. Pour les pays hors zone euro (marqués d'un astérisque), les prix sont à taux de change constant. Un écart de quelques centimes entre deux pays n'est pas significatif.</dd></div>
+      </dl>
+      <h3>Vue « Mensuel en indice »</h3>
+      <dl class="notes">
+        <div><dt>Indicateur</dt><dd>Indice des prix à la consommation harmonisé (HICP) d'Eurostat, mensuel. Il suit le prix d'un même panier de produits d'un mois à l'autre : il mesure un effet prix pur, sans effet mix. Ce n'est pas un prix en euros.</dd></div>
+        <div><dt>Postes</dt><dd>« Cigarettes » correspond au poste ECOICOP 02.3.0.1. « Tabac, tous produits » (02.3) couvre aussi cigares, tabac à rouler et recharges de cigarettes électroniques. L'inflation générale est l'indice d'ensemble du pays.</dd></div>
+        <div><dt>Base</dt><dd>Indices publiés en base 2025 = 100, rebasés ici à 100 au premier mois de la période choisie. Les indices sont calculés en monnaie nationale : pas d'effet de change.</dd></div>
+        <div><dt>Hors inflation générale</dt><dd>Indice du tabac divisé par l'indice d'ensemble du même pays : au-dessus de 100, le tabac a augmenté plus vite que les autres prix.</dd></div>
+        <div><dt>UE-27</dt><dd>Agrégat calculé par Eurostat, pondéré par les dépenses des ménages de chaque pays. Il diffère de la moyenne simple de la vue en €.</dd></div>
+      </dl>
+      <h3>Pourquoi les deux vues divergent</h3>
+      <dl class="notes">
+        <div><dd style="margin:0">Les Pays-Bas affichent <span id="nl-e">+39,2 %</span> dans la vue en € (<span id="nl-eper">juillet 2023 à janvier 2026</span>) contre <span id="nl-v">+65,4 %</span> pour l'indice des cigarettes (<span id="nl-per">janvier 2023 à août 2026</span>). L'écart vient du décalage d'un an de la vue en €, qui n'intègre pas encore les prix <span id="nl-py">2025</span> néerlandais, de l'effet mix absent de l'indice, et de périodes différentes. Pour les pays hors zone euro s'ajoute l'effet de change.</dd></div>
+      </dl>
+      <h3>Sources</h3>
+      <ul class="src">
+        <li>Commission européenne, DG TAXUD, base <a href="https://ec.europa.eu/taxation_customs/tedb/" target="_blank" rel="noopener">Taxes in Europe Database</a> (TEDB) : prix moyen pondéré des cigarettes déclaré par chaque État membre, avec son année de référence, situation au 1<sup>er</sup> janvier et au 1<sup>er</sup> juillet. Source de la vue en € et de l'ancrage de l'estimation mensuelle, relue automatiquement chaque jour ; dernier relevé intégré : <span id="src-ec">janvier 2026</span>.</li>
+        <li>Les premières versions de cette page reprenaient les relevés compilés par la Tax Foundation (<a href="https://taxfoundation.org/data/all/eu/cigarette-taxes-europe/" target="_blank" rel="noopener">Cigarette Taxes in Europe</a>). Ils ont été remplacés par les valeurs actuelles de la base TEDB, qui intègrent les corrections apportées depuis par les États membres.</li>
+        <li>Eurostat, <a href="https://ec.europa.eu/eurostat/databrowser/product/view/prc_hicp_minr" target="_blank" rel="noopener">HICP, ECOICOP ver. 2, données mensuelles (prc_hicp_minr)</a>, mise à jour du <span id="eu-upd">17 septembre 2026</span> : postes Cigarettes, Tabac et Ensemble, indice base 2025 = 100.</li>
+      </ul>
+      
+    <h3>État des données</h3>
+    <ul class="stat" id="status"></ul>
+  </div>
+</aside>
 
 <script>/*!
  * Chart.js v4.4.1
@@ -239,14 +359,13 @@ footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--rule);font-si
 <script type="application/json" id="hicp-data">{"months":["2023-01","2023-02","2023-03","2023-04","2023-05","2023-06","2023-07","2023-08","2023-09","2023-10","2023-11","2023-12","2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08"],"cig":{"Autriche":[88.57,88.57,90.02,92.9,92.9,92.9,92.9,92.9,92.9,92.87,92.87,92.87,92.87,92.87,94.08,95.37,95.92,95.99,95.99,95.99,96.08,96.08,96.08,96.08,96.08,96.08,98.66,100.31,100.42,100.42,101.18,101.18,101.36,101.46,101.39,101.46,101.46,104.07,103.84,104.34,104.34,104.34,104.41,104.41],"Belgique":[70.96,70.66,70.92,71.62,71.87,72.32,73.23,74.34,75.47,76.02,76.61,76.86,77.22,77.94,78.59,79.63,81.24,82.07,86.81,92.29,96.32,97.79,98.33,98.1,98.58,99.8,98.49,98.64,99.78,100.26,100.45,100.36,100.53,100.73,100.97,101.41,101.42,101.54,102.0,102.7,103.02,103.68,103.9,103.95],"Bulgarie":[83.01,83.01,83.65,84.92,85.84,86.39,86.82,87.18,87.23,87.32,87.58,87.72,88.3,89.3,90.13,90.97,91.86,92.21,92.6,92.88,93.12,93.9,94.75,94.98,96.31,97.17,97.55,98.07,98.88,100.04,100.82,101.47,102.09,102.34,102.63,102.63,103.02,104.58,105.67,106.84,107.74,108.29,108.49,108.85],"Croatie":[93.37,92.95,92.95,92.95,93.53,95.61,95.61,95.61,95.61,95.63,95.63,95.63,95.63,95.63,97.42,97.76,97.76,97.76,97.76,97.76,97.76,97.76,97.76,97.76,97.76,97.76,97.76,97.76,97.76,97.76,102.24,102.24,102.24,102.24,102.24,102.24,106.69,106.69,106.69,106.69,106.69,106.69,106.69,106.69],"Chypre":[96.17,96.26,96.43,96.97,97.04,97.09,97.38,97.4,97.54,97.73,97.97,98.17,98.23,99.06,99.15,99.25,99.25,99.25,99.31,99.54,99.84,99.44,99.96,99.96,100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.0,100.16,100.45,100.57,100.88,100.98],"Tchéquie":[84.06,85.45,86.87,86.9,86.93,86.98,86.99,88.29,89.59,89.87,90.0,90.1,90.15,90.18,92.32,93.31,93.36,93.38,93.38,94.64,95.77,96.17,96.26,96.36,96.37,98.46,99.44,99.67,99.78,99.78,99.78,99.8,100.7,101.73,102.13,102.36,102.43,103.88,104.78,105.35,105.46,105.7,105.81,107.31],"Danemark":[95.54,95.5,95.62,95.66,95.69,95.71,95.75,95.85,95.85,96.23,96.42,96.52,96.76,96.76,96.84,96.89,97.01,97.16,97.24,97.28,97.46,97.69,97.69,97.88,98.04,98.14,98.21,98.59,99.47,99.49,99.73,101.37,101.54,101.76,101.8,101.87,101.86,101.9,101.92,102.28,102.36,102.37,102.38,102.45],"Estonie":[80.09,82.7,83.68,83.8,83.89,84.4,84.86,84.99,85.08,85.13,85.13,85.11,86.95,90.75,91.77,91.82,91.83,91.83,91.79,91.75,91.77,91.8,91.8,91.8,93.2,96.21,96.98,97.15,97.24,97.24,100.42,104.26,104.43,104.45,104.24,104.2,104.4,110.98,112.33,112.69,112.9,113.23,113.37,113.44],"UE-27":[84.18,84.8,86.15,86.67,87.04,87.41,87.82,88.23,88.44,88.61,88.72,88.77,90.36,91.5,92.0,92.71,93.02,93.89,94.36,94.8,95.27,95.85,95.97,96.23,97.17,98.0,98.47,99.09,99.65,100.12,100.41,100.9,101.2,101.38,101.57,102.03,102.92,104.21,105.06,105.59,106.02,106.5,106.97,107.27],"Finlande":[85.22,85.47,85.47,85.53,85.53,85.61,87.07,87.32,87.32,88.18,88.18,88.18,89.25,89.44,89.44,90.23,90.23,90.47,92.09,92.09,94.23,96.65,96.65,96.65,97.81,97.81,97.81,97.81,97.81,97.81,99.08,102.59,102.59,102.96,102.96,102.96,106.83,106.83,106.83,106.83,106.83,106.83,112.45,112.54],"France":[80.21,80.21,86.43,87.88,88.17,88.18,88.2,88.21,88.21,88.21,88.21,88.21,93.88,95.56,96.0,96.01,96.03,96.05,96.06,96.06,96.06,96.06,96.14,96.14,99.8,99.98,100.0,100.01,100.03,99.99,100.0,100.0,100.0,100.0,100.09,100.09,102.87,103.34,103.64,103.65,103.65,103.7,103.71,103.71],"Allemagne":[88.59,89.05,89.44,89.44,89.72,90.11,91.33,91.64,91.91,91.92,91.92,91.92,93.39,94.63,94.81,95.16,94.85,94.85,95.32,96.03,96.35,98.17,98.23,98.21,98.36,98.03,98.16,99.13,99.9,100.53,100.53,100.6,100.98,100.92,101.12,101.75,101.99,102.16,103.96,104.86,105.68,106.17,106.33,106.38],"Grèce":[98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.71,98.93,99.08,99.08,99.08,99.08,99.08,99.09,99.09,100.33,100.33,100.36,100.36,100.36,100.59,100.59,100.73,100.73,100.73,100.88,100.88,100.88,100.88,100.88,100.88],"Hongrie":[80.35,85.52,85.85,86.83,87.31,87.64,88.35,88.84,88.84,88.84,88.84,89.24,89.93,90.2,90.24,90.87,90.96,92.07,92.17,92.17,92.17,92.17,92.53,93.32,95.23,95.37,95.36,98.77,100.48,100.48,101.04,102.04,102.04,102.04,103.0,104.14,104.37,104.39,104.46,104.46,104.6,104.6,105.43,108.31],"Irlande":[85.03,85.05,85.82,86.11,86.02,86.02,86.16,86.14,86.15,88.88,90.3,90.3,90.32,90.32,91.32,91.65,91.87,91.87,91.9,91.9,91.92,97.45,97.65,97.65,97.65,97.65,99.05,99.43,99.72,99.8,99.82,99.82,99.7,102.2,102.56,102.6,102.6,102.6,104.27,104.67,105.19,105.32,105.32,105.32],"Italie":[91.8,93.2,93.8,93.8,94.2,94.0,93.4,93.4,93.4,93.4,93.4,93.4,93.4,95.0,95.0,96.5,96.6,96.6,96.6,96.6,96.6,96.6,96.6,96.6,96.6,99.6,100.3,100.4,100.4,100.4,100.4,100.4,100.4,100.4,100.4,100.4,100.4,104.1,104.1,105.0,105.0,105.1,105.1,105.1],"Lettonie":[77.0,78.02,80.07,81.61,81.77,81.91,81.7,81.9,81.9,81.9,81.9,81.9,81.9,81.9,81.9,88.04,90.13,91.53,92.37,92.67,92.62,92.62,92.66,92.56,92.48,96.47,99.57,100.71,101.15,101.21,101.23,101.62,101.54,101.29,101.39,101.35,101.28,107.41,110.81,112.68,113.58,113.52,113.46,113.27],"Lituanie":[83.25,83.65,84.64,85.84,86.53,87.17,87.61,87.78,87.81,87.84,87.86,87.92,88.32,90.01,90.99,92.81,93.52,93.82,93.97,94.09,94.19,94.2,94.22,94.26,95.18,98.83,99.54,100.12,100.37,100.37,100.49,100.67,100.81,101.16,101.22,101.25,102.26,105.87,108.65,108.87,108.96,109.32,109.77,109.87],"Luxembourg":[82.03,82.07,82.1,82.31,82.81,82.94,83.62,83.93,84.65,85.9,86.2,86.37,86.37,86.68,86.68,88.26,89.37,90.61,92.22,93.53,93.89,94.13,94.63,94.72,94.75,95.08,96.95,99.84,100.55,100.62,100.64,100.64,101.01,102.44,103.6,103.89,104.92,105.62,106.09,106.92,108.04,108.21,108.22,108.22],"Malte":[95.3,96.77,96.77,96.77,96.77,96.77,96.77,96.77,96.77,96.77,96.77,96.77,96.77,98.27,98.27,98.27,98.27,98.27,98.27,98.27,98.27,98.27,98.27,98.27,98.5,100.14,100.14,100.14,100.14,100.14,100.14,100.14,100.14,100.14,100.14,100.14,100.68,101.68,101.76,101.76,102.16,102.16,102.4,102.67],"Pays-Bas":[63.25,63.25,63.25,63.25,64.18,70.19,71.32,73.79,73.79,73.99,74.05,74.05,74.09,74.28,75.3,75.52,77.39,94.4,97.51,97.42,97.42,97.44,97.52,97.55,97.63,97.67,98.24,99.83,99.86,100.26,100.94,101.08,101.14,101.1,101.12,101.12,101.12,101.07,102.19,103.33,103.45,103.76,104.13,104.61],"Pologne":[75.72,77.26,77.9,78.3,78.75,79.05,79.24,79.46,80.06,80.68,81.14,81.38,82.19,83.37,84.18,84.5,84.82,85.91,86.49,87.15,87.93,88.47,88.74,89.17,91.22,93.86,95.76,97.61,99.16,100.08,100.69,101.9,103.79,104.79,105.4,105.75,107.62,111.43,113.8,114.73,116.76,119.81,121.21,122.37],"Portugal":[90.4,90.43,91.0,92.12,92.4,92.45,92.95,93.04,93.07,93.09,93.05,93.05,93.06,93.04,95.85,97.84,98.12,98.17,98.24,98.25,98.24,98.26,98.26,98.24,98.25,98.28,99.34,100.02,100.26,100.47,100.52,100.55,100.6,100.57,100.57,100.57,100.59,101.56,103.53,103.76,103.83,103.85,103.88,103.87],"Roumanie":[82.61,83.05,83.05,83.89,84.85,84.85,86.01,87.12,87.12,87.12,87.12,87.12,89.13,90.69,90.69,92.94,94.26,94.26,94.26,94.39,95.94,96.31,96.31,96.31,96.96,97.96,97.99,97.99,97.99,98.86,99.51,102.55,102.55,102.55,102.55,102.55,103.78,105.15,105.15,105.15,105.15,105.43,107.96,108.19],"Slovaquie":[85.28,85.63,89.18,89.18,89.18,89.18,89.18,89.18,89.18,89.18,89.18,89.18,89.18,96.02,96.19,96.97,96.97,96.97,96.97,96.97,96.97,96.97,96.97,96.97,97.3,98.76,99.84,100.2,100.03,100.22,100.53,100.64,100.87,100.82,100.25,100.54,100.56,100.76,105.27,107.06,107.2,107.34,107.08,107.55],"Slovénie":[87.3,87.46,87.46,87.49,91.44,91.46,91.46,91.46,91.46,91.46,93.45,93.45,93.45,93.45,94.22,94.66,95.44,96.21,96.8,97.4,97.4,97.4,97.4,97.4,97.4,97.4,97.4,98.42,98.79,100.78,101.37,101.39,101.39,101.39,101.39,102.89,104.53,105.13,105.15,105.12,106.69,109.03,109.02,109.03],"Espagne":[89.64,89.66,89.66,89.7,89.69,89.7,89.7,89.92,89.96,90.12,90.01,89.98,92.63,94.12,94.35,94.39,94.39,94.4,94.4,94.39,94.39,94.47,94.58,96.8,97.87,97.76,97.88,97.89,99.31,100.84,100.83,100.83,100.84,100.84,101.12,103.99,104.92,105.09,105.11,105.16,105.18,105.19,105.16,105.18],"Suède":[83.68,84.24,85.01,85.54,86.11,86.46,88.03,90.42,90.57,90.55,90.66,90.97,91.09,91.22,91.97,92.41,92.72,92.92,94.09,94.49,94.62,94.75,95.1,95.37,95.4,97.09,97.85,98.44,99.49,99.83,100.66,101.4,101.83,101.99,102.62,103.4,103.4,103.71,104.83,105.51,105.91,106.22,107.41,107.79]},"tob":{"Autriche":[88.43,88.43,89.83,92.71,92.71,92.71,92.71,92.71,92.71,92.68,92.68,92.68,92.68,92.68,93.83,95.31,95.88,95.95,95.95,95.95,96.05,96.07,96.07,96.07,96.07,96.07,98.58,100.35,100.45,100.45,101.18,101.19,101.36,101.46,101.39,101.46,101.46,104.02,103.82,104.25,104.25,104.25,104.31,104.31],"Belgique":[68.8,68.44,69.02,70.96,71.89,72.52,73.66,74.75,75.52,76.01,76.5,76.98,77.64,78.16,79.98,83.01,85.21,86.44,89.98,93.47,96.36,98.07,98.32,98.27,99.02,99.18,98.74,98.83,99.49,99.89,100.37,100.52,100.77,100.88,101.02,101.28,101.31,101.46,101.84,102.81,103.31,103.87,104.29,104.64],"Bulgarie":[83.01,83.01,83.65,84.92,85.84,86.39,86.82,87.18,87.23,87.32,87.58,87.72,88.3,89.3,90.13,90.97,91.86,92.21,92.6,92.88,93.12,93.9,94.75,94.98,96.31,97.17,97.55,98.07,98.88,100.04,100.82,101.47,102.09,102.34,102.63,102.63,103.02,104.58,105.67,106.84,107.74,108.29,108.49,108.85],"Croatie":[93.39,92.95,92.95,92.96,93.53,95.61,95.63,95.63,95.63,95.66,95.66,95.66,95.67,95.67,97.42,97.76,97.77,97.77,97.77,97.77,97.77,97.77,97.77,97.77,97.77,97.77,97.77,97.77,97.78,97.78,102.23,102.23,102.23,102.23,102.23,102.23,106.65,106.68,106.68,106.68,106.68,106.68,106.68,106.68],"Chypre":[94.75,94.9,95.25,96.08,96.3,96.37,96.49,96.6,96.68,96.8,96.95,96.99,97.07,97.57,97.75,97.82,97.82,97.82,97.88,98.96,99.33,99.12,99.43,99.43,99.49,99.59,99.81,99.73,99.73,100.01,100.11,100.14,100.35,100.26,100.28,100.5,100.48,100.56,100.67,100.86,101.13,101.23,101.51,101.61],"Tchéquie":[83.94,85.15,86.6,86.67,86.72,86.71,87.29,88.46,89.58,89.57,89.64,89.74,89.77,89.81,91.77,92.81,93.06,93.09,93.09,94.23,95.47,95.87,95.97,96.11,96.46,98.34,99.24,99.72,99.83,99.84,99.82,99.88,100.72,101.65,102.04,102.46,102.55,103.85,104.7,105.27,105.39,105.65,105.74,107.1],"Danemark":[95.11,95.1,95.56,95.58,95.62,95.65,95.7,95.79,95.8,96.12,96.29,96.38,96.61,96.74,96.81,96.86,96.98,97.15,97.27,97.29,97.45,97.69,97.72,97.89,98.07,98.39,98.46,98.79,99.53,99.57,99.79,101.18,101.35,101.54,101.62,101.7,101.71,101.75,101.8,102.1,102.17,102.21,102.22,102.28],"Estonie":[80.09,82.7,83.68,83.8,83.89,84.4,84.86,84.99,85.08,85.13,85.13,85.11,86.95,90.75,91.77,91.82,91.83,91.83,91.79,91.75,91.77,91.8,91.8,91.8,93.2,96.21,96.98,97.15,97.24,97.24,100.42,104.26,104.43,104.45,104.24,104.2,104.4,110.98,112.33,112.69,112.9,113.23,113.37,113.44],"UE-27":[83.55,84.2,85.52,86.09,86.49,87.02,87.46,87.86,88.07,88.26,88.39,88.47,89.98,91.11,91.63,92.43,92.83,93.86,94.54,94.98,95.44,95.96,96.1,96.35,97.31,98.03,98.48,99.06,99.64,100.12,100.44,100.86,101.17,101.35,101.57,101.98,102.8,103.97,104.74,105.28,105.7,106.15,106.59,106.85],"Finlande":[84.4,84.68,84.68,84.76,84.76,85.4,87.22,87.42,87.42,88.09,88.09,88.09,89.44,90.07,90.07,90.94,90.94,91.26,92.55,92.57,94.4,96.28,96.94,96.94,98.0,98.02,98.02,98.02,98.02,98.49,99.63,102.17,102.17,102.49,102.49,102.49,105.68,105.68,105.68,105.68,105.68,105.68,110.12,110.18],"France":[80.63,80.63,86.77,88.09,88.38,88.38,88.41,88.41,88.42,88.43,88.43,88.43,94.14,95.67,96.05,96.06,96.08,96.11,96.12,96.12,96.09,96.09,96.16,96.16,99.8,99.97,100.0,100.01,100.03,100.0,100.0,100.0,100.01,100.01,100.09,100.08,102.49,102.91,103.21,103.21,103.22,103.3,103.3,103.3],"Allemagne":[87.52,88.04,88.67,88.82,89.11,89.47,90.55,90.93,91.16,91.3,91.44,91.53,92.69,93.79,94.02,94.57,94.4,94.45,94.87,95.56,95.81,97.3,97.64,97.62,97.98,97.8,97.95,98.89,99.95,100.54,100.56,100.63,101.18,101.14,101.45,101.94,102.26,102.46,103.98,104.94,105.89,106.41,106.58,106.64],"Grèce":[98.72,98.72,98.72,98.72,98.83,98.83,98.83,98.83,98.83,98.83,98.83,98.83,98.83,98.85,98.85,98.93,98.93,98.93,98.93,98.93,99.1,99.22,99.22,99.24,99.24,99.24,99.27,99.28,100.26,100.26,100.3,100.3,100.3,100.5,100.5,100.56,100.59,100.59,100.71,100.71,100.71,100.71,100.73,100.74],"Hongrie":[83.64,87.41,87.62,88.57,89.04,89.41,89.89,90.33,90.5,90.5,90.5,90.85,91.31,91.7,91.74,92.36,92.42,93.58,93.77,93.77,93.77,93.77,94.0,94.94,96.16,96.23,96.5,98.79,99.75,100.16,101.09,101.76,101.96,101.96,102.5,103.14,103.37,103.4,103.44,103.6,103.81,103.94,104.63,106.21],"Irlande":[85.26,85.3,86.07,86.35,86.27,86.26,86.39,86.37,86.36,89.05,90.46,90.49,90.51,90.52,91.47,91.77,91.97,91.97,91.99,91.96,91.96,97.28,97.48,97.45,97.45,97.45,98.8,99.15,99.39,99.49,99.51,99.51,99.43,101.87,103.92,104.02,104.04,104.02,105.71,106.1,106.59,106.74,106.66,106.43],"Italie":[91.5,93.3,93.9,93.9,94.1,94.0,93.5,93.5,93.5,93.5,93.5,93.5,93.5,95.7,95.7,97.0,97.1,97.2,97.2,97.2,97.2,97.2,97.2,97.2,97.2,99.6,100.1,100.2,100.3,100.4,100.4,100.4,100.4,100.4,100.4,100.4,100.4,103.7,103.7,104.5,104.5,104.5,104.5,104.5],"Lettonie":[77.0,78.02,80.07,81.61,81.77,81.91,81.7,81.9,81.9,81.9,81.9,81.9,81.9,81.9,81.9,88.04,90.13,91.53,92.37,92.67,92.62,92.62,92.66,92.56,92.48,96.47,99.57,100.71,101.15,101.21,101.23,101.62,101.54,101.29,101.39,101.35,101.28,107.41,110.81,112.68,113.58,113.52,113.46,113.27],"Lituanie":[82.69,83.05,83.93,85.27,86.06,86.69,87.08,87.24,87.27,87.31,87.33,87.47,87.89,89.64,90.56,92.38,93.14,93.46,93.65,93.8,93.89,93.9,93.94,93.99,95.26,98.84,99.55,100.1,100.33,100.36,100.51,100.66,100.8,101.14,101.2,101.24,102.78,105.92,108.38,108.63,108.77,109.08,109.46,109.58],"Luxembourg":[82.27,82.3,82.33,82.49,82.84,83.0,83.48,83.79,84.51,85.7,85.98,86.3,86.3,86.72,86.81,87.95,88.97,90.12,91.41,92.65,93.64,94.21,94.64,94.72,94.75,94.96,97.26,99.54,100.19,100.66,101.03,101.1,101.4,102.26,103.29,103.57,104.18,104.62,105.31,106.3,107.12,107.3,107.43,107.45],"Malte":[95.3,96.77,96.77,96.77,96.77,96.77,96.77,96.77,96.77,96.77,96.77,96.77,96.77,98.27,98.27,98.27,98.27,98.27,98.27,98.27,98.27,98.27,98.27,98.27,98.5,100.14,100.14,100.14,100.14,100.14,100.14,100.14,100.14,100.14,100.14,100.14,100.68,101.68,101.76,101.76,102.16,102.16,102.4,102.67],"Pays-Bas":[61.67,61.67,61.67,61.7,62.38,70.42,71.18,72.86,72.89,73.06,73.11,73.11,73.13,73.25,73.99,74.15,76.11,92.2,98.29,98.44,98.44,98.16,98.24,98.27,98.33,98.35,98.76,99.86,99.88,100.16,100.62,100.72,100.77,100.77,100.89,100.9,100.91,100.88,101.66,102.46,102.54,102.79,103.07,103.43],"Pologne":[76.05,77.59,78.29,78.73,79.19,79.53,79.75,79.99,80.57,81.17,81.62,81.85,82.69,83.85,84.65,85.0,85.3,86.32,86.86,87.49,88.21,88.7,88.95,89.36,91.28,93.72,95.48,97.35,99.12,100.2,100.92,102.06,103.83,104.82,105.41,105.81,107.63,111.29,113.95,115.08,116.98,119.8,121.12,122.15],"Portugal":[89.77,89.8,90.32,91.38,91.83,91.95,92.47,92.58,92.63,92.64,92.62,92.62,92.63,92.61,95.2,97.24,97.74,97.89,98.0,98.06,98.06,98.11,98.13,98.12,98.15,98.18,99.18,99.84,100.25,100.46,100.58,100.61,100.68,100.68,100.69,100.69,100.76,101.69,103.54,103.78,103.88,103.9,103.95,103.94],"Roumanie":[82.23,82.91,82.91,83.68,84.82,84.82,85.98,87.0,87.0,87.0,87.0,87.0,89.02,90.63,90.63,92.69,93.9,93.9,94.23,94.37,95.8,96.13,96.13,96.13,96.74,97.96,98.01,98.01,98.01,98.81,99.71,102.55,102.55,102.55,102.55,102.55,103.75,105.28,105.28,105.28,105.28,105.54,108.19,108.42],"Slovaquie":[84.51,84.8,87.68,87.72,88.18,88.27,88.32,88.39,88.95,89.29,89.36,89.55,89.71,95.41,95.61,96.26,96.46,96.58,96.62,96.71,96.74,96.81,96.85,96.85,97.26,98.65,99.67,100.03,99.88,100.07,100.55,100.72,100.96,100.94,100.5,100.79,100.85,101.2,105.31,107.02,107.21,107.31,107.22,107.79],"Slovénie":[87.34,87.5,87.5,87.52,91.43,91.45,91.45,91.45,91.45,91.45,93.45,93.45,93.45,93.45,94.19,94.76,95.52,96.25,96.82,97.4,97.4,97.4,97.4,97.4,97.4,97.4,97.4,98.4,98.84,100.83,101.38,101.39,101.39,101.39,101.4,102.79,104.51,105.16,105.18,105.15,106.62,108.93,108.92,108.93],"Espagne":[89.14,89.2,89.2,89.24,89.24,89.28,89.45,89.67,89.71,89.85,89.76,89.74,92.42,93.95,94.17,94.25,94.34,94.34,94.36,94.37,94.37,94.45,94.56,96.6,97.92,97.92,98.04,98.04,99.36,100.76,100.76,100.78,100.78,100.78,101.12,103.74,104.85,105.07,105.09,105.13,105.15,105.17,105.14,105.15],"Suède":[89.07,89.59,90.2,90.44,90.73,90.93,91.84,93.45,93.53,93.99,94.14,94.36,94.76,95.01,95.48,95.7,96.14,96.49,97.18,97.59,97.7,97.83,96.13,96.14,96.66,98.12,98.57,98.8,99.54,99.75,100.37,100.78,101.13,101.71,102.03,102.55,102.77,103.4,103.99,104.34,104.57,104.73,105.44,105.65]},"tot":{"Autriche":[91.44,92.19,92.71,93.43,93.56,93.82,93.64,93.94,94.78,95.13,95.29,95.73,95.39,95.87,96.48,96.59,96.68,96.71,96.36,96.23,96.49,96.85,97.12,97.78,98.65,99.15,99.47,99.73,99.56,99.83,99.9,100.22,100.26,100.76,100.98,101.5,100.68,101.45,102.62,103.15,103.24,102.99,102.59,103.15],"Belgique":[92.75,92.99,93.16,92.0,92.19,92.1,91.56,93.88,93.53,93.84,93.77,94.8,94.11,96.34,96.72,96.47,96.67,97.1,96.5,97.96,97.58,98.08,98.25,98.98,98.21,100.61,100.16,99.48,99.39,99.87,99.03,100.52,100.2,100.56,100.83,101.14,99.54,102.0,102.32,103.67,103.33,103.21,102.64,104.73],"Bulgarie":[92.07,92.72,93.27,93.78,93.55,93.65,94.73,95.17,94.86,95.05,95.27,95.55,95.65,95.94,96.18,96.09,96.09,96.24,97.37,97.42,96.32,96.94,97.22,97.54,99.28,99.71,100.02,98.78,98.83,99.26,100.69,100.83,100.22,100.64,100.8,100.93,101.58,101.78,102.82,104.69,105.02,104.46,105.08,105.92],"Croatie":[88.77,89.02,89.78,90.82,91.33,92.81,93.86,94.33,93.71,93.98,93.56,93.28,93.01,93.29,94.14,95.09,95.28,96.03,97.0,97.12,96.58,97.32,97.3,97.48,97.71,97.72,98.16,98.87,99.4,100.2,101.41,101.63,101.04,101.22,101.49,101.15,101.25,101.55,102.72,104.18,104.27,104.41,105.04,105.38],"Chypre":[93.46,94.21,95.41,96.28,96.62,96.91,98.23,99.34,99.51,99.37,97.84,96.64,95.43,96.22,96.95,98.31,99.49,99.85,100.59,101.54,101.15,100.95,99.97,99.65,98.22,98.47,98.98,99.68,99.91,100.33,100.73,101.54,101.13,101.17,100.11,99.73,99.41,99.4,100.45,102.68,103.45,104.42,105.2,106.8],"Tchéquie":[94.06,94.78,95.04,94.89,95.15,95.48,95.87,96.1,95.31,95.33,95.31,94.92,96.56,96.92,97.12,97.87,97.82,97.55,98.25,98.42,97.97,98.19,98.28,98.03,99.4,99.58,99.65,99.55,100.04,100.23,100.68,100.7,99.94,100.42,100.08,99.74,100.62,100.54,101.17,101.68,101.84,101.37,101.95,102.25],"Danemark":[96.49,97.25,97.11,97.37,95.83,96.19,98.2,97.37,97.1,97.37,96.93,96.42,97.42,97.85,97.85,97.87,97.85,97.89,99.16,98.64,98.23,98.88,98.47,98.18,98.8,99.82,99.26,99.33,99.35,99.64,101.34,100.56,100.43,100.98,100.47,100.03,99.37,100.28,100.25,100.52,101.14,101.41,102.95,102.55],"Estonie":[89.29,89.89,90.54,92.29,92.32,93.07,92.61,93.04,92.99,92.54,92.56,92.55,93.72,93.83,94.23,95.2,95.19,95.64,95.85,96.21,95.93,96.7,96.05,96.31,97.29,98.57,98.27,99.41,99.55,100.66,101.21,102.14,101.0,101.09,100.6,100.21,100.99,101.75,101.71,102.58,103.09,102.69,103.22,103.5],"UE-27":[92.87,93.65,94.48,95.07,95.1,95.35,95.32,95.77,96.02,96.14,95.76,95.9,95.74,96.3,96.94,97.51,97.69,97.87,97.99,98.1,98.02,98.37,98.18,98.48,98.43,98.88,99.38,99.86,99.85,100.14,100.3,100.48,100.56,100.81,100.58,100.73,100.38,100.98,102.14,103.07,103.19,103.09,103.34,103.73],"Finlande":[96.46,97.09,97.52,97.57,97.64,97.5,97.76,96.68,97.26,97.48,96.99,97.21,97.54,98.19,98.06,98.14,98.08,98.04,98.28,97.72,98.18,98.93,98.66,98.73,99.23,99.7,99.83,99.98,100.06,99.88,100.19,99.92,100.38,100.29,100.15,100.39,100.27,101.48,102.33,102.36,102.91,102.53,102.71,102.36],"France":[94.2,95.27,96.25,96.88,96.81,97.01,97.06,98.13,97.57,97.74,97.5,97.64,97.41,98.33,98.57,99.18,99.32,99.48,99.68,100.27,98.97,99.28,99.14,99.35,99.19,99.24,99.44,100.09,99.91,100.33,100.62,101.1,100.03,100.12,99.92,100.0,99.59,100.3,101.4,102.57,102.71,102.36,103.0,103.76],"Allemagne":[92.98,93.87,94.81,95.34,95.21,95.59,96.05,96.4,96.54,96.4,95.75,95.94,95.8,96.42,97.04,97.62,97.83,98.03,98.52,98.42,98.34,98.68,98.06,98.66,98.47,98.95,99.32,99.8,99.88,99.97,100.35,100.42,100.65,100.95,100.56,100.67,100.56,100.94,102.1,102.66,102.54,102.32,103.2,103.36],"Grèce":[91.47,91.66,93.1,94.13,94.64,95.5,94.57,94.39,96.16,96.27,95.2,95.29,94.41,94.53,96.24,97.14,96.87,97.84,97.39,97.41,99.15,99.22,98.02,98.1,97.38,97.4,99.24,99.71,100.06,101.33,101.03,100.39,100.94,100.85,100.78,100.91,100.16,100.46,102.59,104.26,104.92,105.24,103.72,104.12],"Hongrie":[90.14,90.87,91.64,92.3,91.97,92.29,92.62,93.34,93.41,93.18,93.17,92.87,93.48,94.15,94.92,95.62,95.6,95.61,96.41,96.48,96.24,96.31,96.81,97.32,98.79,99.51,99.52,99.63,99.86,100.04,100.48,100.52,100.34,100.37,100.4,100.52,101.11,101.13,101.64,102.19,102.15,102.15,102.13,102.31],"Irlande":[93.63,95.03,95.97,96.17,96.43,97.2,97.3,97.82,97.92,98.05,97.14,97.59,96.22,97.22,97.57,97.72,98.28,98.66,98.8,98.9,97.92,98.2,97.67,98.57,97.81,98.64,99.32,99.74,99.7,100.22,100.39,100.74,100.54,100.91,100.73,101.25,100.27,101.09,102.86,103.34,103.18,103.45,103.51,104.15],"Italie":[96.0,96.1,96.8,97.6,98.0,98.0,96.5,96.6,98.3,98.3,97.8,98.0,96.9,96.9,98.0,98.5,98.7,98.9,98.0,97.9,99.0,99.3,99.2,99.3,98.5,98.5,100.1,100.5,100.4,100.6,99.7,99.5,100.7,100.6,100.3,100.5,99.5,100.0,101.7,103.3,103.6,103.6,102.6,102.7],"Lettonie":[93.67,94.26,94.97,95.34,96.73,95.39,96.11,95.59,95.11,94.75,94.67,93.98,94.71,94.79,95.9,96.41,96.78,96.78,96.84,96.44,96.6,96.73,96.84,97.14,97.6,98.33,99.22,100.3,100.34,100.56,100.65,100.49,100.62,100.87,100.53,100.48,100.42,100.68,102.63,103.25,103.83,103.87,103.12,103.48],"Lituanie":[94.72,95.35,95.97,96.16,96.05,95.95,95.75,95.6,96.27,96.6,96.21,95.63,95.74,96.41,96.33,96.58,96.88,96.92,96.8,96.32,96.67,96.73,97.27,97.41,98.99,99.46,99.87,100.07,99.79,100.01,100.13,99.82,100.24,100.34,100.73,100.54,101.72,102.76,104.26,104.96,104.89,105.37,105.52,105.41],"Luxembourg":[92.85,94.15,94.32,94.97,94.8,95.22,94.95,96.73,97.09,97.02,96.42,96.03,95.61,97.19,97.36,97.81,97.86,97.86,97.46,98.39,97.91,97.85,97.47,97.58,97.9,99.0,98.87,99.48,99.96,100.23,99.95,101.1,100.97,100.83,100.93,100.77,99.44,100.83,102.63,104.69,104.47,103.98,103.31,105.13],"Malte":[90.22,91.03,92.26,95.11,96.65,98.13,98.46,98.88,98.21,96.87,94.1,93.96,93.54,93.77,94.7,97.36,98.91,100.26,100.77,101.25,100.25,99.2,96.08,95.69,95.25,95.67,96.74,99.87,101.61,102.8,103.26,104.0,102.65,101.69,98.43,98.04,97.47,97.83,99.01,102.33,103.76,104.86,105.38,106.03],"Pays-Bas":[91.44,92.67,92.86,94.34,94.52,94.05,95.13,95.61,94.81,95.36,93.94,94.13,94.28,95.17,95.76,96.77,97.05,97.21,98.43,98.79,97.91,98.52,97.5,97.84,97.09,98.47,99.0,100.76,99.82,99.81,100.94,101.18,100.81,101.52,100.06,100.53,99.21,100.7,101.54,103.24,103.21,102.27,103.92,104.01],"Pologne":[90.76,91.82,92.88,93.58,93.76,93.81,93.6,93.64,93.48,93.81,94.4,94.53,94.89,95.17,95.4,96.35,96.4,96.56,97.35,97.42,97.46,97.81,98.13,98.16,98.98,99.31,99.59,99.94,99.84,99.89,100.17,100.1,100.27,100.58,100.65,100.67,101.41,101.8,102.73,103.3,103.16,102.87,103.32,103.59],"Portugal":[92.48,92.84,94.7,95.93,95.54,95.96,95.59,96.32,97.07,96.65,95.64,94.97,94.81,94.96,97.14,98.17,99.2,98.9,98.15,98.03,99.56,99.2,98.2,97.92,97.37,97.3,98.97,100.25,100.88,100.95,100.6,100.5,101.47,101.16,100.3,100.26,99.24,99.35,101.61,103.58,104.02,104.12,103.76,104.07],"Roumanie":[85.35,86.19,86.92,87.6,88.02,88.43,88.57,89.26,89.99,90.51,90.42,90.62,91.62,92.33,92.74,93.07,93.1,93.16,93.71,93.97,94.35,95.02,95.32,95.56,96.45,97.11,97.45,97.65,98.13,98.55,99.88,101.97,102.48,103.04,103.54,103.78,104.61,105.21,106.18,106.95,107.69,107.63,108.08,108.36],"Slovaquie":[90.49,91.53,92.68,93.25,93.19,93.41,93.19,93.26,93.56,93.74,93.91,93.78,94.49,95.03,95.15,95.51,95.64,95.68,95.99,96.26,96.31,97.04,97.28,96.81,98.51,98.9,99.18,99.28,99.79,100.06,100.42,100.51,100.71,100.81,101.09,100.75,102.73,102.85,102.86,103.38,103.75,103.56,103.64,103.6],"Slovénie":[92.7,93.26,93.76,94.73,95.58,96.48,96.52,96.72,97.38,97.72,96.91,96.37,95.83,96.41,96.95,97.59,97.98,98.02,97.85,97.82,98.01,97.77,98.42,98.3,98.04,98.23,99.05,99.87,99.82,100.46,100.72,100.72,100.71,100.78,100.76,100.83,100.35,101.0,101.45,103.31,103.66,104.15,103.79,104.11],"Espagne":[92.16,93.03,94.01,94.44,94.31,94.85,94.78,95.29,95.84,96.09,95.58,95.59,95.4,95.77,97.06,97.65,97.87,98.26,97.52,97.55,97.46,97.84,97.87,98.3,98.15,98.54,99.22,99.84,99.81,100.49,100.15,100.18,100.42,100.95,100.96,101.29,100.53,100.96,102.64,103.36,103.45,104.08,104.06,104.74],"Suède":[93.55,94.45,94.87,95.06,95.13,96.09,95.91,95.74,96.1,96.17,96.35,97.0,96.75,96.95,97.07,97.33,97.49,97.4,97.55,96.98,97.29,97.74,98.31,98.57,98.69,99.69,99.12,99.35,99.7,100.27,100.58,100.26,100.42,100.81,100.51,100.6,100.65,101.34,100.58,99.86,100.83,101.23,100.85,100.52]},"meta":{"eurostat":"2026-09-17","updated":"2026-09-29"}}</script>
 <script>
 (function(){
-var PAGES="https://maxson1502.github.io/prix-tabac-ue/";
 var MN=["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
 var MF=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
 var DASH=[[],[8,4],[2,3],[10,3,2,3],[5,5]],NC=8;
 var DEFAULT=["Belgique","France","Pays-Bas","Allemagne","Luxembourg"];
 var POSTE={cig:"cigarettes",tob:"tabac"};
 var FXC={"Suède":1,"Danemark":1,"Tchéquie":1,"Hongrie":1,"Pologne":1,"Roumanie":1};
-var EC,H,SRC,NAMES,D,AVG,REL,NR,LAST,X,DATES,SHORT,LONG,LBL,PY,CHG,NUPD,LAB,ML,NM,AY,AYR,ANC,EST,EAVG,S;
+var EC,H,SRC,NAMES,D,AVG,REL,NR,LAST,X,DATES,SHORT,LONG,LBL,PY,CHG,NUPD,LAB,ML,NM,AYR,ANC,ANCK,EXC,CONV,EST,EAVG,S,LEG,UPD;
 
 function $(id){return document.getElementById(id);}
 function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
@@ -259,11 +378,14 @@ function fp(x){var p=x*100;if(Math.abs(p)<0.05)return "0,0 %";return (p>0?"+":"�
 function fpt(x){var p=x*100;if(Math.abs(p)<0.05)return "0,0 pt";return (p>0?"+":"−")+Math.abs(p).toFixed(1).replace(".",",")+" pts";}
 function ord(n,f){return n+"<sup>"+(n===1?(f?"re":"er"):"e")+"</sup>";}
 function num(v,d){return v.toFixed(d).replace(".",",");}
-function star(k){return FXC[k]?k+"*":k;}
+function star(k){return k+(FXC[k]?"*":"")+(EXC&&EXC.indexOf(k)>=0?"‡":"");}
 function swHTML(s){return s?'<span class="sw on"><svg width="18" height="10" aria-hidden="true"><line x1="0" y1="5" x2="18" y2="5" stroke="'+s.c+'" stroke-width="3" stroke-dasharray="'+s.d.join(" ")+'"/></svg></span>':'<span class="sw"></span>';}
 function byFr(a,b){return a.localeCompare(b,"fr");}
 function listFr(a){return a.length<2?a.join(""):a.slice(0,-1).join(", ")+" et "+a[a.length-1];}
 function frIso(s){if(!s)return "";var p=s.split("-");return (+p[2]===1?"1er":+p[2])+" "+MF[+p[1]-1]+" "+p[0];}
+function frShort(s){if(!s)return "";var p=s.split("-");return p[2]+"/"+p[1]+"/"+p[0];}
+function norm(s){return s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();}
+function slug(s){return norm(s).replace(/[^a-z0-9]+/g,"");}
 
 /* ---------- Commission releases: any number, derived from ec.releases ---------- */
 function partial(j){return j>0&&NUPD[j]*2<=NAMES.length;}
@@ -290,27 +412,42 @@ function initEC(){
     LAB.push(l);
   });
 }
-/* monthly € estimates: average price of year AYR (latest July release) × index / average index of AYR */
+/* monthly € estimates, per country: average price of year Y (July release of Y+1) × index / average index of Y.
+   Each country is anchored on the latest July release whose declared reference year follows its usual convention
+   (release year − 1 for almost every country; Portugal always declares the release year itself). A release that
+   breaks the convention (Belgium, July 2026: year 2026) is not an annual average of Y, so the previous one is used. */
 function initData(){
   ML=H.months.map(function(s){var y=s.slice(0,4),m=+s.slice(5,7);return {s:MN[m-1]+" "+y.slice(2),l:MN[m-1]+" "+y,f:MF[m-1]+" "+y,m:m};});
   NM=H.months.length;
   function nMonths(y){return H.months.filter(function(s){return +s.slice(0,4)===y;}).length;}
-  ANC=-1;for(var j=LAST;j>=0;j--){if(REL[j].jul&&nMonths(REL[j].y-1)===12){ANC=j;break;}}
-  if(ANC<0)for(j=LAST;j>=0;j--){if(REL[j].jul){ANC=j;break;}}
-  if(ANC<0)ANC=LAST;
-  AYR=REL[ANC].y-(REL[ANC].jul?1:2);
-  AY=[];H.months.forEach(function(s,i){if(+s.slice(0,4)===AYR)AY.push(i);});
-  if(!AY.length)AY=H.months.map(function(_,i){return i;});
-  EST={};
-  NAMES.forEach(function(k){var a=H.cig[k],mu=AY.reduce(function(s,i){return s+a[i];},0)/AY.length;EST[k]=a.map(function(v){return D[k][ANC]*v/mu;});});
+  function mean(a,y){var s=0,n=0;H.months.forEach(function(m,i){if(+m.slice(0,4)===y){s+=a[i];n++;}});return n?s/n:a.reduce(function(t,v){return t+v;},0)/a.length;}
+  var usable=[];for(var j=LAST;j>=0;j--){if(REL[j].jul&&nMonths(REL[j].y-1)===12)usable.push(j);}
+  if(!usable.length)for(j=LAST;j>=0;j--){if(REL[j].jul){usable.push(j);break;}}
+  if(!usable.length)usable.push(LAST);
+  ANC=usable[0];AYR=REL[ANC].y-(REL[ANC].jul?1:2);
+  ANCK={};EXC=[];CONV=[];EST={};
+  NAMES.forEach(function(k){
+    var cnt={},usual=1;
+    REL.forEach(function(r){if(r.jul&&r.year&&r.year[k]){var o=r.y-r.year[k];cnt[o]=(cnt[o]||0)+1;}});
+    Object.keys(cnt).forEach(function(o){if(cnt[o]>(cnt[usual]||0))usual=+o;});
+    if(usual===0)CONV.push(k);
+    var jk=usable.filter(function(i){var r=REL[i],yr=r.year&&r.year[k];return !yr||r.y-yr===usual;})[0];
+    if(jk===undefined)jk=ANC;
+    var Y=REL[jk].y-(REL[jk].jul?1:2),a=H.cig[k],mu=mean(a,Y);
+    ANCK[k]={j:jk,Y:Y};if(jk!==ANC)EXC.push(k);
+    EST[k]=a.map(function(v){return D[k][jk]*v/mu;});
+  });
   EAVG=H.months.map(function(_,t){return NAMES.reduce(function(s,k){return s+EST[k][t];},0)/NAMES.length;});
+}
+/* countries anchored on an earlier release, e.g. "Belgique (prix moyen 2024, relevé de juillet 2025 ; son relevé de juillet 2026 déclare l'année 2026)" */
+function excText(){
+  return EXC.map(function(k){var a=ANCK[k],r=REL[ANC],yr=r.year&&r.year[k];
+    return k+" (prix moyen "+a.Y+", relevé de "+LONG[a.j]+(yr?" ; son relevé de "+LONG[ANC]+" déclare l'année "+yr:"")+")";}).join(", ");
 }
 function fillTexts(){
   var y0=Math.min(REL[0].y,+H.months[0].slice(0,4)),y1=Math.max(REL[LAST].y,+H.months[NM-1].slice(0,4)),yrs=y0+"–"+y1;
-  document.title="Prix du tabac duty paid dans l'UE, "+yrs;$("h1-yrs").textContent=yrs;
-  var b=D["Belgique"],a=H.cig["Belgique"],n=H.cig["Pays-Bas"],nl=D["Pays-Bas"];
-  $("dk-b0").textContent=eur(b[0]);$("dk-b1").textContent=eur(b[LAST]);$("dk-r0").textContent=LONG[0];$("dk-r1").textContent=LONG[LAST];
-  $("dk-be").textContent=fp(a[NM-1]/a[0]-1).replace("+","");$("dk-per").textContent=ML[0].f+" et "+ML[NM-1].f;
+  document.title="Prix du tabac dans l'UE, "+yrs;$("h1-yrs").textContent=yrs;
+  var n=H.cig["Pays-Bas"],nl=D["Pays-Bas"];
   $("nl-e").textContent=fp(nl[LAST]/nl[0]-1);$("nl-eper").textContent=LONG[0]+" à "+LONG[LAST];
   $("nl-v").textContent=fp(n[NM-1]/n[0]-1);$("nl-per").textContent=ML[0].f+" à "+ML[NM-1].f;
   var lj=LAST;while(lj>0&&!REL[lj].jul)lj--;$("nl-py").textContent=REL[lj].y;
@@ -319,9 +456,11 @@ function fillTexts(){
     :"Dans le relevé de "+LONG[LAST]+", les "+NAMES.length+" pays ont été mis à jour. Quand un pays ne l'est pas, sa courbe forme un plateau : absence de nouvelle donnée, pas stabilité des prix.";
   [].forEach.call(document.querySelectorAll(".ay"),function(e){e.textContent=AYR;});
   [].forEach.call(document.querySelectorAll(".ar"),function(e){e.textContent=LONG[ANC];});
+  $("anc-exc").textContent=EXC.length?" Exception"+(EXC.length>1?"s":"")+" : "+excText()+".":"";
+  $("anc-conv").textContent=CONV.length?" Un pays qui déclare toujours l'année du relevé plutôt que celle des ventes (ici : "+listFr(CONV)+") voit son prix de juillet traité comme celui de l'année précédente.":"";
   $("src-ec").textContent=LONG[LAST];
   $("eu-upd").textContent=frIso(H.meta.eurostat);
-  var upd=[EC.updated,H.meta.updated].filter(Boolean).sort().pop();
+  var upd=UPD=[EC.updated,H.meta.updated].filter(Boolean).sort().pop();
   $("compiled").textContent=frIso(upd);
   var st=[
     "Relevés de la Commission : <b>"+NR+" relevés</b>, de "+LONG[0]+" à <b>"+LONG[LAST]+"</b>.",
@@ -330,6 +469,8 @@ function fillTexts(){
   if(SRC!=="live")st.push("<b>Données en ligne injoignables</b> : la page affiche la copie de secours intégrée à la page, peut-être moins récente.");
   $("status").innerHTML=st.map(function(s){return "<li>"+s+"</li>";}).join("");
   $("offline").hidden=SRC==="live";
+  $("stline").textContent="Commission : "+SHORT[LAST]+" · Eurostat : "+ML[NM-1].s+" · mis à jour le "+frShort(upd);
+  $("stline").title="Dernier relevé de la Commission : "+LONG[LAST]+". Dernier mois Eurostat : "+ML[NM-1].f+". Vérification automatique chaque jour.";
 }
 
 /* € releves */
@@ -360,9 +501,14 @@ function syncSel(){
 var VIEWS=["eur","me","m"];
 function setView(v){
   S.view=v;
-  VIEWS.forEach(function(x){$("tab-"+x).setAttribute("aria-selected",x===v?"true":"false");$("ctl-"+x).hidden=x!==v;});
+  VIEWS.forEach(function(x){$("ctl-"+x).hidden=x!==v;var t=$("tab-"+x);t.setAttribute("aria-selected",x===v?"true":"false");t.tabIndex=x===v?0:-1;});
   makeChart();render();
 }
+function openMethod(o){
+  $("method").classList.toggle("open",o);$("scrim").hidden=!o;$("method").setAttribute("aria-hidden",o?"false":"true");
+  if(o)$("close-method").focus();else $("open-method").focus();
+}
+function selectAll(){NAMES.forEach(function(k){if(S.slots.indexOf(k)<0){var j=S.slots.indexOf(null);if(j<0)S.slots.push(k);else S.slots[j]=k;}});render();}
 function setup(){
   DATES.forEach(function(d,i){[s0,s1].forEach(function(s){var o=document.createElement("option");o.value=i;o.textContent=d;s.appendChild(o);});});
   buildMonthOpts();
@@ -378,14 +524,27 @@ function setup(){
   $("ref").onchange=function(){S.ref=$("ref").value;render();};
   [].forEach.call($("poste").children,function(b){b.onclick=function(){S.poste=b.dataset.v;syncSel();render();};});
   [].forEach.call($("mesure").children,function(b){b.onclick=function(){S.mes=b.dataset.v;syncSel();render();};});
-  VIEWS.forEach(function(x){$("tab-"+x).onclick=function(){setView(x);};});
-  NAMES.forEach(function(k){
-    var b=document.createElement("button");b.type="button";b.className="chip";
-    b.innerHTML='<span class="sw"></span>'+k;b.onclick=function(){toggle(k);};
-    $("chips").appendChild(b);btn[k]=b;
-  });
+  VIEWS.forEach(function(x,i){var t=$("tab-"+x);t.onclick=function(){setView(x);};
+    t.onkeydown=function(ev){var d=ev.key==="ArrowRight"?1:ev.key==="ArrowLeft"?-1:0;if(!d)return;ev.preventDefault();var n=VIEWS[(i+d+3)%3];setView(n);$("tab-"+n).focus();};});
   $("reset").onclick=function(){S.slots=DEFAULT.slice();render();};
+  $("all").onclick=selectAll;
+  $("none").onclick=function(){S.slots=[];render();};
+  $("add").onclick=function(){var r=$("rank-card");r.scrollIntoView({behavior:"smooth",block:"center"});r.classList.remove("flash");void r.offsetWidth;r.classList.add("flash");};
   $("avg").onchange=render;
+  $("onlysel").onchange=function(){S.only=$("onlysel").checked;body();};
+  /* key figures: remove a country, or make it the reference of the monthly € view */
+  $("kpis").onclick=function(ev){var b=ev.target.closest("button[data-act]");if(!b)return;
+    if(b.dataset.act==="rm")toggle(b.dataset.k);else{S.ref=b.dataset.k;syncSel();render();}};
+  /* ranking: a click on a bar adds or removes the country */
+  $("rank").onclick=function(ev){var b=ev.target.closest("button[data-k]");if(b)toggle(b.dataset.k);};
+  ["x-csv","x-csv2"].forEach(function(id){$(id).onclick=exportTable;});
+  $("x-xlsx").onclick=exportXLSX;
+  $("x-png").onclick=exportPNG;
+  $("warn").onclick=function(ev){if(!ev.target.closest(".more"))return;var d=$("warn").querySelector(".full"),o=d.hidden;d.hidden=!o;ev.target.textContent=o?"masquer":ev.target.dataset.lbl;};
+  $("open-method").onclick=function(){openMethod(true);};
+  $("close-method").onclick=function(){openMethod(false);};
+  $("scrim").onclick=function(){openMethod(false);};
+  document.addEventListener("keydown",function(ev){if(ev.key==="Escape"&&$("method").classList.contains("open"))openMethod(false);});
 }
 /* no cap on the number of countries: a freed slot is reused first, so the other countries keep their color */
 function toggle(k){
@@ -421,7 +580,11 @@ function makeChart(){
       scales:{
         x:{type:"linear",grid:{display:false},border:{color:rule},
           afterBuildTicks:function(a){
-            if(V==="eur"){a.ticks=X.filter(function(v,i){return i>=S.p0&&i<=S.p1;}).map(function(v){return {value:v};});return;}
+            if(V==="eur"){
+              /* one tick per release, dropping those closer than ~56 px to the next kept one (the last is always kept) */
+              var span=Math.max(1,X[S.p1]-X[S.p0]),px=a.chart.width*0.86/span,kept=[],prev=null;
+              for(var j=S.p1;j>=S.p0;j--){if(prev===null||(prev-X[j])*px>=56){kept.unshift({value:X[j]});prev=X[j];}}
+              a.ticks=kept;return;}
             var st=mStep(a.chart.width),t=[];for(var i=S.m0;i<=S.m1;i++){if((ML[i].m-1)%st===0)t.push({value:i});}
             if(t.length<2)t=[{value:S.m0},{value:S.m1}];a.ticks=t;},
           ticks:{color:tick,font:font,maxRotation:0,autoSkip:false,callback:function(v){
@@ -434,14 +597,26 @@ function makeChart(){
 
 /* tables */
 function mCells(k){var c=mVar(k,"cig",true),t=mVar(k,"tob",true),g=mVar(k,"tot",true),p=S.poste==="cig"?c:t;return [c,t,g,p-g];}
-function meCells(k){var a=k==="__avg"?EAVG:EST[k],r=EST[S.ref],p0=a[S.m0],p1=a[S.m1];return [p0,p1,p1-p0,p1/p0-1,p0-r[S.m0],p1-r[S.m1]];}
+/* last crossing with the reference country within the period (month index, or -1) */
+function meCells(k){var a=k==="__avg"?EAVG:EST[k],r=EST[S.ref],p0=a[S.m0],p1=a[S.m1],c=k===S.ref?null:cross(a);
+  return [p0,p1,p1-p0,p1/p0-1,p0-r[S.m0],p1-r[S.m1],c===null?-1:c];}
+function cols(){
+  var V=S.view;
+  if(V==="eur")return ["Pays"].concat(DATES).concat(["Var. "+SHORT[S.p0]+" → "+SHORT[S.p1]]);
+  if(V==="m")return ["Pays","Cigarettes","Tabac","Inflation générale","Écart "+POSTE[S.poste]+" − inflation"];
+  return ["Pays","Prix "+ML[S.m0].s,"Prix "+ML[S.m1].s,"Var. €","Var. %","Écart vs "+S.ref+" "+ML[S.m0].s,"Écart vs "+S.ref+" "+ML[S.m1].s,"Croise "+S.ref+" depuis"];
+}
+function cellVal(k,i){var V=S.view;if(V==="eur")return i===NR+1?eVar(D[k]):D[k][i-1];if(V==="m")return mCells(k)[i-1];return meCells(k)[i-1];}
+/* table rows: current sort, optionally restricted to the selected countries */
+function rowsSorted(){
+  var sk=S.sort[S.view];
+  return NAMES.filter(function(k){return !S.only||S.slots.indexOf(k)>=0;}).sort(function(a,b){
+    if(sk[0]===0)return sk[1]*a.localeCompare(b,"fr");return sk[1]*(cellVal(a,sk[0])-cellVal(b,sk[0]))||a.localeCompare(b,"fr");});
+}
 function head(){
-  var V=S.view,sk=S.sort[V],cols;
-  if(V==="eur")cols=["Pays"].concat(DATES).concat(["Var. "+SHORT[S.p0]+" → "+SHORT[S.p1]]);
-  else if(V==="m")cols=["Pays","Cigarettes","Tabac","Inflation générale","Écart "+POSTE[S.poste]+" − inflation"];
-  else cols=["Pays","Prix "+ML[S.m0].s,"Prix "+ML[S.m1].s,"Var. €","Var. %","Écart vs "+S.ref+" "+ML[S.m0].s,"Écart vs "+S.ref+" "+ML[S.m1].s];
+  var V=S.view,sk=S.sort[V],cl=cols();
   var h=$("thead");h.innerHTML="";
-  cols.forEach(function(c,i){
+  cl.forEach(function(c,i){
     var th=document.createElement("th"),b=document.createElement("button");b.type="button";
     b.textContent=c+(sk[0]===i?(sk[1]>0?" ↑":" ↓"):"");
     if(V==="eur"&&i>=1&&i<=NR){var sp=document.createElement("span");sp.className="sub";sp.textContent=PY[i-1];b.appendChild(sp);}
@@ -449,7 +624,7 @@ function head(){
     b.onclick=function(){if(sk[0]===i){sk[1]=-sk[1];}else{sk[0]=i;sk[1]=i===0?1:-1;}head();body();};
     th.appendChild(b);h.appendChild(th);
   });
-  var tips=" Cliquez sur un en-tête pour trier, sur une ligne pour ajouter ou retirer le pays du graphique.";
+  var tips=" Tri : cliquez sur un en-tête. Clic sur une ligne : ajoute ou retire le pays du graphique.";
   if(V==="eur"){
     var pj=[],oj=[];for(var j=1;j<NR;j++){if(partial(j)){if(NUPD[j])pj.push(LONG[j]);}else if(NUPD[j]<NAMES.length)oj.push(LONG[j]);}
     $("thint").textContent="Prix en euros par paquet de 20. Sous chaque relevé, l'année des prix qu'il reflète."
@@ -461,22 +636,21 @@ function head(){
     $("thint").textContent="Variation des indices entre "+ML[S.m0].l+" et "+ML[S.m1].l+", en prix courants."+tips;
     var v=mCells("UE-27");$("tfoot").innerHTML="<td>UE-27 (agrégat Eurostat)</td><td>"+fp(v[0])+"</td><td>"+fp(v[1])+"</td><td>"+fp(v[2])+"</td><td>"+fpt(v[3])+"</td>";
   }else{
-    $("thint").textContent="Prix estimés en euros par paquet de 20. * Hors zone euro : taux de change constant."+tips;
-    var a=meCells("__avg");$("tfoot").innerHTML="<td>Moyenne UE-27</td><td>"+eur(a[0])+"</td><td>"+eur(a[1])+"</td><td>"+eurS(a[2])+"</td><td>"+fp(a[3])+"</td><td>"+eurS(a[4])+"</td><td>"+eurS(a[5])+"</td>";
+    $("thint").textContent="Prix estimés en euros par paquet de 20. * Hors zone euro : taux de change constant."+(EXC.length?" ‡ Ancrage sur un relevé antérieur : "+excText()+".":"")+tips;
+    var a=meCells("__avg");$("tfoot").innerHTML="<td>Moyenne UE-27</td><td>"+eur(a[0])+"</td><td>"+eur(a[1])+"</td><td>"+eurS(a[2])+"</td><td>"+fp(a[3])+"</td><td>"+eurS(a[4])+"</td><td>"+eurS(a[5])+"</td><td>"+(a[6]>=0?ML[a[6]].s:"—")+"</td>";
   }
 }
 function body(){
-  var P=pal(),V=S.view,sk=S.sort[V],rows=NAMES.slice();
-  function val(k,i){if(V==="eur")return i===NR+1?eVar(D[k]):D[k][i-1];if(V==="m")return mCells(k)[i-1];return meCells(k)[i-1];}
-  rows.sort(function(a,b){if(sk[0]===0)return sk[1]*a.localeCompare(b,"fr");return sk[1]*(val(a,sk[0])-val(b,sk[0]))||a.localeCompare(b,"fr");});
+  var P=pal(),V=S.view,rows=rowsSorted();
   var tb=$("tbody");tb.innerHTML="";
+  if(!rows.length)tb.innerHTML='<tr class="empty"><td colspan="'+cols().length+'">Aucun pays sélectionné. Décochez « Sélection seulement » ou choisissez des pays dans la colonne de gauche.</td></tr>';
   rows.forEach(function(k){
     var i=S.slots.indexOf(k),tr=document.createElement("tr");if(i>=0)tr.className="on";
     var sw=swHTML(i>=0?sty(P,i):null),cells,name=k;
     if(V==="eur"){cells=D[k].map(function(v,j){var m=mark(j,k);return "<td"+(j<S.p0||j>S.p1?' class="out"':"")+">"+eur(v)+(m?"&thinsp;"+m:"")+"</td>";}).join("")+"<td>"+fp(eVar(D[k]))+"</td>";}
     else if(V==="m"){var c4=mCells(k);cells="<td>"+fp(c4[0])+"</td><td>"+fp(c4[1])+"</td><td>"+fp(c4[2])+"</td><td>"+fpt(c4[3])+"</td>";}
     else{var e=meCells(k),isR=k===S.ref;name=star(k)+(isR?" (réf.)":"");
-      cells="<td>"+eur(e[0])+"</td><td>"+eur(e[1])+"</td><td>"+eurS(e[2])+"</td><td>"+fp(e[3])+"</td><td>"+(isR?"—":eurS(e[4]))+"</td><td>"+(isR?"—":eurS(e[5]))+"</td>";}
+      cells="<td>"+eur(e[0])+"</td><td>"+eur(e[1])+"</td><td>"+eurS(e[2])+"</td><td>"+fp(e[3])+"</td><td>"+(isR?"—":eurS(e[4]))+"</td><td>"+(isR?"—":eurS(e[5]))+"</td><td>"+(e[6]>=0?ML[e[6]].s:"—")+"</td>";}
     tr.innerHTML='<td><span class="cn">'+sw+name+"</span></td>"+cells;
     tr.tabIndex=0;tr.onclick=function(){toggle(k);};
     tr.onkeydown=function(ev){if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();toggle(k);}};
@@ -485,65 +659,294 @@ function body(){
 }
 
 /* render */
+/* one-line note above the chart; the full text (e.g. the list of updated countries) unfolds on demand */
+function note(short,full,more){
+  var w=$("warn");
+  if(!short){w.innerHTML="";return;}
+  w.innerHTML="<span>"+short+"</span>"+(full?' <button type="button" class="more" data-lbl="'+more+'">'+more+'</button><span class="full" hidden>'+full+"</span>":"");
+}
+function chgHTML(x,since){
+  if(x===null||x===undefined)return "";
+  var cl=Math.abs(x)<0.0005?"flat":x>0?"up":"down",ar=cl==="flat"?"=":cl==="up"?"▲":"▼";
+  return '<div class="chg '+cl+'"><span aria-hidden="true">'+ar+"</span> "+fp(x)+(since?" <span>"+since+"</span>":"")+"</div>";
+}
+/* key figures: one card per displayed series; the card is also the legend (line sample) */
+function renderKPIs(items){
+  var V=S.view;
+  $("kpis").innerHTML=items.length?items.map(function(o){
+    var ln='<svg width="22" height="8" aria-hidden="true"><line x1="0" y1="4" x2="22" y2="4" stroke="'+o.c+'" stroke-width="3" stroke-dasharray="'+o.d.join(" ")+'"/></svg>';
+    var ctl=o.key?'<button type="button" class="x" data-act="rm" data-k="'+o.key+'" aria-label="Retirer '+o.key+'" title="Retirer du graphique">×</button>':"";
+    var ref=V==="me"&&o.key?(o.key===S.ref?'<span class="refb on">Référence</span>':'<button type="button" class="refb" data-act="ref" data-k="'+o.key+'">Prendre comme référence</button>'):"";
+    return '<article class="kpi'+(o.key?"":" avg")+'" style="--c:'+o.c+'"><div class="kh">'+ln+'<span class="nm">'+o.k+"</span>"+ctl+'</div><div class="val">'+o.big+"</div>"
+      +chgHTML(o.chg,o.since)+'<div class="ctx">'+o.ctx+"</div>"+ref+"</article>";}).join("")
+    :'<p class="kpi-empty">Aucun pays affiché : cliquez sur un pays du classement pour l\'ajouter au graphique.</p>';
+}
+/* ranking of the 27 countries at the end of the period; a click on a bar adds or removes the country */
+function rankData(){
+  var V=S.view,v={};
+  if(V==="eur"){NAMES.forEach(function(k){v[k]=D[k][S.p1];});return {v:v,avg:AVG[S.p1],fmt:eur,title:"Classement · "+LONG[S.p1],unit:"Prix moyen du paquet"};}
+  if(V==="me"){NAMES.forEach(function(k){v[k]=EST[k][S.m1];});return {v:v,avg:EAVG[S.m1],fmt:eur,title:"Classement · "+ML[S.m1].f,unit:"Prix estimé du paquet"};}
+  NAMES.forEach(function(k){v[k]=mVar(k,S.poste);});
+  return {v:v,avg:mVar("UE-27",S.poste),fmt:fp,title:"Hausse · "+ML[S.m0].s+" → "+ML[S.m1].s,unit:"Variation de l'indice"+(S.mes==="real"?", hors inflation":"")};
+}
+function renderRank(){
+  var P=pal(),r=rankData(),V=S.view,ks=NAMES.slice().sort(function(a,b){return r.v[b]-r.v[a];});
+  var all=ks.map(function(k){return r.v[k];}).concat([r.avg]),lo=Math.min(0,Math.min.apply(null,all)),hi=Math.max(0,Math.max.apply(null,all)),span=hi-lo||1;
+  function pos(x){return (x-lo)/span*100;}
+  $("rank-title").textContent=r.title;$("rank-unit").textContent=r.unit+" · moyenne UE "+r.fmt(r.avg);
+  $("rank").innerHTML=ks.map(function(k,n){
+    var i=S.slots.indexOf(k),on=i>=0,x=r.v[k],l=pos(Math.min(0,x)),w=Math.abs(x)/span*100,m=V==="eur"?mark(S.p1,k):"";
+    return '<button type="button" class="rk'+(on?" on":"")+'" data-k="'+k+'" aria-pressed="'+on+'" title="'+(on?"Retirer ":"Ajouter ")+k+(on?" du":" au")+' graphique">'
+      +'<span class="rk-i">'+(n+1)+'</span><span class="rk-n">'+(V==="me"?star(k):k)+'</span>'
+      +'<span class="rk-t"><i style="left:'+l.toFixed(2)+"%;width:"+w.toFixed(2)+"%"+(on?";background:"+sty(P,i).c:"")+'"></i><b style="left:'+pos(r.avg).toFixed(2)+'%"></b></span>'
+      +'<span class="rk-v">'+r.fmt(x)+(m?"&thinsp;"+m:"")+"</span></button>";}).join("");
+}
 function render(){
   var P=pal(),n=S.slots.filter(Boolean).length,many=n>10,avgOn=$("avg").checked,V=S.view,ac=css("--avg");
-  $("count").textContent=n===0?"Aucun pays sélectionné : cliquez sur un pays ci-dessous ou dans le tableau.":n+(n>1?" pays sélectionnés":" pays sélectionné")+". Cliquez sur un pays pour l'ajouter ou le retirer.";
-  $("avglab").textContent=V==="m"?"UE-27":"Moyenne UE-27";
-  NAMES.forEach(function(k){var i=S.slots.indexOf(k),b=btn[k];
-    b.setAttribute("aria-pressed",i>=0?"true":"false");b.innerHTML=swHTML(i>=0?sty(P,i):null)+k;});
+  $("count").textContent=n+" pays affiché"+(n>1?"s":"")+" sur "+NAMES.length;
+  $("avglab").textContent=V==="m"?"Agrégat UE-27":"Moyenne UE-27";
   var ds=[],items=[];
   function line(k,i,data,pts){var s=sty(P,i);return {label:k,data:data,borderColor:s.c,backgroundColor:s.c,borderDash:s.d,borderWidth:many?1.75:2.5,
     pointRadius:pts?(many?3:4):0,pointHoverRadius:5,pointBorderColor:css("--surface"),pointBorderWidth:2,tension:0};}
   function avgLine(label,data,pts){return {label:label,data:data,borderColor:ac,backgroundColor:ac,borderDash:[3,3],borderWidth:1.5,pointRadius:pts?2.5:0,pointHoverRadius:4,tension:0};}
   function mser(a,scale){var o=[],b=a[S.m0];for(var j=S.m0;j<=S.m1;j++)o.push({x:j,y:scale?a[j]/b*100:a[j]});return o;}
   if(V==="eur"){
-    var eser=function(v){var o=[];for(var j=S.p0;j<=S.p1;j++)o.push({x:X[j],y:v[j]});return o;},R=eRank(),p1=S.p1;
+    var eser=function(v){var o=[];for(var j=S.p0;j<=S.p1;j++)o.push({x:X[j],y:v[j]});return o;},R=eRank(),p1=S.p1,since="depuis "+SHORT[S.p0];
     $("ptitle").textContent="Prix moyen d'un paquet de 20, en euros (relevés de la Commission)";
     var still=NAMES.filter(function(k){return D[k][S.p1]===D[k][S.p0];}).length;
     var w=[],up=NAMES.filter(function(k){return CHG[p1][k];}),no=NAMES.filter(function(k){return !CHG[p1][k];});
     if(!up.length)w.push("Relevé de "+LONG[p1]+" : aucun pays mis à jour depuis "+LONG[p1-1]+".");
     else if(partial(p1))w.push("Relevé de "+LONG[p1]+" : "+(up.length===1?"seul 1 pays sur "+NAMES.length+" a été mis à jour ("+up[0]+", marqué †)":"seuls "+up.length+" pays sur "+NAMES.length+" ont été mis à jour ("+listFr(up)+", marqués †)")
-      +" ; les "+no.length+" autres restent à leur "+prevLab(p1)+". Pour comparer les pays entre eux à une même date, utilisez l'onglet « Mensuel en € (estimé) ».");
+      +" ; les "+no.length+" autres restent à leur "+prevLab(p1)+". Pour comparer les pays entre eux à une même date, utilisez la vue « Prix mensuel estimé ».");
     else if(no.length)w.push("Relevé de "+LONG[p1]+" : "+up.length+" pays sur "+NAMES.length+" ont été mis à jour ; pas de nouvelle donnée pour "+listFr(no)+" (valeur identique au relevé précédent, marquée °).");
     if(still)w.push("Sur cette période, "+still+" pays sur "+NAMES.length+" n'ont pas de nouvelle donnée : leur variation est nulle par construction.");
-    $("warn").textContent=w.join(" ");
+    note(up.length?up.length+" pays sur "+NAMES.length+" mis à jour dans le relevé de "+LONG[p1]:"Relevé de "+LONG[p1]+" : aucun pays mis à jour",
+      w.join(" "),partial(p1)?"voir lesquels":no.length?"voir les pays non mis à jour":"détails");
     S.slots.forEach(function(k,i){if(!k)return;var s=sty(P,i),m=mark(p1,k);
       ds.push(line(k,i,eser(D[k]),true));
-      items.push({k:k,c:s.c,d:s.d,big:eur(D[k][p1]),sub:fp(eVar(D[k]))+" depuis "+SHORT[S.p0]+", "+(partial(p1)?(m?"valeur mise à jour †":LAB[p1][k]):m?"pas de nouvelle donnée °":ord(R[k])+" plus cher sur "+NAMES.length),o:D[k][p1]});});
-    if(avgOn){ds.push(avgLine("Moyenne UE-27",eser(AVG),true));items.push({k:"Moyenne UE-27",c:ac,d:[3,3],big:eur(AVG[p1]),sub:fp(eVar(AVG))+" depuis "+SHORT[S.p0],o:AVG[p1]});}
+      items.push({key:k,k:k,c:s.c,d:s.d,big:eur(D[k][p1]),chg:eVar(D[k]),since:since,
+        ctx:partial(p1)?(m?"valeur mise à jour †":LAB[p1][k]):m?"pas de nouvelle donnée °":ord(R[k])+" plus cher sur "+NAMES.length,o:D[k][p1]});});
+    if(avgOn){ds.push(avgLine("Moyenne UE-27",eser(AVG),true));items.push({k:"Moyenne UE-27",c:ac,d:[3,3],big:eur(AVG[p1]),chg:eVar(AVG),since:since,ctx:"moyenne simple des 27 pays",o:AVG[p1]});}
     chart.options.scales.x.min=X[S.p0];chart.options.scales.x.max=X[p1];
   }else if(V==="me"){
-    var R2=meRank(),ref=S.ref,rA=EST[ref];
+    var R2=meRank(),ref=S.ref,rA=EST[ref],since2="depuis "+ML[S.m0].s;
     $("ptitle").textContent="Prix mensuel estimé d'un paquet de 20 cigarettes, en euros";
-    $("warn").textContent="Estimation : prix moyen "+AYR+" publié par la Commission, prolongé mois par mois par l'indice des prix des cigarettes d'Eurostat. Méthode et limites en bas de page.";
-    function gapTxt(a){var g0=a[S.m0]-rA[S.m0],g1=a[S.m1]-rA[S.m1],c=cross(a),s=eurS(g1)+" vs "+ref+" ("+ML[S.m0].s+" : "+eurS(g0)+")";
-      if(c!==null)s+="<br>"+(g1>0?"au-dessus":"en dessous")+" de la référence depuis "+ML[c].l;return s;}
+    note("Estimation à partir du prix moyen "+AYR+" publié par la Commission"+(EXC.length?" (‡ "+EXC.map(function(k){return k+" : "+ANCK[k].Y;}).join(", ")+")":""),
+      "Prix moyen "+AYR+" publié par la Commission"+(EXC.length?" ("+EXC.map(function(k){return ANCK[k].Y+" pour "+k;}).join(", ")+", marqué ‡)":"")+", prolongé mois par mois par l'indice des prix des cigarettes d'Eurostat. Détails dans « Méthode ».","comment ?");
+    function gapTxt(a){var g1=a[S.m1]-rA[S.m1],c=cross(a),s=eurS(g1)+" vs "+ref;
+      if(c!==null)s+=" · "+(g1>0?"au-dessus":"en dessous")+" depuis "+ML[c].s;return s;}
     S.slots.forEach(function(k,i){if(!k)return;var a=EST[k],s=sty(P,i);ds.push(line(k,i,mser(a),false));
-      items.push({k:star(k),c:s.c,d:s.d,big:eur(a[S.m1]),sub:k===ref?"référence, "+ord(R2[k])+" plus cher sur "+NAMES.length:gapTxt(a),o:a[S.m1]});});
-    if(avgOn){ds.push(avgLine("Moyenne UE-27",mser(EAVG),false));items.push({k:"Moyenne UE-27",c:ac,d:[3,3],big:eur(EAVG[S.m1]),sub:gapTxt(EAVG),o:EAVG[S.m1]});}
+      items.push({key:k,k:star(k),c:s.c,d:s.d,big:eur(a[S.m1]),chg:a[S.m1]/a[S.m0]-1,since:since2,ctx:k===ref?ord(R2[k])+" plus cher sur "+NAMES.length:gapTxt(a),o:a[S.m1]});});
+    if(avgOn){ds.push(avgLine("Moyenne UE-27",mser(EAVG),false));items.push({k:"Moyenne UE-27",c:ac,d:[3,3],big:eur(EAVG[S.m1]),chg:EAVG[S.m1]/EAVG[S.m0]-1,since:since2,ctx:gapTxt(EAVG),o:EAVG[S.m1]});}
     chart.options.scales.x.min=S.m0;chart.options.scales.x.max=S.m1;
   }else{
     var R3=mRank();
     $("ptitle").textContent="Indice des prix "+(S.poste==="cig"?"des cigarettes":"du tabac")+(S.mes==="real"?", hors inflation générale":"")+", base 100 = "+ML[S.m0].l;
-    $("warn").textContent="";
-    var pre=S.mes==="real"?"hors inflation, ":"";
+    note("");
+    var pre=S.mes==="real"?"hors inflation · ":"";
     S.slots.forEach(function(k,i){if(!k)return;var v=mVar(k,S.poste),s=sty(P,i);ds.push(line(k,i,mser(mRaw(k),true),false));
-      items.push({k:k,c:s.c,d:s.d,big:fp(v),sub:pre+ord(R3[k],true)+" plus forte hausse sur "+NAMES.length,o:v});});
-    if(avgOn){var va=mVar("UE-27",S.poste);ds.push(avgLine("UE-27",mser(mRaw("UE-27"),true),false));items.push({k:"UE-27",c:ac,d:[3,3],big:fp(va),sub:pre+"agrégat Eurostat",o:va});}
+      items.push({key:k,k:k,c:s.c,d:s.d,big:fp(v),ctx:pre+ord(R3[k],true)+" plus forte hausse sur "+NAMES.length,o:v});});
+    if(avgOn){var va=mVar("UE-27",S.poste);ds.push(avgLine("UE-27",mser(mRaw("UE-27"),true),false));items.push({k:"UE-27",c:ac,d:[3,3],big:fp(va),ctx:pre+"agrégat Eurostat",o:va});}
     chart.options.scales.x.min=S.m0;chart.options.scales.x.max=S.m1;
   }
   chart.data.datasets=ds;chart.update();
   items.sort(function(a,b){return b.o-a.o;});
-  $("sel").innerHTML=items.map(function(o){
-    var ln='<svg width="20" height="6" aria-hidden="true"><line x1="0" y1="3" x2="20" y2="3" stroke="'+o.c+'" stroke-width="2.5" stroke-dasharray="'+o.d.join(" ")+'"/></svg>';
-    return '<div><div class="n">'+ln+o.k+'</div><div class="v">'+o.big+'</div><div class="d">'+o.sub+"</div></div>";}).join("");
+  LEG=items;
+  renderKPIs(items);renderRank();
   head();body();
+}
+
+/* ---------- exports: table and chart series as CSV (Excel-friendly: ";" and decimal comma), chart as PNG ---------- */
+function csvNum(v,d){return v.toFixed(d).replace(".",",");}
+function csvCell(s){s=String(s);return /[;"\r\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;}
+function download(name,blob){
+  var u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;
+  document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(u);a.remove();},1500);
+}
+function saveCSV(name,rows){
+  download(name,new Blob(["﻿"+rows.map(function(r){return r.map(csvCell).join(";");}).join("\r\n")+"\r\n"],{type:"text/csv;charset=utf-8"}));
+}
+function fileBase(){
+  var V=S.view,v=V==="eur"?"releves-eur":V==="me"?"mensuel-eur":"indice-"+(S.poste==="cig"?"cigarettes":"tabac")+(S.mes==="real"?"-hors-inflation":"");
+  return "prix-tabac_"+v+"_"+(V==="eur"?slug(SHORT[S.p0])+"-"+slug(SHORT[S.p1]):slug(ML[S.m0].s)+"-"+slug(ML[S.m1].s));
+}
+function periodText(){return S.view==="eur"?"Relevés de "+LONG[S.p0]+" à "+LONG[S.p1]:ML[S.m0].f+" à "+ML[S.m1].f;}
+function sourceText(){
+  var s=S.view==="eur"?"Commission européenne (DG TAXUD, base TEDB)":S.view==="me"?"Commission européenne (base TEDB) et Eurostat (prc_hicp_minr), estimation":"Eurostat (prc_hicp_minr)";
+  return "Source : "+s+" · données au "+frShort(UPD);
+}
+function exportTable(){
+  var V=S.view,out=[],rows=rowsSorted(),row;
+  if(V==="eur"){
+    out.push(["Pays"].concat(DATES.map(function(d,j){return d+" (€, "+PY[j]+")";})).concat(["Var. "+SHORT[S.p0]+" → "+SHORT[S.p1]+" (%)"]));
+    row=function(name,v){return [name].concat(v.map(function(x){return csvNum(x,2);})).concat([csvNum(eVar(v)*100,1)]);};
+    rows.forEach(function(k){out.push(row(k,D[k]));});out.push(row("Moyenne UE-27",AVG));
+  }else if(V==="m"){
+    out.push(["Pays","Cigarettes (%)","Tabac (%)","Inflation générale (%)","Écart "+POSTE[S.poste]+" − inflation (pts)"]);
+    row=function(name,c){return [name].concat(c.map(function(x){return csvNum(x*100,1);}));};
+    rows.forEach(function(k){out.push(row(k,mCells(k)));});out.push(row("UE-27 (agrégat Eurostat)",mCells("UE-27")));
+  }else{
+    out.push(["Pays","Prix "+ML[S.m0].l+" (€)","Prix "+ML[S.m1].l+" (€)","Var. (€)","Var. (%)","Écart vs "+S.ref+" "+ML[S.m0].l+" (€)","Écart vs "+S.ref+" "+ML[S.m1].l+" (€)","Croise "+S.ref+" depuis"]);
+    row=function(name,e,isR){return [name,csvNum(e[0],2),csvNum(e[1],2),csvNum(e[2],2),csvNum(e[3]*100,1),isR?"":csvNum(e[4],2),isR?"":csvNum(e[5],2),e[6]>=0?ML[e[6]].l:""];};
+    rows.forEach(function(k){out.push(row(star(k),meCells(k),k===S.ref));});out.push(row("Moyenne UE-27",meCells("__avg"),false));
+  }
+  saveCSV(fileBase()+".csv",out);
+}
+/* PNG: title, period, the chart as drawn, a legend (line sample + name + value) and the source, on the page background */
+function exportPNG(){
+  var src=chart.canvas,r=src.width/chart.width,W=src.width,pad=Math.round(20*r),fam=css("--font"),leg=LEG||[];
+  var lh=Math.round(22*r),colW=Math.round(185*r),per=Math.max(1,Math.floor((W-2*pad)/colW)),nr=Math.ceil(leg.length/per);
+  var top=Math.round(56*r),legH=nr*lh+Math.round(10*r),foot=Math.round(28*r);
+  var c=document.createElement("canvas"),g=c.getContext("2d");c.width=W;c.height=top+src.height+legH+foot;
+  g.fillStyle=css("--surface");g.fillRect(0,0,c.width,c.height);
+  g.textBaseline="top";g.fillStyle=css("--ink");g.font="600 "+Math.round(16*r)+"px "+fam;g.fillText($("ptitle").textContent,pad,Math.round(14*r));
+  g.fillStyle=css("--muted");g.font=Math.round(12*r)+"px "+fam;g.fillText(periodText(),pad,Math.round(36*r));
+  g.drawImage(src,0,top);
+  leg.forEach(function(o,i){
+    var x=pad+(i%per)*colW,y=top+src.height+Math.round(6*r)+Math.floor(i/per)*lh+lh/2;
+    g.save();g.strokeStyle=o.c;g.lineWidth=2.5*r;g.setLineDash(o.d.map(function(v){return v*r;}));
+    g.beginPath();g.moveTo(x,y);g.lineTo(x+20*r,y);g.stroke();g.restore();
+    g.fillStyle=css("--ink");g.font=Math.round(12*r)+"px "+fam;g.textBaseline="middle";g.fillText(o.k+"  "+o.big,x+27*r,y);
+  });
+  g.fillStyle=css("--muted");g.font=Math.round(11*r)+"px "+fam;g.textBaseline="bottom";g.fillText(sourceText(),pad,c.height-Math.round(10*r));
+  c.toBlob(function(b){download(fileBase()+".png",b);},"image/png");
+}
+
+/* ---------- Excel export (.xlsx): a real, editable Excel line chart + the series + the table + the sources ----------
+   Office Open XML written by hand and packed with a small "stored" ZIP writer: no external library. */
+var XL_PAL=["2266C8","D9602B","128A6C","B8860B","6446C8","C23B80","1E8FB5","9A5518"],XL_DASH=["solid","dash","sysDot","dashDot","sysDash"];
+function xlSty(i){var c=i%NC;return {c:XL_PAL[c],d:XL_DASH[(c+Math.floor(i/NC))%XL_DASH.length]};}
+function xlEsc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function colL(n){var s="";n++;while(n>0){var m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=Math.floor((n-1)/26);}return s;}
+/* series shown in the chart: categories (dates) and one column per country (+ EU average) */
+function seriesData(){
+  var V=S.view,ks=[],ix=[],cat=[],t,lo,hi,get;
+  S.slots.forEach(function(k,i){if(k){ks.push(k);ix.push(i);}});
+  if(V==="eur"){lo=S.p0;hi=S.p1;get=function(a,t){return a[t];};}
+  else{lo=S.m0;hi=S.m1;get=V==="me"?function(a,t){return a[t];}:function(a,t){return a[t]/a[S.m0]*100;};}
+  for(t=lo;t<=hi;t++)cat.push(V==="eur"?DATES[t]:ML[t].l);
+  function vals(a){var o=[];for(var t=lo;t<=hi;t++)o.push(get(a,t));return o;}
+  var ser=ks.map(function(k,j){var s=xlSty(ix[j]);return {name:V==="me"?star(k):k,c:s.c,d:s.d,v:vals(V==="eur"?D[k]:V==="me"?EST[k]:mRaw(k))};});
+  if($("avg").checked)ser.push({name:V==="m"?"UE-27 (agrégat Eurostat)":"Moyenne UE-27",c:"7A828A",d:"sysDot",v:vals(V==="eur"?AVG:V==="me"?EAVG:mRaw("UE-27"))});
+  return {cat:cat,ser:ser,head:V==="eur"?"Relevé":"Mois",st:V==="m"?5:2,fmt:V==="m"?"0":'#,##0.00\\ "€"'};
+}
+/* the table of the current view, as numbers with Excel formats (2 = €, 3 = %, 4 = points) */
+function tableData(){
+  var V=S.view,rows=rowsSorted(),out=[],E=function(x){return {n:+x.toFixed(4),s:2};},PC=function(x){return {n:+x.toFixed(6),s:3};};
+  if(V==="eur"){
+    out.push(["Pays"].concat(DATES.map(function(d,j){return d+" ("+PY[j]+")";})).concat(["Var. "+SHORT[S.p0]+" → "+SHORT[S.p1]]));
+    var er=function(name,v){return [name].concat(v.map(E)).concat([PC(eVar(v))]);};
+    rows.forEach(function(k){var r=er(k,D[k]);out.push(r);});out.push(er("Moyenne UE-27",AVG));
+  }else if(V==="m"){
+    out.push(["Pays","Cigarettes","Tabac","Inflation générale","Écart "+POSTE[S.poste]+" − inflation"]);
+    var mr=function(name,c){return [name,PC(c[0]),PC(c[1]),PC(c[2]),{n:c[3]*100,s:4}];};
+    rows.forEach(function(k){out.push(mr(k,mCells(k)));});out.push(mr("UE-27 (agrégat Eurostat)",mCells("UE-27")));
+  }else{
+    out.push(["Pays","Prix "+ML[S.m0].l,"Prix "+ML[S.m1].l,"Var. €","Var. %","Écart vs "+S.ref+" "+ML[S.m0].l,"Écart vs "+S.ref+" "+ML[S.m1].l,"Croise "+S.ref+" depuis"]);
+    var xr=function(name,e,isR){return [name,E(e[0]),E(e[1]),E(e[2]),PC(e[3]),isR?"":E(e[4]),isR?"":E(e[5]),e[6]>=0?ML[e[6]].l:""];};
+    rows.forEach(function(k){out.push(xr(star(k),meCells(k),k===S.ref));});out.push(xr("Moyenne UE-27",meCells("__avg"),false));
+  }
+  return out;
+}
+function xlCell(ref,c){
+  if(c===null||c===undefined||c==="")return "";
+  if(typeof c==="object"&&"n" in c)return isFinite(c.n)?'<c r="'+ref+'" s="'+c.s+'"><v>'+c.n+"</v></c>":"";
+  if(typeof c==="object")return '<c r="'+ref+'" s="'+c.s+'" t="inlineStr"><is><t xml:space="preserve">'+xlEsc(c.t)+"</t></is></c>";
+  return '<c r="'+ref+'" t="inlineStr"><is><t xml:space="preserve">'+xlEsc(c)+"</t></is></c>";
+}
+function xlSheet(rows,widths,opt){
+  opt=opt||{};
+  return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
+    +(opt.freeze?'<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>':"")
+    +(widths.length?"<cols>"+widths.map(function(w,i){return '<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>';}).join("")+"</cols>":"")
+    +"<sheetData>"+rows.map(function(r,ri){return '<row r="'+(ri+1)+'">'+r.map(function(c,ci){
+      if(ri===0&&opt.header&&typeof c==="string")c={t:c,s:1};return xlCell(colL(ci)+(ri+1),c);}).join("")+"</row>";}).join("")+"</sheetData>"
+    +(opt.drawing?'<drawing r:id="rId1"/>':"")+"</worksheet>";
+}
+function xlChart(sd,title){
+  var n=sd.cat.length,ref="'Séries'!",catF=ref+"$A$2:$A$"+(n+1);
+  var all=[];sd.ser.forEach(function(s){s.v.forEach(function(v){if(isFinite(v))all.push(v);});});
+  var lo=all.length?Math.min.apply(null,all):0,step=S.view==="m"?10:1,ymin=Math.max(0,Math.floor(lo*0.95/step)*step),skip=Math.max(1,Math.ceil(n/14));
+  var cat='<c:cat><c:strRef><c:f>'+catF+"</c:f><c:strCache><c:ptCount val=\""+n+'"/>'+sd.cat.map(function(c,i){return '<c:pt idx="'+i+'"><c:v>'+xlEsc(c)+"</c:v></c:pt>";}).join("")+"</c:strCache></c:strRef></c:cat>";
+  var ser=sd.ser.map(function(s,j){var col=colL(j+1);
+    return '<c:ser><c:idx val="'+j+'"/><c:order val="'+j+'"/><c:tx><c:strRef><c:f>'+ref+"$"+col+'$1</c:f><c:strCache><c:ptCount val="1"/><c:pt idx="0"><c:v>'+xlEsc(s.name)+"</c:v></c:pt></c:strCache></c:strRef></c:tx>"
+      +'<c:spPr><a:ln w="28575" cap="rnd"><a:solidFill><a:srgbClr val="'+s.c+'"/></a:solidFill><a:prstDash val="'+s.d+'"/><a:round/></a:ln></c:spPr>'
+      +(S.view==="eur"?'<c:marker><c:symbol val="circle"/><c:size val="6"/><c:spPr><a:solidFill><a:srgbClr val="'+s.c+'"/></a:solidFill><a:ln><a:noFill/></a:ln></c:spPr></c:marker>':'<c:marker><c:symbol val="none"/></c:marker>')
+      +cat+'<c:val><c:numRef><c:f>'+ref+"$"+col+"$2:$"+col+"$"+(n+1)+'</c:f><c:numCache><c:formatCode>General</c:formatCode><c:ptCount val="'+n+'"/>'
+      +s.v.map(function(v,i){return isFinite(v)?'<c:pt idx="'+i+'"><c:v>'+(+v.toFixed(4))+"</c:v></c:pt>":"";}).join("")+'</c:numCache></c:numRef></c:val><c:smooth val="0"/></c:ser>';}).join("");
+  return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<c:chartSpace xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
+    +'<c:roundedCorners val="0"/><c:chart><c:title><c:tx><c:rich><a:bodyPr/><a:lstStyle/><a:p><a:pPr><a:defRPr sz="1400" b="1"/></a:pPr><a:r><a:rPr lang="fr-FR" sz="1400" b="1"/><a:t>'+xlEsc(title)+"</a:t></a:r></a:p></c:rich></c:tx><c:overlay val=\"0\"/></c:title>"
+    +'<c:autoTitleDeleted val="0"/><c:plotArea><c:layout/><c:lineChart><c:grouping val="standard"/><c:varyColors val="0"/>'+ser+'<c:marker val="1"/><c:axId val="5001"/><c:axId val="5002"/></c:lineChart>'
+    +'<c:catAx><c:axId val="5001"/><c:scaling><c:orientation val="minMax"/></c:scaling><c:delete val="0"/><c:axPos val="b"/><c:numFmt formatCode="General" sourceLinked="1"/><c:majorTickMark val="out"/><c:minorTickMark val="none"/><c:tickLblPos val="low"/><c:crossAx val="5002"/><c:crosses val="autoZero"/><c:auto val="1"/><c:lblAlgn val="ctr"/><c:lblOffset val="100"/>'+(skip>1?'<c:tickLblSkip val="'+skip+'"/>':"")+'<c:noMultiLvlLbl val="0"/></c:catAx>'
+    +'<c:valAx><c:axId val="5002"/><c:scaling><c:orientation val="minMax"/><c:min val="'+ymin+'"/></c:scaling><c:delete val="0"/><c:axPos val="l"/><c:majorGridlines><c:spPr><a:ln w="6350"><a:solidFill><a:srgbClr val="E1E5EE"/></a:solidFill></a:ln></c:spPr></c:majorGridlines>'
+    +'<c:numFmt formatCode="'+xlEsc(sd.fmt)+'" sourceLinked="0"/><c:majorTickMark val="none"/><c:minorTickMark val="none"/><c:tickLblPos val="nextTo"/><c:crossAx val="5001"/><c:crosses val="autoZero"/><c:crossBetween val="between"/></c:valAx>'
+    +'</c:plotArea><c:legend><c:legendPos val="b"/><c:overlay val="0"/></c:legend><c:plotVisOnly val="1"/><c:dispBlanksAs val="gap"/></c:chart></c:chartSpace>';
+}
+var CRC=null;
+function crc32(u){
+  if(!CRC){CRC=new Uint32Array(256);for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;CRC[n]=c>>>0;}}
+  var x=0xFFFFFFFF;for(var i=0;i<u.length;i++)x=CRC[(x^u[i])&255]^(x>>>8);return (x^0xFFFFFFFF)>>>0;
+}
+/* minimal ZIP writer, "stored" entries (no compression), UTF-8 names */
+function zipStore(files,type){
+  var enc=new TextEncoder(),parts=[],cen=[],off=0,csz=0;
+  files.forEach(function(f){
+    var nm=enc.encode(f.name),d=enc.encode(f.text),crc=crc32(d),h=new DataView(new ArrayBuffer(30)),c=new DataView(new ArrayBuffer(46));
+    [[0,0x04034b50,4],[4,20,2],[6,0x0800,2],[8,0,2],[10,0,2],[12,0x21,2],[14,crc,4],[18,d.length,4],[22,d.length,4],[26,nm.length,2],[28,0,2]]
+      .forEach(function(a){if(a[2]===4)h.setUint32(a[0],a[1],true);else h.setUint16(a[0],a[1],true);});
+    [[0,0x02014b50,4],[4,20,2],[6,20,2],[8,0x0800,2],[10,0,2],[12,0,2],[14,0x21,2],[16,crc,4],[20,d.length,4],[24,d.length,4],[28,nm.length,2],[30,0,2],[32,0,2],[34,0,2],[36,0,2],[38,0,4],[42,off,4]]
+      .forEach(function(a){if(a[2]===4)c.setUint32(a[0],a[1],true);else c.setUint16(a[0],a[1],true);});
+    parts.push(h.buffer,nm,d);cen.push(c.buffer,nm);off+=30+nm.length+d.length;csz+=46+nm.length;
+  });
+  var e=new DataView(new ArrayBuffer(22));
+  e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,csz,true);e.setUint32(16,off,true);
+  return new Blob(parts.concat(cen,[e.buffer]),{type:type});
+}
+function exportXLSX(){
+  var sd=seriesData(),title=$("ptitle").textContent,tbl=tableData(),X0='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
+  var serRows=[[sd.head].concat(sd.ser.map(function(s){return s.name;}))].concat(sd.cat.map(function(c,i){return [c].concat(sd.ser.map(function(s){return {n:+s.v[i].toFixed(4),s:sd.st};}));}));
+  var src=[[{t:title,s:6}],[periodText()],[sourceText()],[""],
+    ["Vue",$("tab-"+S.view).querySelector("b").textContent],["Pays affichés",S.slots.filter(Boolean).join(", ")||"aucun"],
+    ["Note",$("warn").textContent.replace(/\s*(voir lesquels|voir les pays non mis à jour|détails|comment \?|masquer)\s*/," — ")],
+    ["Adresse",location.protocol.indexOf("http")===0?location.href:""]];
+  var files=[
+    {name:"[Content_Types].xml",text:X0+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>'
+      +'<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'
+      +[1,2,3,4].map(function(i){return '<Override PartName="/xl/worksheets/sheet'+i+'.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>';}).join("")
+      +'<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/><Override PartName="/xl/drawings/drawing1.xml" ContentType="application/vnd.openxmlformats-officedocument.drawing+xml"/><Override PartName="/xl/charts/chart1.xml" ContentType="application/vnd.openxmlformats-officedocument.drawingml.chart+xml"/></Types>'},
+    {name:"_rels/.rels",text:X0+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
+    {name:"xl/workbook.xml",text:X0+'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets>'
+      +["Graphique","Séries","Tableau","Source"].map(function(n,i){return '<sheet name="'+n+'" sheetId="'+(i+1)+'" r:id="rId'+(i+1)+'"/>';}).join("")+"</sheets></workbook>"},
+    {name:"xl/_rels/workbook.xml.rels",text:X0+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+      +[1,2,3,4].map(function(i){return '<Relationship Id="rId'+i+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet'+i+'.xml"/>';}).join("")
+      +'<Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
+    {name:"xl/styles.xml",text:X0+'<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="3"><numFmt numFmtId="164" formatCode="#,##0.00\\ &quot;€&quot;"/><numFmt numFmtId="165" formatCode="0.0%"/><numFmt numFmtId="166" formatCode="0.0&quot; pts&quot;"/></numFmts>'
+      +'<fonts count="3"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font><font><b/><sz val="14"/><name val="Calibri"/></font></fonts>'
+      +'<fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF3B2FB8"/><bgColor indexed="64"/></patternFill></fill></fills>'
+      +'<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'
+      +'<cellXfs count="7"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/>'
+      +'<xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="165" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>'
+      +'<xf numFmtId="166" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="2" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>'
+      +'<xf numFmtId="0" fontId="2" fillId="0" borderId="0" xfId="0" applyFont="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>'},
+    {name:"xl/worksheets/sheet1.xml",text:xlSheet([[{t:title,s:6}],[periodText()+" · "+sourceText()]],[],{drawing:true})},
+    {name:"xl/worksheets/_rels/sheet1.xml.rels",text:X0+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing" Target="../drawings/drawing1.xml"/></Relationships>'},
+    {name:"xl/drawings/drawing1.xml",text:X0+'<xdr:wsDr xmlns:xdr="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><xdr:twoCellAnchor editAs="oneCell">'
+      +'<xdr:from><xdr:col>0</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>3</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:from><xdr:to><xdr:col>14</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>31</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:to>'
+      +'<xdr:graphicFrame macro=""><xdr:nvGraphicFramePr><xdr:cNvPr id="2" name="Graphique 1"/><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/></xdr:xfrm>'
+      +'<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/chart"><c:chart xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="rId1"/></a:graphicData></a:graphic></xdr:graphicFrame><xdr:clientData/></xdr:twoCellAnchor></xdr:wsDr>'},
+    {name:"xl/drawings/_rels/drawing1.xml.rels",text:X0+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart" Target="../charts/chart1.xml"/></Relationships>'},
+    {name:"xl/charts/chart1.xml",text:xlChart(sd,title)},
+    {name:"xl/worksheets/sheet2.xml",text:xlSheet(serRows,[14].concat(sd.ser.map(function(){return 14;})),{header:true,freeze:true})},
+    {name:"xl/worksheets/sheet3.xml",text:xlSheet(tbl,[26].concat(tbl[0].slice(1).map(function(){return 17;})),{header:true,freeze:true})},
+    {name:"xl/worksheets/sheet4.xml",text:xlSheet(src,[16,110],{})}
+  ];
+  download(fileBase()+".xlsx",zipStore(files,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
 }
 
 /* ---------- data loading: latest published data at every opening, embedded copy as fallback ---------- */
 function boot(ec,h,src){
   EC=ec;H=h;SRC=src;initEC();initData();
-  S={view:"eur",slots:DEFAULT.slice(),p0:0,p1:LAST,m0:0,m1:NM-1,poste:"cig",mes:"nom",ref:"Belgique",
+  S={view:"eur",slots:DEFAULT.slice(),p0:0,p1:LAST,m0:0,m1:NM-1,poste:"cig",mes:"nom",ref:"Belgique",only:false,
     sort:{eur:[NR,-1],m:[1,-1],me:[2,-1]}};
   setup();syncSel();fillTexts();makeChart();render();
   var mq=window.matchMedia("(prefers-color-scheme: dark)");
@@ -567,10 +970,8 @@ function tryBase(bases,i){
     if(!valid(r[0],r[1]))throw new Error("invalid");return r;}).catch(function(){return tryBase(bases,i+1);});
 }
 function embedded(id){return JSON.parse($(id).textContent);}
-var bases=[];
-if(/^https?:$/.test(location.protocol)){try{bases.push(new URL("data/",location.href).href);}catch(e){}}
-if(bases.indexOf(PAGES+"data/")<0)bases.push(PAGES+"data/");
-$("count").textContent="Chargement des dernières données…";
+var bases=/^https?:$/.test(location.protocol)?["data/"]:[];
+$("stline").textContent="Chargement des dernières données…";
 (window.fetch?tryBase(bases,0):Promise.reject()).then(function(r){boot(r[0],r[1],"live");},function(){boot(embedded("ec-data"),embedded("hicp-data"),"embedded");});
 })();
 
