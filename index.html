@@ -282,8 +282,8 @@ function initEC(){
     X.push((y-y0)*12+m-m0);LBL[X[j]]=mn.charAt(0).toUpperCase()+mn.slice(1)+" "+y;DATES.push(LBL[X[j]]);
     SHORT.push(mn+" "+String(y).slice(2));LONG.push(MF[m-1]+" "+y);
     /* reference year of each price: given by the source when available, otherwise inferred from the release month */
-    var yrs=r.year?NAMES.map(function(k){return r.year[k];}).filter(Boolean).sort():[];
-    PY.push(yrs.length?"prix "+(yrs[0]===yrs[yrs.length-1]?yrs[0]:yrs[0]+" ou "+yrs[yrs.length-1]):r.jul?"prix "+(y-1):"prix "+(y-2)+" ou mis à jour");
+    var cnt={},top=null;if(r.year)NAMES.forEach(function(k){var v=r.year[k];if(v){cnt[v]=(cnt[v]||0)+1;if(!top||cnt[v]>cnt[top])top=v;}});
+    PY.push(top?"prix "+top:r.jul?"prix "+(y-1):"prix "+(y-2)+" ou mis à jour");
     var c={},n=0,l={};NAMES.forEach(function(k){c[k]=j>0&&D[k][j]!==D[k][j-1];if(c[k])n++;});
     CHG.push(c);NUPD.push(n);
     NAMES.forEach(function(k){l[k]=r.year&&r.year[k]?"prix "+r.year[k]:j===0?"prix "+(y-(r.jul?1:2)):c[k]?(r.jul?"prix "+(y-1):"valeur mise à jour"):partial(j)?LAB[j-1][k]:"valeur identique au relevé précédent";});
