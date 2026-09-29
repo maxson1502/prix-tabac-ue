@@ -27,11 +27,11 @@ def main():
         t = get(u).text
         for c in re.findall(r'["\'](?:\./)?(chunk-[A-Z0-9]+\.js)["\']', t):
             queue.append(requests.compat.urljoin(u, c))
-        if "WMKAFNE6" in u or "polyfills" in u or "scripts-" in u:
+        if "polyfills" in u or "scripts-" in u:
             continue
         for m in re.finditer(r"TRANSLATIONS\s*[:=]\s*\"", t):
-            print("   const:", u.split("/")[-1], t[max(0, m.start() - 1500): m.end() + 1500].replace("\n", " "))
-        for m in list(re.finditer(r"\.setPath\(", t))[:40]:
+            print("   const:", u.split("/")[-1], t[max(0, m.start() - 2500): m.end() + 2500].replace("\n", " "))
+        for m in list(re.finditer(r"\.setPath\(", t))[:80]:
             print("   path:", u.split("/")[-1], t[max(0, m.start() - 80): m.end() + 220].replace("\n", " "))
     return 0
 
