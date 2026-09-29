@@ -29,10 +29,9 @@ def main():
             queue.append(requests.compat.urljoin(u, c))
         if "WMKAFNE6" in u or "polyfills" in u or "scripts-" in u:
             continue
-        for m in re.finditer(r"[A-Za-z_$][\w$]*\([\w$,]*\)\{(?:let [^;]{0,200};)?return this\.http\.(?:get|post|put)\([^;]{0,320}", t):
-            print("   api:", m.group(0).replace("\n", " "))
-        for m in re.finditer(r"envDynamicConfig:\{[^}]{0,200}\}|[\"`][^\"`]{0,40}\{BASE_URL\}[^\"`]{0,120}[\"`]", t):
-            print("   url:", m.group(0))
+        for m in re.finditer(r"\"\{BASE_URL\}\"", t):
+            print("   url:", u.split("/")[-1], t[max(0, m.start() - 150): m.end() + 700].replace("\n", " "))
+    print("   env:", get(BASE + "assets/env-json-config.json").text[:3000].replace("\n", " "))
     return 0
 
 
