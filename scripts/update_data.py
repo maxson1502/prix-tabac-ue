@@ -121,9 +121,9 @@ def update_eurostat(old):
     new["meta"]["eurostat"] = new["meta"]["eurostat"] or old.get("meta", {}).get("eurostat")
     same = all(new[k] == old[k] for k in ("months", "cig", "tob", "tot")) and new["meta"]["eurostat"] == old["meta"].get("eurostat")
     if same:
-        return old, "Eurostat : aucun changement"
+        return old, "Eurostat : aucun changement", []
     new["meta"]["updated"] = today()
-    return new, f"Eurostat : {old['months'][-1]} -> {new['months'][-1]}, mise à jour Eurostat du {new['meta']['eurostat']}"
+    return new, f"Eurostat : {old['months'][-1]} -> {new['months'][-1]}, mise à jour Eurostat du {new['meta']['eurostat']}", []
 
 
 # ---------------------------------------------------------------- Commission (WAP of cigarettes, twice a year)
@@ -197,30 +197,45 @@ def check_ec(date, wap):
 
 
 def update_ec(old):
-    """Add the current release, or refresh it while Member States are still filling it in; older releases are frozen."""
-    date = release_of(dt.date.today())
-    rel = {r["date"]: r for r in old["releases"]}
-    last = max(rel)
-    if date < last:
-        return old, f"Commission : dernier relevé enregistré {last}, rien à faire"
-    wap, year, since = fetch_tedb(date)
-    check_ec(date, wap)
-    start = date.replace("-", "/") + "/01"
-    if date not in rel and not any(s >= start for s in since.values()):
-        return old, f"Commission : relevé {date} pas encore commencé dans la base (aucun pays mis à jour)"
-    entry = {"date": date, "wap": {k: wap[k] for k in COUNTRIES}}
-    if year:
-        entry["year"] = {k: year[k] for k in COUNTRIES if k in year}
-    if date in rel:
-        changed = [k for k in COUNTRIES if abs(rel[date]["wap"].get(k, -1) - wap[k]) > 0.001]
-        if not changed and rel[date].get("year", {}) == entry.get("year", {}):
-            return old, f"Commission : relevé {date} déjà à jour"
-        releases = [entry if r["date"] == date else r for r in old["releases"]]
-        msg = f"Commission : relevé {date} actualisé ({', '.join(changed) or 'années de référence'})"
-    else:
-        releases = old["releases"] + [entry]
-        msg = f"Commission : nouveau relevé {date} ajouté"
-    return dict(old, updated=today(), releases=releases), msg
+    """Re-read every release from the source (Member States correct past records), and add the current one
+    once at least one country has entered it. A release is replaced only if it passes every check."""
+    current = release_of(dt.date.today())
+    stored = {r["date"]: r for r in old["releases"]}
+    releases, notes, errors = [], [], []
+    for date in sorted(set(stored) | {current}):
+        prev = stored.get(date)
+        try:
+            wap, year, since = fetch_tedb(date)
+            check_ec(date, wap)
+            if prev is None and not any(s >= date.replace("-", "/") + "/01" for s in since.values()):
+                notes.append(f"relevé {date} pas encore commencé dans la base")
+                continue
+            if prev:
+                jumps = {k: (prev["wap"][k], wap[k]) for k in COUNTRIES if abs(wap[k] / prev["wap"][k] - 1) > 0.30}
+                if jumps:
+                    raise DataError(f"relevé {date} : variations suspectes {jumps} ; relevé conservé tel quel")
+        except (DataError, requests.RequestException) as e:
+            errors.append(f"Commission : {e}")
+            if prev:
+                releases.append(prev)
+            continue
+        entry = {"date": date, "wap": {k: wap[k] for k in COUNTRIES}}
+        if year:
+            entry["year"] = {k: year[k] for k in COUNTRIES if k in year}
+        if prev is None:
+            notes.append(f"nouveau relevé {date}")
+        else:
+            changed = [f"{k} {prev['wap'][k]:.2f} -> {wap[k]:.2f}" for k in COUNTRIES if abs(prev["wap"][k] - wap[k]) > 0.001]
+            if changed:
+                notes.append(f"relevé {date} révisé : " + ", ".join(changed))
+            elif prev.get("year") != entry.get("year"):
+                notes.append(f"relevé {date} : années de référence ajoutées")
+        releases.append(entry)
+    if releases == old["releases"]:
+        return old, "Commission : aucun changement" + (" (" + "; ".join(notes) + ")" if notes else ""), errors
+    new = dict(old, updated=today(), releases=releases,
+               source="Commission européenne (DG TAXUD), base Taxes in Europe (TEDB) : prix moyen pondéré des cigarettes, en euros par paquet de 20.")
+    return new, "Commission : " + "; ".join(notes), errors
 
 
 def verify_ec(ec):
@@ -272,8 +287,11 @@ def main():
         if skip:
             continue
         try:
-            new, msg = fn(ec if name == "ec" else h)
+            new, msg, errs = fn(ec if name == "ec" else h)
             print(msg)
+            for e in errs:
+                print(f"ERREUR {e}", file=sys.stderr)
+            errors.extend(errs)
             if name == "ec":
                 ec = new
             else:

@@ -185,7 +185,6 @@ footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--rule);font-si
     <div><dt>Indicateur</dt><dd>Prix moyen pondéré (WAP) publié par la Commission européenne : valeur totale des cigarettes mises à la consommation au prix de vente toutes taxes comprises, divisée par les quantités. Cigarettes uniquement. C'est le prix duty paid du marché domestique, pondéré par les volumes de chaque référence : il combine donc un effet prix et un effet mix.</dd></div>
     <div><dt>Décalage d'un an</dt><dd>La Commission calcule ce prix sur les ventes de l'année précédente : le relevé de juillet 2024 reflète les prix de 2023. <span id="lag">Entre juillet 2025 et janvier 2026, 20 pays sur 27 n'ont pas été mis à jour ; le plateau en fin de courbe traduit l'absence de nouvelle donnée, pas une stabilité des prix.</span></dd></div>
     <div><dt>Effet de change</dt><dd>Les prix des pays hors zone euro (Suède, Danemark, Tchéquie, Hongrie, Pologne, Roumanie) sont convertis en euros : une partie des variations reflète les taux de change.</dd></div>
-    <div><dt>Lettonie</dt><dd>Valeurs identiques en juillet 2023 et juillet 2024, avec la même accise : la donnée n'a probablement pas été mise à jour dans la source.</dd></div>
     <div><dt>Moyenne</dt><dd>Moyenne simple des 27 pays, non pondérée par les volumes.</dd></div>
   </dl>
   <h3>Vue « Mensuel en € (estimé) »</h3>
@@ -207,11 +206,8 @@ footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--rule);font-si
     <div><dd style="margin:0">Les Pays-Bas affichent <span id="nl-e">+39,2 %</span> dans la vue en € (<span id="nl-eper">juillet 2023 à janvier 2026</span>) contre <span id="nl-v">+65,4 %</span> pour l'indice des cigarettes (<span id="nl-per">janvier 2023 à août 2026</span>). L'écart vient du décalage d'un an de la vue en €, qui n'intègre pas encore les prix <span id="nl-py">2025</span> néerlandais, de l'effet mix absent de l'indice, et de périodes différentes. Pour les pays hors zone euro s'ajoute l'effet de change.</dd></div>
   </dl>
   <ul class="src">
-    <li>Commission européenne, DG TAXUD, base <a href="https://ec.europa.eu/taxation_customs/tedb/" target="_blank" rel="noopener">Taxes in Europe Database</a> (source primaire de la vue en €).</li>
-    <li>Tax Foundation, <a href="https://taxfoundation.org/data/all/eu/cigarette-tax-europe-2023/" target="_blank" rel="noopener">Cigarette Taxes in Europe, 2023</a> : relevé au 1er juillet 2023.</li>
-    <li>Tax Foundation, <a href="https://taxfoundation.org/data/all/eu/cigarette-taxes-europe-2024/" target="_blank" rel="noopener">Cigarette Taxes in Europe, 2024</a> : relevé au 1er juillet 2024.</li>
-    <li>Tax Foundation, <a href="https://taxfoundation.org/data/all/eu/cigarette-taxes-europe/" target="_blank" rel="noopener">Cigarette Taxes in Europe, 2026</a> : relevés au 1er juillet 2025 et au 1er janvier 2026.</li>
-    <li>Commission européenne, DG TAXUD, <a href="https://taxation-customs.ec.europa.eu/taxation/excise-duties/excise-duties-tobacco_en" target="_blank" rel="noopener">tableaux des droits d'accise, partie III (tabac manufacturé)</a> : relevés suivants, récupérés automatiquement ; dernier relevé intégré : <span id="src-ec">janvier 2026</span>.</li>
+    <li>Commission européenne, DG TAXUD, base <a href="https://ec.europa.eu/taxation_customs/tedb/" target="_blank" rel="noopener">Taxes in Europe Database</a> (TEDB) : prix moyen pondéré des cigarettes déclaré par chaque État membre, avec son année de référence, situation au 1<sup>er</sup> janvier et au 1<sup>er</sup> juillet. Source de la vue en € et de l'ancrage de l'estimation mensuelle, relue automatiquement chaque jour ; dernier relevé intégré : <span id="src-ec">janvier 2026</span>.</li>
+    <li>Les premières versions de cette page reprenaient les relevés compilés par la Tax Foundation (<a href="https://taxfoundation.org/data/all/eu/cigarette-taxes-europe/" target="_blank" rel="noopener">Cigarette Taxes in Europe</a>). Ils ont été remplacés par les valeurs actuelles de la base TEDB, qui intègrent les corrections apportées depuis par les États membres.</li>
     <li>Eurostat, <a href="https://ec.europa.eu/eurostat/databrowser/product/view/prc_hicp_minr" target="_blank" rel="noopener">HICP, ECOICOP ver. 2, données mensuelles (prc_hicp_minr)</a>, mise à jour du <span id="eu-upd">17 septembre 2026</span> : postes Cigarettes, Tabac et Ensemble, indice base 2025 = 100.</li>
   </ul>
 </section>
@@ -272,7 +268,7 @@ function frIso(s){if(!s)return "";var p=s.split("-");return (+p[2]===1?"1er":+p[
 /* ---------- Commission releases: any number, derived from ec.releases ---------- */
 function partial(j){return j>0&&NUPD[j]*2<=NAMES.length;}
 function mark(j,k){if(j===0)return "";if(partial(j))return CHG[j][k]?"†":"";return CHG[j][k]?"":"°";}
-function prevLab(j){var r=REL[j-1];return r.jul&&!partial(j-1)?"prix "+(r.y-1):"valeur de "+LONG[j-1];}
+function prevLab(j){var r=REL[j-1];return /^prix \d{4}$/.test(PY[j-1])?PY[j-1]:"valeur de "+LONG[j-1];}
 function initEC(){
   REL=EC.releases.slice().sort(function(a,b){return a.date<b.date?-1:1;});
   NR=REL.length;LAST=NR-1;
@@ -285,10 +281,12 @@ function initEC(){
     var y=+r.date.slice(0,4),m=+r.date.slice(5,7),mn=MN[m-1];r.y=y;r.jul=m>=7;
     X.push((y-y0)*12+m-m0);LBL[X[j]]=mn.charAt(0).toUpperCase()+mn.slice(1)+" "+y;DATES.push(LBL[X[j]]);
     SHORT.push(mn+" "+String(y).slice(2));LONG.push(MF[m-1]+" "+y);
-    PY.push(r.jul?"prix "+(y-1):"prix "+(y-2)+" ou mis à jour");
+    /* reference year of each price: given by the source when available, otherwise inferred from the release month */
+    var yrs=r.year?NAMES.map(function(k){return r.year[k];}).filter(Boolean).sort():[];
+    PY.push(yrs.length?"prix "+(yrs[0]===yrs[yrs.length-1]?yrs[0]:yrs[0]+" ou "+yrs[yrs.length-1]):r.jul?"prix "+(y-1):"prix "+(y-2)+" ou mis à jour");
     var c={},n=0,l={};NAMES.forEach(function(k){c[k]=j>0&&D[k][j]!==D[k][j-1];if(c[k])n++;});
     CHG.push(c);NUPD.push(n);
-    NAMES.forEach(function(k){l[k]=j===0?"prix "+(y-(r.jul?1:2)):c[k]?(r.jul?"prix "+(y-1):"valeur mise à jour"):partial(j)?LAB[j-1][k]:"valeur identique au relevé précédent";});
+    NAMES.forEach(function(k){l[k]=r.year&&r.year[k]?"prix "+r.year[k]:j===0?"prix "+(y-(r.jul?1:2)):c[k]?(r.jul?"prix "+(y-1):"valeur mise à jour"):partial(j)?LAB[j-1][k]:"valeur identique au relevé précédent";});
     LAB.push(l);
   });
 }
