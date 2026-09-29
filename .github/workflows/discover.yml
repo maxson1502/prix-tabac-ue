@@ -1,11 +1,10 @@
-name: Discover EC sources (temporary)
+name: Vérification de la source Commission (temporaire)
 on:
   push:
     branches: [claude/eu-commission-countries-refresh-oi3f9s]
-    paths: [scripts/discover_ec.py, .github/workflows/discover.yml]
-  workflow_dispatch:
+    paths: [scripts/update_data.py, .github/workflows/discover.yml]
 jobs:
-  discover:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,4 +12,5 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r scripts/requirements.txt
-      - run: python scripts/discover_ec.py
+      - run: python scripts/update_data.py --verify
+      - run: python scripts/update_data.py --dry-run

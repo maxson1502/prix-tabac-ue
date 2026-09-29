@@ -127,30 +127,112 @@ def update_eurostat(old):
 
 
 # ---------------------------------------------------------------- Commission (WAP of cigarettes, twice a year)
+# Source: Taxes in Europe Database (TEDB), DG TAXUD, which feeds the Commission's excise duty tables.
+# For each Member State, the "Excise duty - Tobacco products" record gives the weighted average price
+# (WAP) of cigarettes per 1 000 pieces, in euros, and the year it refers to.
 
-def fetch_ec_latest():
-    """Return (release date 'YYYY-MM', {country: € per pack of 20}) for the latest Commission release."""
-    raise DataError("Commission : lecture de la source pas encore disponible")
+TEDB = "https://ec.europa.eu/taxation_customs/tedb/rest-api/"
+WAP_LABEL = "tedb.lbl.taxform.edu_tobac.rate.cigarettes.wap_per_1000"
+WAP_YEAR_LABEL = "tedb.lbl.taxform.edu_tobac.rate.cigarettes.wap_year"
 
 
-def update_ec(old):
-    date, wap = fetch_ec_latest()
+def release_of(day):
+    """Commission releases describe the situation on 1 January and 1 July."""
+    return f"{day.year}-{'07' if day.month >= 7 else '01'}"
+
+
+def parse_amount(s):
+    m = re.fullmatch(r"\s*([\d\s.,]+?)\s*([A-Z]{3})\s*", (s or "").replace("\u00a0", " "))
+    if not m:
+        raise DataError(f"Commission : montant illisible {s!r}")
+    n = m.group(1).replace(" ", "")
+    n = n.replace(",", "") if "." in n else n.replace(",", ".")
+    return float(n), m.group(2)
+
+
+def fetch_tedb(date):
+    """Return ({country: € per pack of 20}, {country: WAP year}, {country: situationOn}) at release `date` (YYYY-MM)."""
+    conf = requests.get(TEDB + "configurations", headers=UA, timeout=120).json()
+    ids = {c["id"]: c["defaultCountryCode"] for c in conf["countries"] if c.get("defaultCountryCode") in GEO}
+    body = {"searchForm": {"selectedTaxTypes": ["EDU_TOBACCO"], "selectedMemberStates": sorted(ids),
+                           "situationOn": date.replace("-", "/") + "/01", "historized": False, "keywords": ""},
+            "availableFacets": None, "selectedFacets": None, "sort": None}
+    r = requests.post(TEDB + "simpleSearch", json=body, headers=UA, timeout=180)
+    r.raise_for_status()
+    rows = {}
+    for x in r.json().get("result") or []:
+        code = x.get("countryCode")
+        if code in GEO and x.get("taxType", {}).get("name") == "EDU_TOBACCO":
+            if code not in rows or x.get("situationOn", "") > rows[code].get("situationOn", ""):
+                rows[code] = x
+    wap, year, since = {}, {}, {}
+    for code, x in sorted(rows.items()):
+        r = requests.get(TEDB + "tax/rate", params={"taxId": x["taxId"], "versionDate": x["versionDate"], "isEuro": "true"},
+                         headers=UA, timeout=120)
+        r.raise_for_status()
+        vals = {}
+        for block in r.json().get("manufacturedTobacco") or []:
+            for v in block.get("tobaccoActiveValue") or []:
+                if v.get("label") in (WAP_LABEL, WAP_YEAR_LABEL):
+                    vals[v["label"]] = v.get("value")
+        if not vals.get(WAP_LABEL):
+            raise DataError(f"Commission : prix moyen pondéré absent pour {GEO[code]} ({x.get('situationOn')})")
+        amount, cur = parse_amount(vals[WAP_LABEL])
+        if cur != "EUR":
+            raise DataError(f"Commission : {GEO[code]} en {cur}, euros attendus")
+        name = GEO[code]
+        wap[name] = round(amount / 50, 2)
+        if vals.get(WAP_YEAR_LABEL) and str(vals[WAP_YEAR_LABEL]).strip().isdigit():
+            year[name] = int(vals[WAP_YEAR_LABEL])
+        since[name] = x.get("situationOn", "")
+    return wap, year, since
+
+
+def check_ec(date, wap):
     if sorted(wap) != COUNTRIES:
-        raise DataError(f"Commission : pays attendus {len(COUNTRIES)}, reçus {len(wap)} ({', '.join(sorted(set(COUNTRIES) ^ set(wap)))})")
+        raise DataError(f"Commission : {len(wap)} pays reçus pour {date} ; manquants : {', '.join(sorted(set(COUNTRIES) - set(wap)))}")
     bad = {k: v for k, v in wap.items() if not 1 <= v <= 40}
     if bad:
         raise DataError(f"Commission : valeurs hors plage {bad}")
+
+
+def update_ec(old):
+    """Add the current release, or refresh it while Member States are still filling it in; older releases are frozen."""
+    date = release_of(dt.date.today())
     rel = {r["date"]: r for r in old["releases"]}
     last = max(rel)
-    if date < last and date not in rel:
-        return old, f"Commission : relevé {date} plus ancien que le dernier connu ({last}), ignoré"
+    if date < last:
+        return old, f"Commission : dernier relevé enregistré {last}, rien à faire"
+    wap, year, since = fetch_tedb(date)
+    check_ec(date, wap)
+    start = date.replace("-", "/") + "/01"
+    if date not in rel and not any(s >= start for s in since.values()):
+        return old, f"Commission : relevé {date} pas encore commencé dans la base (aucun pays mis à jour)"
+    entry = {"date": date, "wap": {k: wap[k] for k in COUNTRIES}}
+    if year:
+        entry["year"] = {k: year[k] for k in COUNTRIES if k in year}
     if date in rel:
-        diff = {k: (rel[date]["wap"][k], v) for k, v in wap.items() if abs(rel[date]["wap"][k] - v) > 0.02}
-        if diff:
-            raise DataError(f"Commission : le relevé {date} déjà enregistré diffère de la source {diff} ; vérification manuelle nécessaire")
-        return old, f"Commission : relevé {date} déjà à jour"
-    new = dict(old, updated=today(), releases=old["releases"] + [{"date": date, "wap": {k: wap[k] for k in COUNTRIES}}])
-    return new, f"Commission : nouveau relevé {date} ajouté"
+        changed = [k for k in COUNTRIES if abs(rel[date]["wap"].get(k, -1) - wap[k]) > 0.001]
+        if not changed and rel[date].get("year", {}) == entry.get("year", {}):
+            return old, f"Commission : relevé {date} déjà à jour"
+        releases = [entry if r["date"] == date else r for r in old["releases"]]
+        msg = f"Commission : relevé {date} actualisé ({', '.join(changed) or 'années de référence'})"
+    else:
+        releases = old["releases"] + [entry]
+        msg = f"Commission : nouveau relevé {date} ajouté"
+    return dict(old, updated=today(), releases=releases), msg
+
+
+def verify_ec(ec):
+    """Re-read every stored release from the source and print the differences (nothing is written)."""
+    for r in ec["releases"]:
+        try:
+            wap, year, _ = fetch_tedb(r["date"])
+        except (DataError, requests.RequestException) as e:
+            print(f"{r['date']} : lecture impossible ({e})")
+            continue
+        diff = {k: (r["wap"][k], wap.get(k)) for k in COUNTRIES if wap.get(k) is None or abs(r["wap"][k] - wap[k]) > 0.005}
+        print(f"{r['date']} : {27 - len(diff)}/27 identiques" + (f" ; écarts {diff}" if diff else "") + f" ; années {sorted(set(year.values()))}")
 
 
 # ---------------------------------------------------------------- writing
@@ -178,9 +260,13 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--skip-ec", action="store_true")
     ap.add_argument("--skip-eurostat", action="store_true")
+    ap.add_argument("--verify", action="store_true", help="compare the stored Commission releases with the source")
     a = ap.parse_args()
     ec = json.loads(EC_PATH.read_text(encoding="utf-8"))
     h = json.loads(HICP_PATH.read_text(encoding="utf-8"))
+    if a.verify:
+        verify_ec(ec)
+        return 0
     errors = []
     for name, skip, fn in (("ec", a.skip_ec, update_ec), ("hicp", a.skip_eurostat, update_eurostat)):
         if skip:
