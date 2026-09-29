@@ -1,65 +1,45 @@
-"""Temporary: print what the EC tobacco excise pages expose, to design the parser."""
-import io
+"""Temporary: explore the TEDB v5 web app to find its data API."""
 import re
 import sys
 
-import pdfplumber
 import requests
 
 UA = {"User-Agent": "Mozilla/5.0 (prix-tabac-ue data refresh; +https://github.com/maxson1502/prix-tabac-ue)"}
-PAGES = [
-    "https://taxation-customs.ec.europa.eu/taxation/excise-duties/excise-duties-tobacco_en",
-    "https://taxation-customs.ec.europa.eu/taxation/excise-taxes/excise-duties-tobacco_en",
-    "https://taxation-customs.ec.europa.eu/taxation/excise-duties/excise-duties-tobacco/excise-duty-tables_en",
-    "https://ec.europa.eu/taxation_customs/tedb/",
-]
+BASE = "https://ec.europa.eu/taxation_customs/tedb/"
 
 
-def get(url):
-    r = requests.get(url, headers=UA, timeout=60, allow_redirects=True)
-    print(f"GET {url} -> {r.status_code} {r.headers.get('content-type')} {len(r.content)} bytes (final {r.url})")
+def get(url, **kw):
+    r = requests.get(url, headers=UA, timeout=60, **kw)
+    print(f"GET {url} -> {r.status_code} {r.headers.get('content-type')} {len(r.content)} bytes")
     return r
 
 
 def main():
-    docs = []
-    for p in PAGES:
-        try:
-            r = get(p)
-        except Exception as e:  # noqa: BLE001
-            print("  error", e)
-            continue
-        if r.status_code != 200:
-            continue
-        links = sorted(set(re.findall(r'href="([^"]+)"', r.text)))
-        for l in links:
-            if re.search(r"(tobacco|tabac|excise|\.pdf|\.xlsx?|download|tedb|api)", l, re.I):
-                print("   link:", l)
-                if re.search(r"(\.pdf|\.xlsx?|download)", l, re.I) and re.search(r"(tobacco|part_iii|part-iii|excise)", l, re.I):
-                    docs.append(requests.compat.urljoin(r.url, l))
-        for s in sorted(set(re.findall(r'src="([^"]+\.js[^"]*)"', r.text)))[:20]:
-            print("   script:", s)
+    home = get(BASE).text
+    env = re.search(r'src="([^"]*angular-env\.js[^"]*)"', home)
+    if env:
+        print("==== angular-env.js")
+        print(get(requests.compat.urljoin(BASE, env.group(1))).text[:3000])
+    js = sorted(set(re.findall(r'(?:src|href)="([^"]+\.js)"', home)))
     seen = set()
-    for d in docs:
-        if d in seen:
+    queue = [requests.compat.urljoin(BASE, j) for j in js if "webtools" not in j and "europa.eu/wel" not in j]
+    while queue:
+        u = queue.pop(0)
+        if u in seen or len(seen) > 40:
             continue
-        seen.add(d)
-        print("\n==== DOC", d)
+        seen.add(u)
         try:
-            r = get(d)
+            t = get(u).text
         except Exception as e:  # noqa: BLE001
             print("  error", e)
             continue
-        if r.status_code != 200 or not r.content.startswith(b"%PDF"):
-            print("  not a pdf, first bytes:", r.content[:200])
-            continue
-        with pdfplumber.open(io.BytesIO(r.content)) as pdf:
-            print("  pages:", len(pdf.pages))
-            for i, page in enumerate(pdf.pages):
-                t = page.extract_text() or ""
-                if i < 2 or re.search(r"weighted average|WAP|average price", t, re.I):
-                    print(f"  ---- page {i + 1}")
-                    print(t[:6000])
+        for c in re.findall(r'["\'](\./)?(chunk-[A-Z0-9]+\.js)["\']', t):
+            queue.append(requests.compat.urljoin(u, c[1]))
+        hits = set()
+        for m in re.finditer(r'["`\']([^"`\'\s]{0,120}(?:api|rest|/search|tax(?:es)?/|tobacco|excise|export|download|wap|weighted)[^"`\'\s]{0,120})["`\']', t, re.I):
+            hits.add(m.group(1))
+        for h in sorted(hits)[:150]:
+            print("   str:", h)
     return 0
 
 
