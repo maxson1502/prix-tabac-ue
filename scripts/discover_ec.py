@@ -12,7 +12,6 @@ PATS = [r"baseUrl", r"rest-api", r"i18n", r"tobaccoConsumption", r"[Ww]eighted",
 
 def get(url, **kw):
     r = requests.get(url, headers=UA, timeout=60, **kw)
-    print(f"GET {url} -> {r.status_code} {r.headers.get('content-type')} {len(r.content)} bytes")
     return r
 
 
@@ -30,8 +29,10 @@ def main():
             queue.append(requests.compat.urljoin(u, c))
         if "WMKAFNE6" in u or "polyfills" in u or "scripts-" in u:
             continue
-        for m in re.finditer(r"BASE_URL|this\.http\.(?:get|post)\(|envDynamicConfig|getTaxDetails|taxSection|weighted|Weighted", t):
-            print("   ctx:", t[max(0, m.start() - 120): m.end() + 260].replace("\n", " "))
+        for m in re.finditer(r"[A-Za-z_$][\w$]*\([\w$,]*\)\{(?:let [^;]{0,200};)?return this\.http\.(?:get|post|put)\([^;]{0,320}", t):
+            print("   api:", m.group(0).replace("\n", " "))
+        for m in re.finditer(r"envDynamicConfig:\{[^}]{0,200}\}|[\"`][^\"`]{0,40}\{BASE_URL\}[^\"`]{0,120}[\"`]", t):
+            print("   url:", m.group(0))
     return 0
 
 
