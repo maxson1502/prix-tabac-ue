@@ -4,8 +4,11 @@ import sys
 
 import requests
 
-UA = {"User-Agent": "Mozilla/5.0 (prix-tabac-ue data refresh; +https://github.com/maxson1502/prix-tabac-ue)"}
+UA = {"User-Agent": "Mozilla/5.0 (prix-tabac-ue data refresh; +https://github.com/maxson1502/prix-tabac-ue)",
+      "Accept": "application/json, text/plain, */*"}
 BASE = "https://ec.europa.eu/taxation_customs/tedb/"
+API = BASE + "rest-api/"
+PATS = [r"baseUrl", r"rest-api", r"i18n", r"tobaccoConsumption", r"[Ww]eighted", r"WAP", r"\.get\(", r"\.post\("]
 
 
 def get(url, **kw):
@@ -15,31 +18,32 @@ def get(url, **kw):
 
 
 def main():
+    for p in ["", "v3/api-docs", "v2/api-docs", "api-docs", "openapi.json", "swagger-ui/index.html", "swagger-ui.html"]:
+        try:
+            r = get(API + p)
+            print("   ", r.text[:1500].replace("\n", " "))
+        except Exception as e:  # noqa: BLE001
+            print("  error", e)
     home = get(BASE).text
-    env = re.search(r'src="([^"]*angular-env\.js[^"]*)"', home)
-    if env:
-        print("==== angular-env.js")
-        print(get(requests.compat.urljoin(BASE, env.group(1))).text[:3000])
     js = sorted(set(re.findall(r'(?:src|href)="([^"]+\.js)"', home)))
-    seen = set()
-    queue = [requests.compat.urljoin(BASE, j) for j in js if "webtools" not in j and "europa.eu/wel" not in j]
+    seen, queue = set(), [requests.compat.urljoin(BASE, j) for j in js if j.startswith("/taxation")]
     while queue:
         u = queue.pop(0)
         if u in seen or len(seen) > 40:
             continue
         seen.add(u)
-        try:
-            t = get(u).text
-        except Exception as e:  # noqa: BLE001
-            print("  error", e)
-            continue
-        for c in re.findall(r'["\'](\./)?(chunk-[A-Z0-9]+\.js)["\']', t):
-            queue.append(requests.compat.urljoin(u, c[1]))
-        hits = set()
-        for m in re.finditer(r'["`\']([^"`\'\s]{0,120}(?:api|rest|/search|tax(?:es)?/|tobacco|excise|export|download|wap|weighted)[^"`\'\s]{0,120})["`\']', t, re.I):
-            hits.add(m.group(1))
-        for h in sorted(hits)[:150]:
-            print("   str:", h)
+        t = get(u).text
+        for c in re.findall(r'["\'](?:\./)?(chunk-[A-Z0-9]+\.js)["\']', t):
+            queue.append(requests.compat.urljoin(u, c))
+        n = 0
+        for m in re.finditer("|".join(PATS), t):
+            s = t[max(0, m.start() - 160): m.end() + 200]
+            if m.group(0) in (".get(", ".post(") and not re.search(r"Url|url|api|API", s):
+                continue
+            print("   ctx:", s.replace("\n", " "))
+            n += 1
+            if n > 60:
+                break
     return 0
 
 
