@@ -189,7 +189,7 @@ footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--rule);font-si
   </dl>
   <h3>Vue « Mensuel en € (estimé) »</h3>
   <dl class="notes">
-    <div><dt>Méthode</dt><dd>Le prix moyen <span class="ay">2024</span> publié par la Commission (relevé de <span class="ar">juillet 2025</span>) est prolongé mois par mois par l'indice des prix des cigarettes d'Eurostat : prix estimé du mois = prix moyen <span class="ay">2024</span> × indice du mois ÷ indice moyen <span class="ay">2024</span>. Par construction, la moyenne des prix estimés sur <span class="ay">2024</span> est égale au prix publié. L'ancrage passe automatiquement au relevé de juillet suivant dès sa publication.</dd></div>
+    <div><dt>Méthode</dt><dd>Le prix moyen <span class="ay">2024</span> publié par la Commission (relevé de <span class="ar">juillet 2025</span>) est prolongé mois par mois par l'indice des prix des cigarettes d'Eurostat : prix estimé du mois = prix moyen <span class="ay">2024</span> × indice du mois ÷ indice moyen <span class="ay">2024</span>. Par construction, la moyenne des prix estimés sur <span class="ay">2024</span> est égale au prix publié. L'ancrage passe automatiquement au relevé de juillet suivant dès sa publication, pays par pays : un relevé n'est retenu que si l'année de référence déclarée par le pays correspond à sa convention habituelle (l'année précédant le relevé), sinon le relevé de juillet antérieur est utilisé.<span id="anc-exc"></span><span id="anc-conv"></span></dd></div>
     <div><dt>Fiabilité</dt><dd>Méthode rétro-testée sur 2023 : le prix moyen 2023 ainsi estimé s'écarte en médiane de 0,6 % du prix publié par la Commission pour les pays de la zone euro. Exceptions : la Lettonie (+8,8 %, donnée 2023 probablement non mise à jour dans la source) et la Slovaquie (+3,9 %). Hors zone euro, les écarts vont jusqu'à 9 % (Suède), en raison du change.</dd></div>
     <div><dt>Limites</dt><dd>C'est une estimation, pas un prix observé. Elle suit l'évolution des prix à panier constant et ignore les changements de mix intervenus après <span class="ay">2024</span>. Pour les pays hors zone euro (marqués d'un astérisque), les prix sont à taux de change constant. Un écart de quelques centimes entre deux pays n'est pas significatif.</dd></div>
   </dl>
@@ -246,7 +246,7 @@ var DASH=[[],[8,4],[2,3],[10,3,2,3],[5,5]],NC=8;
 var DEFAULT=["Belgique","France","Pays-Bas","Allemagne","Luxembourg"];
 var POSTE={cig:"cigarettes",tob:"tabac"};
 var FXC={"Suède":1,"Danemark":1,"Tchéquie":1,"Hongrie":1,"Pologne":1,"Roumanie":1};
-var EC,H,SRC,NAMES,D,AVG,REL,NR,LAST,X,DATES,SHORT,LONG,LBL,PY,CHG,NUPD,LAB,ML,NM,AY,AYR,ANC,EST,EAVG,S;
+var EC,H,SRC,NAMES,D,AVG,REL,NR,LAST,X,DATES,SHORT,LONG,LBL,PY,CHG,NUPD,LAB,ML,NM,AYR,ANC,ANCK,EXC,CONV,EST,EAVG,S;
 
 function $(id){return document.getElementById(id);}
 function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
@@ -259,7 +259,7 @@ function fp(x){var p=x*100;if(Math.abs(p)<0.05)return "0,0 %";return (p>0?"+":"�
 function fpt(x){var p=x*100;if(Math.abs(p)<0.05)return "0,0 pt";return (p>0?"+":"−")+Math.abs(p).toFixed(1).replace(".",",")+" pts";}
 function ord(n,f){return n+"<sup>"+(n===1?(f?"re":"er"):"e")+"</sup>";}
 function num(v,d){return v.toFixed(d).replace(".",",");}
-function star(k){return FXC[k]?k+"*":k;}
+function star(k){return k+(FXC[k]?"*":"")+(EXC&&EXC.indexOf(k)>=0?"‡":"");}
 function swHTML(s){return s?'<span class="sw on"><svg width="18" height="10" aria-hidden="true"><line x1="0" y1="5" x2="18" y2="5" stroke="'+s.c+'" stroke-width="3" stroke-dasharray="'+s.d.join(" ")+'"/></svg></span>':'<span class="sw"></span>';}
 function byFr(a,b){return a.localeCompare(b,"fr");}
 function listFr(a){return a.length<2?a.join(""):a.slice(0,-1).join(", ")+" et "+a[a.length-1];}
@@ -290,20 +290,37 @@ function initEC(){
     LAB.push(l);
   });
 }
-/* monthly € estimates: average price of year AYR (latest July release) × index / average index of AYR */
+/* monthly € estimates, per country: average price of year Y (July release of Y+1) × index / average index of Y.
+   Each country is anchored on the latest July release whose declared reference year follows its usual convention
+   (release year − 1 for almost every country; Portugal always declares the release year itself). A release that
+   breaks the convention (Belgium, July 2026: year 2026) is not an annual average of Y, so the previous one is used. */
 function initData(){
   ML=H.months.map(function(s){var y=s.slice(0,4),m=+s.slice(5,7);return {s:MN[m-1]+" "+y.slice(2),l:MN[m-1]+" "+y,f:MF[m-1]+" "+y,m:m};});
   NM=H.months.length;
   function nMonths(y){return H.months.filter(function(s){return +s.slice(0,4)===y;}).length;}
-  ANC=-1;for(var j=LAST;j>=0;j--){if(REL[j].jul&&nMonths(REL[j].y-1)===12){ANC=j;break;}}
-  if(ANC<0)for(j=LAST;j>=0;j--){if(REL[j].jul){ANC=j;break;}}
-  if(ANC<0)ANC=LAST;
-  AYR=REL[ANC].y-(REL[ANC].jul?1:2);
-  AY=[];H.months.forEach(function(s,i){if(+s.slice(0,4)===AYR)AY.push(i);});
-  if(!AY.length)AY=H.months.map(function(_,i){return i;});
-  EST={};
-  NAMES.forEach(function(k){var a=H.cig[k],mu=AY.reduce(function(s,i){return s+a[i];},0)/AY.length;EST[k]=a.map(function(v){return D[k][ANC]*v/mu;});});
+  function mean(a,y){var s=0,n=0;H.months.forEach(function(m,i){if(+m.slice(0,4)===y){s+=a[i];n++;}});return n?s/n:a.reduce(function(t,v){return t+v;},0)/a.length;}
+  var usable=[];for(var j=LAST;j>=0;j--){if(REL[j].jul&&nMonths(REL[j].y-1)===12)usable.push(j);}
+  if(!usable.length)for(j=LAST;j>=0;j--){if(REL[j].jul){usable.push(j);break;}}
+  if(!usable.length)usable.push(LAST);
+  ANC=usable[0];AYR=REL[ANC].y-(REL[ANC].jul?1:2);
+  ANCK={};EXC=[];CONV=[];EST={};
+  NAMES.forEach(function(k){
+    var cnt={},usual=1;
+    REL.forEach(function(r){if(r.jul&&r.year&&r.year[k]){var o=r.y-r.year[k];cnt[o]=(cnt[o]||0)+1;}});
+    Object.keys(cnt).forEach(function(o){if(cnt[o]>(cnt[usual]||0))usual=+o;});
+    if(usual===0)CONV.push(k);
+    var jk=usable.filter(function(i){var r=REL[i],yr=r.year&&r.year[k];return !yr||r.y-yr===usual;})[0];
+    if(jk===undefined)jk=ANC;
+    var Y=REL[jk].y-(REL[jk].jul?1:2),a=H.cig[k],mu=mean(a,Y);
+    ANCK[k]={j:jk,Y:Y};if(jk!==ANC)EXC.push(k);
+    EST[k]=a.map(function(v){return D[k][jk]*v/mu;});
+  });
   EAVG=H.months.map(function(_,t){return NAMES.reduce(function(s,k){return s+EST[k][t];},0)/NAMES.length;});
+}
+/* countries anchored on an earlier release, e.g. "Belgique (prix moyen 2024, relevé de juillet 2025 ; son relevé de juillet 2026 déclare l'année 2026)" */
+function excText(){
+  return EXC.map(function(k){var a=ANCK[k],r=REL[ANC],yr=r.year&&r.year[k];
+    return k+" (prix moyen "+a.Y+", relevé de "+LONG[a.j]+(yr?" ; son relevé de "+LONG[ANC]+" déclare l'année "+yr:"")+")";}).join(", ");
 }
 function fillTexts(){
   var y0=Math.min(REL[0].y,+H.months[0].slice(0,4)),y1=Math.max(REL[LAST].y,+H.months[NM-1].slice(0,4)),yrs=y0+"–"+y1;
@@ -319,6 +336,8 @@ function fillTexts(){
     :"Dans le relevé de "+LONG[LAST]+", les "+NAMES.length+" pays ont été mis à jour. Quand un pays ne l'est pas, sa courbe forme un plateau : absence de nouvelle donnée, pas stabilité des prix.";
   [].forEach.call(document.querySelectorAll(".ay"),function(e){e.textContent=AYR;});
   [].forEach.call(document.querySelectorAll(".ar"),function(e){e.textContent=LONG[ANC];});
+  $("anc-exc").textContent=EXC.length?" Exception"+(EXC.length>1?"s":"")+" : "+excText()+".":"";
+  $("anc-conv").textContent=CONV.length?" Un pays qui déclare toujours l'année du relevé plutôt que celle des ventes (ici : "+listFr(CONV)+") voit son prix de juillet traité comme celui de l'année précédente.":"";
   $("src-ec").textContent=LONG[LAST];
   $("eu-upd").textContent=frIso(H.meta.eurostat);
   var upd=[EC.updated,H.meta.updated].filter(Boolean).sort().pop();
@@ -461,7 +480,7 @@ function head(){
     $("thint").textContent="Variation des indices entre "+ML[S.m0].l+" et "+ML[S.m1].l+", en prix courants."+tips;
     var v=mCells("UE-27");$("tfoot").innerHTML="<td>UE-27 (agrégat Eurostat)</td><td>"+fp(v[0])+"</td><td>"+fp(v[1])+"</td><td>"+fp(v[2])+"</td><td>"+fpt(v[3])+"</td>";
   }else{
-    $("thint").textContent="Prix estimés en euros par paquet de 20. * Hors zone euro : taux de change constant."+tips;
+    $("thint").textContent="Prix estimés en euros par paquet de 20. * Hors zone euro : taux de change constant."+(EXC.length?" ‡ Ancrage sur un relevé antérieur : "+excText()+".":"")+tips;
     var a=meCells("__avg");$("tfoot").innerHTML="<td>Moyenne UE-27</td><td>"+eur(a[0])+"</td><td>"+eur(a[1])+"</td><td>"+eurS(a[2])+"</td><td>"+fp(a[3])+"</td><td>"+eurS(a[4])+"</td><td>"+eurS(a[5])+"</td>";
   }
 }
@@ -515,7 +534,7 @@ function render(){
   }else if(V==="me"){
     var R2=meRank(),ref=S.ref,rA=EST[ref];
     $("ptitle").textContent="Prix mensuel estimé d'un paquet de 20 cigarettes, en euros";
-    $("warn").textContent="Estimation : prix moyen "+AYR+" publié par la Commission, prolongé mois par mois par l'indice des prix des cigarettes d'Eurostat. Méthode et limites en bas de page.";
+    $("warn").textContent="Estimation : prix moyen "+AYR+" publié par la Commission"+(EXC.length?" ("+EXC.map(function(k){return ANCK[k].Y+" pour "+k;}).join(", ")+", marqué ‡)":"")+", prolongé mois par mois par l'indice des prix des cigarettes d'Eurostat. Méthode et limites en bas de page.";
     function gapTxt(a){var g0=a[S.m0]-rA[S.m0],g1=a[S.m1]-rA[S.m1],c=cross(a),s=eurS(g1)+" vs "+ref+" ("+ML[S.m0].s+" : "+eurS(g0)+")";
       if(c!==null)s+="<br>"+(g1>0?"au-dessus":"en dessous")+" de la référence depuis "+ML[c].l;return s;}
     S.slots.forEach(function(k,i){if(!k)return;var a=EST[k],s=sty(P,i);ds.push(line(k,i,mser(a),false));
