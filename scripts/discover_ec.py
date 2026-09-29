@@ -28,15 +28,10 @@ def main():
         t = get(u).text
         for c in re.findall(r'["\'](?:\./)?(chunk-[A-Z0-9]+\.js)["\']', t):
             queue.append(requests.compat.urljoin(u, c))
-        n = 0
-        for m in re.finditer("|".join(PATS), t):
-            s = t[max(0, m.start() - 160): m.end() + 200]
-            if m.group(0) in (".get(", ".post(") and not re.search(r"Url|url|api|API", s):
-                continue
-            print("   ctx:", s.replace("\n", " "))
-            n += 1
-            if n > 60:
-                break
+        if "WMKAFNE6" in u or "polyfills" in u or "scripts-" in u:
+            continue
+        for m in re.finditer(r"BASE_URL|this\.http\.(?:get|post)\(|envDynamicConfig|getTaxDetails|taxSection|weighted|Weighted", t):
+            print("   ctx:", t[max(0, m.start() - 120): m.end() + 260].replace("\n", " "))
     return 0
 
 
