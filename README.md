@@ -11,11 +11,4 @@ Adresse à partager (une fois GitHub Pages activé) : https://maxson1502.github.
 - `data/hicp.json` : indices mensuels Eurostat (`prc_hicp_minr`) : cigarettes, tabac et ensemble, base 2025 = 100.
 - `scripts/update_data.py` : récupère les deux sources et contrôle leur contenu : 27 pays, mois complets, valeurs plausibles, pas de variation de plus de 30 % sur un relevé déjà enregistré. Il met ensuite à jour les fichiers `data/` et la copie intégrée à `index.html`. Il n'écrit rien si les contrôles échouent. L'option `--dry-run` montre ce qui changerait, et `--verify` compare les relevés enregistrés avec la source.
 - `.github/workflows/update-data.yml` : lance ce script tous les jours à 5 h 17 UTC et enregistre les changements éventuels. En cas d'échec, GitHub envoie un e-mail au propriétaire du dépôt, et la page continue d'afficher les dernières données valides.
-
 Pour forcer une mise à jour : onglet **Actions** → « Mise à jour des données » → **Run workflow**.
-
-## Réglages à faire une fois
-
-1. Rendre le dépôt public : Settings → General → *Change repository visibility*. Avec un compte gratuit, GitHub Pages l'exige.
-2. Autoriser la tâche à enregistrer les données : Settings → Actions → General → *Workflow permissions* → *Read and write permissions*.
-3. Activer la page : Settings → Pages → *Deploy from a branch* → `main` / `(root)`.
