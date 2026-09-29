@@ -228,7 +228,7 @@ td.out{color:var(--muted);opacity:.55}
   <div class="wrap">
     <section class="card bar" aria-label="Réglages">
       <div id="ctl-eur" class="fg"><span>Période</span>
-        <div class="per"><select id="p0" aria-label="Premier relevé"></select><i>→</i><select id="p1" aria-label="Dernier relevé"></select></div>
+        <div class="per"><select id="p0" aria-label="Première année"></select><i>→</i><select id="p1" aria-label="Dernière année"></select></div>
       </div>
       <div id="ctl-me" hidden style="display:contents">
         <div class="fg"><span>Période</span>
@@ -306,13 +306,16 @@ td.out{color:var(--muted);opacity:.55}
       <h3>Vue « Relevés en € »</h3>
       <dl class="notes">
         <div><dt>Indicateur</dt><dd>Prix moyen pondéré (WAP) publié par la Commission européenne : valeur totale des cigarettes mises à la consommation au prix de vente toutes taxes comprises, divisée par les quantités. Cigarettes uniquement. C'est le prix duty paid du marché domestique, pondéré par les volumes de chaque référence : il combine donc un effet prix et un effet mix.</dd></div>
-        <div><dt>Décalage d'un an</dt><dd>La Commission calcule ce prix sur les ventes de l'année précédente : le relevé de juillet 2024 reflète les prix de 2023. <span id="lag">Entre juillet 2025 et janvier 2026, 20 pays sur 27 n'ont pas été mis à jour ; le plateau en fin de courbe traduit l'absence de nouvelle donnée, pas une stabilité des prix.</span></dd></div>
+        <div><dt>Année des prix</dt><dd>Chaque État fixe son prix moyen pondéré au plus tard le 1<sup>er</sup> mars de l'année N, à partir de toutes les cigarettes mises à la consommation en N−1 (directive 2011/64/UE, article 8). La Commission publie ensuite la situation au 1<sup>er</sup> janvier et au 1<sup>er</sup> juillet : le relevé de juillet N donne la moyenne N−1 ; celui de janvier N donne en général encore la moyenne N−2, certains pays ayant déjà transmis N−1. <span id="py-now">Relevé de juillet 2026 : 25 pays déclarent l'année 2025. Relevé de janvier 2026 : 16 pays déclarent encore 2024, 10 déjà 2025. </span>Le relevé de janvier reprend donc souvent la valeur du juillet précédent : le graphique ne retient que les relevés de juillet, un par année (<span id="py-ex">« Prix 2025 » = relevé de juillet 2026</span>).</dd></div>
+        <div><dt>Moyenne annuelle</dt><dd>Le montant est une moyenne sur toute l'année, pondérée par les volumes, et non le prix à la date du relevé. Quand une hausse d'accise intervient en cours d'année, la moyenne se situe entre l'ancien et le nouveau prix : la hausse néerlandaise de juin 2024 ne pèse qu'environ six mois dans la moyenne 2024 des Pays-Bas (<span id="nl-24">10,52 €</span>), bien en dessous du prix pratiqué fin 2024.</dd></div>
+        <div><dt>Repère °</dt><dd>Sur la dernière année affichée, valeur identique à celle de l'année précédente : le pays n'a potentiellement pas transmis de nouvelle donnée.</dd></div>
+        <div id="exc-item"><dt>Exceptions</dt><dd><span id="exc-list">Portugal (à chaque relevé) et Belgique (relevé de juillet 2026)</span> déclarent l'année en cours comme année de référence : ils ne suivent pas strictement la règle. Leur montant est rangé avec ceux de l'année précédente, et l'année déclarée figure dans l'infobulle. L'estimation mensuelle traite ce cas par son ancrage (voir ci-dessous).</dd></div>
         <div><dt>Effet de change</dt><dd>Les prix des pays hors zone euro (Suède, Danemark, Tchéquie, Hongrie, Pologne, Roumanie) sont convertis en euros : une partie des variations reflète les taux de change.</dd></div>
         <div><dt>Moyenne</dt><dd>Moyenne simple des 27 pays, non pondérée par les volumes.</dd></div>
       </dl>
       <h3>Vue « Mensuel en € (estimé) »</h3>
       <dl class="notes">
-        <div><dt>Méthode</dt><dd>Le prix moyen <span class="ay">2024</span> publié par la Commission (relevé de <span class="ar">juillet 2025</span>) est prolongé mois par mois par l'indice des prix des cigarettes d'Eurostat : prix estimé du mois = prix moyen <span class="ay">2024</span> × indice du mois ÷ indice moyen <span class="ay">2024</span>. Par construction, la moyenne des prix estimés sur <span class="ay">2024</span> est égale au prix publié. L'ancrage passe automatiquement au relevé de juillet suivant dès sa publication, pays par pays : un relevé n'est retenu que si l'année de référence déclarée par le pays correspond à sa convention habituelle (l'année précédant le relevé), sinon le relevé de juillet antérieur est utilisé.<span id="anc-exc"></span><span id="anc-conv"></span></dd></div>
+        <div><dt>Méthode</dt><dd>Le prix moyen <span class="ay">2024</span> publié par la Commission (relevé de <span class="ar">juillet 2025</span>) est prolongé mois par mois par l'indice des prix des cigarettes d'Eurostat : prix estimé du mois = prix moyen <span class="ay">2024</span> × indice du mois ÷ indice moyen <span class="ay">2024</span>. Par construction, la moyenne des prix estimés sur <span class="ay">2024</span> est égale au prix publié. L'estimation part du relevé de juillet, le seul qui donne la moyenne de l'année précédente pour presque tous les pays, et divise par l'indice moyen de la même année plutôt que par l'indice d'un mois donné, puisque ce prix est une moyenne annuelle. L'ancrage passe automatiquement au relevé de juillet suivant dès sa publication, pays par pays : un relevé n'est retenu que si l'année de référence déclarée par le pays correspond à sa convention habituelle (l'année précédant le relevé), sinon le relevé de juillet antérieur est utilisé.<span id="anc-exc"></span><span id="anc-conv"></span></dd></div>
         <div><dt>Fiabilité</dt><dd>Méthode rétro-testée sur 2023 : le prix moyen 2023 ainsi estimé s'écarte en médiane de 0,6 % du prix publié par la Commission pour les pays de la zone euro. Exceptions : la Lettonie (+8,8 %, donnée 2023 probablement non mise à jour dans la source) et la Slovaquie (+3,9 %). Hors zone euro, les écarts vont jusqu'à 9 % (Suède), en raison du change.</dd></div>
         <div><dt>Limites</dt><dd>C'est une estimation, pas un prix observé. Elle suit l'évolution des prix à panier constant et ignore les changements de mix intervenus après <span class="ay">2024</span>. Pour les pays hors zone euro (marqués d'un astérisque), les prix sont à taux de change constant. Un écart de quelques centimes entre deux pays n'est pas significatif.</dd></div>
       </dl>
@@ -365,7 +368,7 @@ var DASH=[[],[8,4],[2,3],[10,3,2,3],[5,5]],NC=8;
 var DEFAULT=["Belgique","France","Pays-Bas","Allemagne","Luxembourg"];
 var POSTE={cig:"cigarettes",tob:"tabac"};
 var FXC={"Suède":1,"Danemark":1,"Tchéquie":1,"Hongrie":1,"Pologne":1,"Roumanie":1};
-var EC,H,SRC,NAMES,D,AVG,REL,NR,LAST,X,DATES,SHORT,LONG,LBL,PY,CHG,NUPD,LAB,ML,NM,AYR,ANC,ANCK,EXC,CONV,EST,EAVG,S,LEG,UPD;
+var EC,H,SRC,NAMES,D,AVG,ALL,REL,NEWER,NR,LAST,X,DATES,SHORT,LONG,LBL,PY,CHG,NUPD,LAB,USUAL,ML,NM,AYR,ANC,ANCK,EXC,CONV,EST,EAVG,S,LEG,UPD;
 
 function $(id){return document.getElementById(id);}
 function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
@@ -387,29 +390,36 @@ function frShort(s){if(!s)return "";var p=s.split("-");return p[2]+"/"+p[1]+"/"+
 function norm(s){return s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();}
 function slug(s){return norm(s).replace(/[^a-z0-9]+/g,"");}
 
-/* ---------- Commission releases: any number, derived from ec.releases ---------- */
-function partial(j){return j>0&&NUPD[j]*2<=NAMES.length;}
-function mark(j,k){if(j===0)return "";if(partial(j))return CHG[j][k]?"†":"";return CHG[j][k]?"":"°";}
-function prevLab(j){var r=REL[j-1];return /^prix \d{4}$/.test(PY[j-1])?PY[j-1]:"valeur de "+LONG[j-1];}
+/* ---------- Commission releases: the July release of year N gives the average price of N−1, so the € view keeps
+   one point per price year (the July releases). A January release usually still carries N−2 for most countries:
+   it is not plotted; when it is the newest one, the note names the countries that already sent the next year. ---------- */
+function relLong(r){return MF[r.m-1]+" "+r.y;}
+function relShort(r){return MN[r.m-1]+" "+String(r.y).slice(2);}
+/* ° only on the last amount displayed, when it equals the previous year's: potentially not up to date */
+function mark(j,k){return j>0&&j===S.p1&&!CHG[j][k]?"°":"";}
 function initEC(){
-  REL=EC.releases.slice().sort(function(a,b){return a.date<b.date?-1:1;});
+  ALL=EC.releases.slice().sort(function(a,b){return a.date<b.date?-1:1;});
+  ALL.forEach(function(r){r.y=+r.date.slice(0,4);r.m=+r.date.slice(5,7);r.jul=r.m>=7;});
+  REL=ALL.filter(function(r){return r.jul;});if(!REL.length)REL=ALL.slice();
+  NEWER=ALL[ALL.length-1]!==REL[REL.length-1]?ALL[ALL.length-1]:null;
   NR=REL.length;LAST=NR-1;
   NAMES=Object.keys(REL[LAST].wap).sort(byFr);
   D={};NAMES.forEach(function(k){D[k]=REL.map(function(r){return r.wap[k];});});
   AVG=REL.map(function(_,j){return NAMES.reduce(function(s,k){return s+D[k][j];},0)/NAMES.length;});
-  var y0=+REL[0].date.slice(0,4),m0=+REL[0].date.slice(5,7);
+  /* usual gap between release year and declared year: 1 almost everywhere, 0 for a country declaring the release year itself */
+  USUAL={};NAMES.forEach(function(k){var cnt={},u=1;
+    REL.forEach(function(r){if(r.jul&&r.year&&r.year[k]){var o=r.y-r.year[k];cnt[o]=(cnt[o]||0)+1;}});
+    Object.keys(cnt).forEach(function(o){if(cnt[o]>(cnt[u]||0))u=+o;});USUAL[k]=u;});
   X=[];DATES=[];SHORT=[];LONG=[];PY=[];LBL={};CHG=[];NUPD=[];LAB=[];
   REL.forEach(function(r,j){
-    var y=+r.date.slice(0,4),m=+r.date.slice(5,7),mn=MN[m-1];r.y=y;r.jul=m>=7;
-    X.push((y-y0)*12+m-m0);LBL[X[j]]=mn.charAt(0).toUpperCase()+mn.slice(1)+" "+y;DATES.push(LBL[X[j]]);
-    SHORT.push(mn+" "+String(y).slice(2));LONG.push(MF[m-1]+" "+y);
-    /* reference year of each price: given by the source when available, otherwise inferred from the release month */
-    var cnt={},top=null;if(r.year)NAMES.forEach(function(k){var v=r.year[k];if(v){cnt[v]=(cnt[v]||0)+1;if(!top||cnt[v]>cnt[top])top=v;}});
-    PY.push(top?"prix "+top:r.jul?"prix "+(y-1):"prix "+(y-2)+" ou mis à jour");
-    var c={},n=0,l={};NAMES.forEach(function(k){c[k]=j>0&&D[k][j]!==D[k][j-1];if(c[k])n++;});
-    CHG.push(c);NUPD.push(n);
-    NAMES.forEach(function(k){l[k]=r.year&&r.year[k]?"prix "+r.year[k]:j===0?"prix "+(y-(r.jul?1:2)):c[k]?(r.jul?"prix "+(y-1):"valeur mise à jour"):partial(j)?LAB[j-1][k]:"valeur identique au relevé précédent";});
-    LAB.push(l);
+    var py=r.y-(r.jul?1:2);
+    X.push(py);LBL[py]="Prix "+py;DATES.push("Prix "+py);SHORT.push(String(py));
+    LONG.push(relLong(r));PY.push("publié en "+relLong(r));
+    /* the tooltip gives the declared year only when it differs from the price year of the column (e.g. Portugal) */
+    var c={},n=0,l={};
+    NAMES.forEach(function(k){c[k]=j>0&&D[k][j]!==D[k][j-1];if(c[k])n++;
+      var dy=r.year&&r.year[k];l[k]=dy&&dy!==py?"année déclarée : "+dy:"";});
+    CHG.push(c);NUPD.push(n);LAB.push(l);
   });
 }
 /* monthly € estimates, per country: average price of year Y (July release of Y+1) × index / average index of Y.
@@ -427,9 +437,7 @@ function initData(){
   ANC=usable[0];AYR=REL[ANC].y-(REL[ANC].jul?1:2);
   ANCK={};EXC=[];CONV=[];EST={};
   NAMES.forEach(function(k){
-    var cnt={},usual=1;
-    REL.forEach(function(r){if(r.jul&&r.year&&r.year[k]){var o=r.y-r.year[k];cnt[o]=(cnt[o]||0)+1;}});
-    Object.keys(cnt).forEach(function(o){if(cnt[o]>(cnt[usual]||0))usual=+o;});
+    var usual=USUAL[k];
     if(usual===0)CONV.push(k);
     var jk=usable.filter(function(i){var r=REL[i],yr=r.year&&r.year[k];return !yr||r.y-yr===usual;})[0];
     if(jk===undefined)jk=ANC;
@@ -448,29 +456,40 @@ function fillTexts(){
   var y0=Math.min(REL[0].y,+H.months[0].slice(0,4)),y1=Math.max(REL[LAST].y,+H.months[NM-1].slice(0,4)),yrs=y0+"–"+y1;
   document.title="Prix du tabac dans l'UE, "+yrs;$("h1-yrs").textContent=yrs;
   var n=H.cig["Pays-Bas"],nl=D["Pays-Bas"];
-  $("nl-e").textContent=fp(nl[LAST]/nl[0]-1);$("nl-eper").textContent=LONG[0]+" à "+LONG[LAST];
+  $("nl-e").textContent=fp(nl[LAST]/nl[0]-1);$("nl-eper").textContent=DATES[0].toLowerCase()+" à "+DATES[LAST].toLowerCase();
   $("nl-v").textContent=fp(n[NM-1]/n[0]-1);$("nl-per").textContent=ML[0].f+" à "+ML[NM-1].f;
-  var lj=LAST;while(lj>0&&!REL[lj].jul)lj--;$("nl-py").textContent=REL[lj].y;
-  var still=NAMES.length-NUPD[LAST];
-  $("lag").textContent=LAST<1?"":still?"Entre "+LONG[LAST-1]+" et "+LONG[LAST]+", "+still+" pays sur "+NAMES.length+" n'ont pas été mis à jour ; le plateau en fin de courbe traduit l'absence de nouvelle donnée, pas une stabilité des prix."
-    :"Dans le relevé de "+LONG[LAST]+", les "+NAMES.length+" pays ont été mis à jour. Quand un pays ne l'est pas, sa courbe forme un plateau : absence de nouvelle donnée, pas stabilité des prix.";
+  $("nl-py").textContent=REL[LAST].y;
+  /* declared years in the latest July release and in the latest January release */
+  function nYear(r,y){return NAMES.filter(function(k){return r.year[k]===y;}).length;}
+  var lr=REL[LAST],jr=null,t="";for(var i=ALL.length-1;i>=0;i--){if(!ALL[i].jul){jr=ALL[i];break;}}
+  if(lr.year)t+="Relevé de "+relLong(lr)+" : "+nYear(lr,lr.y-1)+" pays déclarent l'année "+(lr.y-1)+". ";
+  if(jr&&jr.year)t+="Relevé de "+relLong(jr)+" : "+nYear(jr,jr.y-2)+" pays déclarent encore "+(jr.y-2)+", "+nYear(jr,jr.y-1)+" déjà "+(jr.y-1)+". ";
+  $("py-now").textContent=t;
+  $("py-ex").textContent="« "+DATES[LAST]+" » = relevé de "+LONG[LAST];
+  var j24=X.indexOf(2024);if(j24>=0)$("nl-24").textContent=eur(nl[j24]);
+  /* countries declaring the current year instead of the previous one */
+  var ex=CONV.map(function(k){return k+" (à chaque relevé)";})
+    .concat(NAMES.filter(function(k){return USUAL[k]!==0&&lr.year&&lr.year[k]===lr.y;}).map(function(k){return k+" (relevé de "+LONG[LAST]+")";}));
+  $("exc-item").hidden=!ex.length;$("exc-list").textContent=listFr(ex);
   [].forEach.call(document.querySelectorAll(".ay"),function(e){e.textContent=AYR;});
   [].forEach.call(document.querySelectorAll(".ar"),function(e){e.textContent=LONG[ANC];});
   $("anc-exc").textContent=EXC.length?" Exception"+(EXC.length>1?"s":"")+" : "+excText()+".":"";
   $("anc-conv").textContent=CONV.length?" Un pays qui déclare toujours l'année du relevé plutôt que celle des ventes (ici : "+listFr(CONV)+") voit son prix de juillet traité comme celui de l'année précédente.":"";
-  $("src-ec").textContent=LONG[LAST];
+  var lat=ALL[ALL.length-1];
+  $("src-ec").textContent=relLong(lat);
   $("eu-upd").textContent=frIso(H.meta.eurostat);
   var upd=UPD=[EC.updated,H.meta.updated].filter(Boolean).sort().pop();
   $("compiled").textContent=frIso(upd);
   var st=[
-    "Relevés de la Commission : <b>"+NR+" relevés</b>, de "+LONG[0]+" à <b>"+LONG[LAST]+"</b>.",
+    "Relevés de la Commission : "+DATES[0].toLowerCase()+" à <b>"+DATES[LAST].toLowerCase()+"</b> (relevés de "+LONG[0]+" à "+LONG[LAST]+")"
+      +(NEWER?" ; relevé de "+relLong(NEWER)+" intégré, non tracé (prix "+(NEWER.y-1)+" encore partiel)":"")+".",
     "Indices Eurostat : de "+ML[0].f+" à <b>"+ML[NM-1].f+"</b>"+(H.meta.eurostat?", mise à jour Eurostat du "+frIso(H.meta.eurostat):"")+".",
     "Les deux sources sont vérifiées automatiquement chaque jour, et la page charge les dernières données à chaque ouverture. Dernière modification des données : "+frIso(upd)+"."];
   if(SRC!=="live")st.push("<b>Données en ligne injoignables</b> : la page affiche la copie de secours intégrée à la page, peut-être moins récente.");
   $("status").innerHTML=st.map(function(s){return "<li>"+s+"</li>";}).join("");
   $("offline").hidden=SRC==="live";
-  $("stline").textContent="Commission : "+SHORT[LAST]+" · Eurostat : "+ML[NM-1].s+" · mis à jour le "+frShort(upd);
-  $("stline").title="Dernier relevé de la Commission : "+LONG[LAST]+". Dernier mois Eurostat : "+ML[NM-1].f+". Vérification automatique chaque jour.";
+  $("stline").textContent="Commission : "+relShort(lat)+" · Eurostat : "+ML[NM-1].s+" · mis à jour le "+frShort(upd);
+  $("stline").title="Dernier relevé de la Commission : "+relLong(lat)+". Dernier mois Eurostat : "+ML[NM-1].f+". Vérification automatique chaque jour.";
 }
 
 /* € releves */
@@ -574,21 +593,23 @@ function makeChart(){
             title:function(it){var x=it[0].parsed.x;return V==="eur"?LBL[x]:ML[x].l;},
             label:function(c){
               if(V==="m")return " "+c.dataset.label+" : "+num(c.parsed.y,1);
-              if(V==="eur"){var j=X.indexOf(c.parsed.x),k=c.dataset.label;return " "+k+" : "+eur(c.parsed.y)+(LAB[j][k]?" ("+LAB[j][k]+")":"");}
+              if(V==="eur"){var j=X.indexOf(c.parsed.x),k=c.dataset.label,a=[];
+                if(LAB[j][k])a.push(LAB[j][k]);if(NAMES.indexOf(k)>=0&&mark(j,k))a.push("° identique à "+SHORT[j-1]);
+                return " "+k+" : "+eur(c.parsed.y)+(a.length?" ("+a.join(", ")+")":"");}
               var r=EST[S.ref][c.parsed.x],isRef=c.dataset.label===S.ref;
               return " "+c.dataset.label+" : "+eur(c.parsed.y)+(isRef?" (référence)":" ("+eurS(c.parsed.y-r)+" vs "+S.ref+")");}}}},
       scales:{
         x:{type:"linear",grid:{display:false},border:{color:rule},
           afterBuildTicks:function(a){
             if(V==="eur"){
-              /* one tick per release, dropping those closer than ~56 px to the next kept one (the last is always kept) */
+              /* one tick per price year, dropping those closer than ~56 px to the next kept one (the last is always kept) */
               var span=Math.max(1,X[S.p1]-X[S.p0]),px=a.chart.width*0.86/span,kept=[],prev=null;
               for(var j=S.p1;j>=S.p0;j--){if(prev===null||(prev-X[j])*px>=56){kept.unshift({value:X[j]});prev=X[j];}}
               a.ticks=kept;return;}
             var st=mStep(a.chart.width),t=[];for(var i=S.m0;i<=S.m1;i++){if((ML[i].m-1)%st===0)t.push({value:i});}
             if(t.length<2)t=[{value:S.m0},{value:S.m1}];a.ticks=t;},
           ticks:{color:tick,font:font,maxRotation:0,autoSkip:false,callback:function(v){
-            if(V==="eur"){var s=LBL[v]||"";return this.chart.width/(S.p1-S.p0+1)<140?s.replace(" 20"," "):s;}
+            if(V==="eur"){var s=LBL[v]||"";return s&&this.chart.width/(S.p1-S.p0+1)<110?String(v):s;}
             return ML[v]?ML[v].s:"";}}},
         y:{grace:"8%",grid:{color:grid},border:{display:false},
           ticks:{color:tick,font:font,callback:function(v){return V==="m"?v:v+" €";}}}
@@ -626,10 +647,9 @@ function head(){
   });
   var tips=" Tri : cliquez sur un en-tête. Clic sur une ligne : ajoute ou retire le pays du graphique.";
   if(V==="eur"){
-    var pj=[],oj=[];for(var j=1;j<NR;j++){if(partial(j)){if(NUPD[j])pj.push(LONG[j]);}else if(NUPD[j]<NAMES.length)oj.push(LONG[j]);}
-    $("thint").textContent="Prix en euros par paquet de 20. Sous chaque relevé, l'année des prix qu'il reflète."
-      +(pj.length?" † Valeur mise à jour dans le relevé de "+listFr(pj)+" ; les autres pays y gardent leur valeur précédente : ne comparez pas les deux groupes entre eux.":"")
-      +(oj.length?" ° Valeur identique au relevé précédent ("+listFr(oj)+") : probablement pas de nouvelle donnée.":"")
+    var deg=S.p1>0&&NUPD[S.p1]<NAMES.length;
+    $("thint").textContent="Prix moyen de l'année, en euros par paquet de 20 ; sous chaque année, le relevé de la Commission qui l'a publié."
+      +(deg?" ° Valeur identique à celle de "+SHORT[S.p1-1]+" : potentiellement pas à jour.":"")
       +" Les colonnes hors période sont grisées."+tips;
     $("tfoot").innerHTML="<td>Moyenne UE-27</td>"+AVG.map(function(v,j){return "<td"+(j<S.p0||j>S.p1?' class="out"':"")+">"+eur(v)+"</td>";}).join("")+"<td>"+fp(eVar(AVG))+"</td>";
   }else if(V==="m"){
@@ -684,7 +704,7 @@ function renderKPIs(items){
 /* ranking of the 27 countries at the end of the period; a click on a bar adds or removes the country */
 function rankData(){
   var V=S.view,v={};
-  if(V==="eur"){NAMES.forEach(function(k){v[k]=D[k][S.p1];});return {v:v,avg:AVG[S.p1],fmt:eur,title:"Classement · "+LONG[S.p1],unit:"Prix moyen du paquet"};}
+  if(V==="eur"){NAMES.forEach(function(k){v[k]=D[k][S.p1];});return {v:v,avg:AVG[S.p1],fmt:eur,title:"Classement · "+DATES[S.p1].toLowerCase(),unit:"Prix moyen annuel du paquet"};}
   if(V==="me"){NAMES.forEach(function(k){v[k]=EST[k][S.m1];});return {v:v,avg:EAVG[S.m1],fmt:eur,title:"Classement · "+ML[S.m1].f,unit:"Prix estimé du paquet"};}
   NAMES.forEach(function(k){v[k]=mVar(k,S.poste);});
   return {v:v,avg:mVar("UE-27",S.poste),fmt:fp,title:"Hausse · "+ML[S.m0].s+" → "+ML[S.m1].s,unit:"Variation de l'indice"+(S.mes==="real"?", hors inflation":"")};
@@ -712,20 +732,30 @@ function render(){
   function mser(a,scale){var o=[],b=a[S.m0];for(var j=S.m0;j<=S.m1;j++)o.push({x:j,y:scale?a[j]/b*100:a[j]});return o;}
   if(V==="eur"){
     var eser=function(v){var o=[];for(var j=S.p0;j<=S.p1;j++)o.push({x:X[j],y:v[j]});return o;},R=eRank(),p1=S.p1,since="depuis "+SHORT[S.p0];
-    $("ptitle").textContent="Prix moyen d'un paquet de 20, en euros (relevés de la Commission)";
-    var still=NAMES.filter(function(k){return D[k][S.p1]===D[k][S.p0];}).length;
+    $("ptitle").textContent="Prix moyen annuel d'un paquet de 20, en euros (Commission européenne)";
+    /* the note names the shorter list: countries with a new value for the last year shown, or those marked ° */
+    var still=NAMES.filter(function(k){return D[k][S.p1]===D[k][S.p0];}).length,N=NAMES.length,pv=SHORT[p1-1],sh="";
     var w=[],up=NAMES.filter(function(k){return CHG[p1][k];}),no=NAMES.filter(function(k){return !CHG[p1][k];});
-    if(!up.length)w.push("Relevé de "+LONG[p1]+" : aucun pays mis à jour depuis "+LONG[p1-1]+".");
-    else if(partial(p1))w.push("Relevé de "+LONG[p1]+" : "+(up.length===1?"seul 1 pays sur "+NAMES.length+" a été mis à jour ("+up[0]+", marqué †)":"seuls "+up.length+" pays sur "+NAMES.length+" ont été mis à jour ("+listFr(up)+", marqués †)")
-      +" ; les "+no.length+" autres restent à leur "+prevLab(p1)+". Pour comparer les pays entre eux à une même date, utilisez la vue « Prix mensuel estimé ».");
-    else if(no.length)w.push("Relevé de "+LONG[p1]+" : "+up.length+" pays sur "+NAMES.length+" ont été mis à jour ; pas de nouvelle donnée pour "+listFr(no)+" (valeur identique au relevé précédent, marquée °).");
-    if(still)w.push("Sur cette période, "+still+" pays sur "+NAMES.length+" n'ont pas de nouvelle donnée : leur variation est nulle par construction.");
-    note(up.length?up.length+" pays sur "+NAMES.length+" mis à jour dans le relevé de "+LONG[p1]:"Relevé de "+LONG[p1]+" : aucun pays mis à jour",
-      w.join(" "),partial(p1)?"voir lesquels":no.length?"voir les pays non mis à jour":"détails");
+    if(p1>0&&!no.length)sh=DATES[p1]+" : les "+N+" pays ont une valeur nouvelle (relevé de "+LONG[p1]+")";
+    else if(p1>0){
+      sh=DATES[p1]+" : "+no.length+" pays sur "+N+" potentiellement pas à jour (°)";
+      w.push(up.length<no.length?(up.length?(up.length===1?"Seul 1 pays a une valeur différente de "+pv+" : ":"Seuls "+up.length+" pays ont une valeur différente de "+pv+" : ")+listFr(up)+". ":"")
+        +"Les autres, marqués °, gardent leur valeur "+pv+" : potentiellement pas à jour."
+        :"Valeur identique à "+pv+" pour "+listFr(no)+" (marquée °) : potentiellement pas à jour.");
+    }
+    if(still&&p1>0)w.push("Sur cette période, "+still+" pays sur "+N+" gardent la même valeur : leur variation est nulle.");
+    /* a newer January release is not plotted; name the countries that already sent the next year's price */
+    if(NEWER&&p1===LAST){
+      var early=NAMES.filter(function(k){var dy=NEWER.year&&NEWER.year[k];return NEWER.wap[k]!==D[k][LAST]&&(!dy||NEWER.y-dy<=USUAL[k]);});
+      if(early.length){sh+=(sh?" · ":"")+"prix "+(NEWER.y-1)+" déjà transmis par "+early.length+" pays";
+        w.push("Prix "+(NEWER.y-1)+" déjà transmis par "+early.length+" pays dans le relevé de "+relLong(NEWER)+" : "
+          +early.map(function(k){return k+" ("+eur(NEWER.wap[k])+")";}).join(", ")+". Il sera ajouté au graphique avec le relevé de juillet "+NEWER.y+".");}
+    }
+    note(sh,w.join(" "),no.length&&p1>0?"voir les pays":"détails");
     S.slots.forEach(function(k,i){if(!k)return;var s=sty(P,i),m=mark(p1,k);
       ds.push(line(k,i,eser(D[k]),true));
       items.push({key:k,k:k,c:s.c,d:s.d,big:eur(D[k][p1]),chg:eVar(D[k]),since:since,
-        ctx:partial(p1)?(m?"valeur mise à jour †":LAB[p1][k]):m?"pas de nouvelle donnée °":ord(R[k])+" plus cher sur "+NAMES.length,o:D[k][p1]});});
+        ctx:m?"potentiellement pas à jour °":ord(R[k])+" plus cher sur "+N,o:D[k][p1]});});
     if(avgOn){ds.push(avgLine("Moyenne UE-27",eser(AVG),true));items.push({k:"Moyenne UE-27",c:ac,d:[3,3],big:eur(AVG[p1]),chg:eVar(AVG),since:since,ctx:"moyenne simple des 27 pays",o:AVG[p1]});}
     chart.options.scales.x.min=X[S.p0];chart.options.scales.x.max=X[p1];
   }else if(V==="me"){
@@ -770,7 +800,7 @@ function fileBase(){
   var V=S.view,v=V==="eur"?"releves-eur":V==="me"?"mensuel-eur":"indice-"+(S.poste==="cig"?"cigarettes":"tabac")+(S.mes==="real"?"-hors-inflation":"");
   return "prix-tabac_"+v+"_"+(V==="eur"?slug(SHORT[S.p0])+"-"+slug(SHORT[S.p1]):slug(ML[S.m0].s)+"-"+slug(ML[S.m1].s));
 }
-function periodText(){return S.view==="eur"?"Relevés de "+LONG[S.p0]+" à "+LONG[S.p1]:ML[S.m0].f+" à "+ML[S.m1].f;}
+function periodText(){return S.view==="eur"?DATES[S.p0]+" à "+SHORT[S.p1]+" (relevés de "+LONG[S.p0]+" à "+LONG[S.p1]+")":ML[S.m0].f+" à "+ML[S.m1].f;}
 function sourceText(){
   var s=S.view==="eur"?"Commission européenne (DG TAXUD, base TEDB)":S.view==="me"?"Commission européenne (base TEDB) et Eurostat (prc_hicp_minr), estimation":"Eurostat (prc_hicp_minr)";
   return "Source : "+s+" · données au "+frShort(UPD);
@@ -828,7 +858,7 @@ function seriesData(){
   function vals(a){var o=[];for(var t=lo;t<=hi;t++)o.push(get(a,t));return o;}
   var ser=ks.map(function(k,j){var s=xlSty(ix[j]);return {name:V==="me"?star(k):k,c:s.c,d:s.d,v:vals(V==="eur"?D[k]:V==="me"?EST[k]:mRaw(k))};});
   if($("avg").checked)ser.push({name:V==="m"?"UE-27 (agrégat Eurostat)":"Moyenne UE-27",c:"7A828A",d:"sysDot",v:vals(V==="eur"?AVG:V==="me"?EAVG:mRaw("UE-27"))});
-  return {cat:cat,ser:ser,head:V==="eur"?"Relevé":"Mois",st:V==="m"?5:2,fmt:V==="m"?"0":'#,##0.00\\ "€"'};
+  return {cat:cat,ser:ser,head:V==="eur"?"Année":"Mois",st:V==="m"?5:2,fmt:V==="m"?"0":'#,##0.00\\ "€"'};
 }
 /* the table of the current view, as numbers with Excel formats (2 = €, 3 = %, 4 = points) */
 function tableData(){
