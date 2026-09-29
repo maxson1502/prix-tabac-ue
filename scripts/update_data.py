@@ -19,6 +19,8 @@ import sys
 from pathlib import Path
 
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 ROOT = Path(__file__).resolve().parent.parent
 EC_PATH = ROOT / "data" / "ec.json"
@@ -38,12 +40,19 @@ class DataError(Exception):
     pass
 
 
+# transient network errors or 5xx answers are retried before a source is declared unavailable
+HTTP = requests.Session()
+HTTP.headers.update(UA)
+HTTP.mount("https://", HTTPAdapter(max_retries=Retry(total=4, backoff_factor=3, status_forcelist=(429, 500, 502, 503, 504),
+                                                      allowed_methods=None)))
+
+
 def today():
     return dt.date.today().isoformat()
 
 
 def http_get(url, **kw):
-    r = requests.get(url, headers=UA, timeout=120, **kw)
+    r = HTTP.get(url, timeout=120, **kw)
     r.raise_for_status()
     return r
 
@@ -152,12 +161,12 @@ def parse_amount(s):
 
 def fetch_tedb(date):
     """Return ({country: € per pack of 20}, {country: WAP year}, {country: situationOn}) at release `date` (YYYY-MM)."""
-    conf = requests.get(TEDB + "configurations", headers=UA, timeout=120).json()
+    conf = http_get(TEDB + "configurations").json()
     ids = {c["id"]: c["defaultCountryCode"] for c in conf["countries"] if c.get("defaultCountryCode") in GEO}
     body = {"searchForm": {"selectedTaxTypes": ["EDU_TOBACCO"], "selectedMemberStates": sorted(ids),
                            "situationOn": date.replace("-", "/") + "/01", "historized": False, "keywords": ""},
             "availableFacets": None, "selectedFacets": None, "sort": None}
-    r = requests.post(TEDB + "simpleSearch", json=body, headers=UA, timeout=180)
+    r = HTTP.post(TEDB + "simpleSearch", json=body, timeout=180)
     r.raise_for_status()
     rows = {}
     for x in r.json().get("result") or []:
@@ -167,9 +176,7 @@ def fetch_tedb(date):
                 rows[code] = x
     wap, year, since = {}, {}, {}
     for code, x in sorted(rows.items()):
-        r = requests.get(TEDB + "tax/rate", params={"taxId": x["taxId"], "versionDate": x["versionDate"], "isEuro": "true"},
-                         headers=UA, timeout=120)
-        r.raise_for_status()
+        r = http_get(TEDB + "tax/rate", params={"taxId": x["taxId"], "versionDate": x["versionDate"], "isEuro": "true"})
         vals = {}
         for block in r.json().get("manufacturedTobacco") or []:
             for v in block.get("tobaccoActiveValue") or []:
@@ -215,7 +222,7 @@ def update_ec(old):
                 if jumps:
                     raise DataError(f"relevé {date} : variations suspectes {jumps} ; relevé conservé tel quel")
         except (DataError, requests.RequestException) as e:
-            errors.append(f"Commission : {e}")
+            errors.append(str(e) if str(e).startswith("Commission") else f"Commission : {e}")
             if prev:
                 releases.append(prev)
             continue
