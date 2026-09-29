@@ -104,7 +104,7 @@ footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--rule);font-si
 <header>
   <h1>Prix du tabac duty paid dans l'Union européenne, <span id="h1-yrs">2023–2026</span></h1>
   <p class="dek">Prix moyen d'un paquet de 20 cigarettes dans les 27 États membres, selon trois lectures : les relevés en euros de la Commission européenne, une estimation mois par mois en euros, et l'évolution des prix à panier constant d'Eurostat. En Belgique, le paquet moyen est passé de <strong id="dk-b0">7,29 €</strong> à <strong id="dk-b1">11,14 €</strong> entre les relevés de <span id="dk-r0">juillet 2023</span> et <span id="dk-r1">janvier 2026</span>, et l'indice des prix des cigarettes a progressé de <strong id="dk-be">46,5 %</strong> entre <span id="dk-per">janvier 2023 et août 2026</span>.</p>
-  <p class="offline" id="offline" hidden>Données en ligne injoignables : la page affiche la copie intégrée au fichier, peut-être moins récente (voir « État des données » en bas de page).</p>
+  <p class="offline" id="offline" hidden>Données en ligne injoignables : la page affiche la copie de secours intégrée à la page, peut-être moins récente (voir « État des données » en bas de page).</p>
 </header>
 
 <div class="guide" aria-label="Quelle vue pour quelle question">
@@ -327,7 +327,7 @@ function fillTexts(){
     "Relevés de la Commission : <b>"+NR+" relevés</b>, de "+LONG[0]+" à <b>"+LONG[LAST]+"</b>.",
     "Indices Eurostat : de "+ML[0].f+" à <b>"+ML[NM-1].f+"</b>"+(H.meta.eurostat?", mise à jour Eurostat du "+frIso(H.meta.eurostat):"")+".",
     "Les deux sources sont vérifiées automatiquement chaque jour, et la page charge les dernières données à chaque ouverture. Dernière modification des données : "+frIso(upd)+"."];
-  if(SRC!=="live")st.push("<b>Données en ligne injoignables</b> : la page affiche la copie intégrée au fichier, peut-être moins récente.");
+  if(SRC!=="live")st.push("<b>Données en ligne injoignables</b> : la page affiche la copie de secours intégrée à la page, peut-être moins récente.");
   $("status").innerHTML=st.map(function(s){return "<li>"+s+"</li>";}).join("");
   $("offline").hidden=SRC==="live";
 }
